@@ -1,0 +1,221 @@
+/* style.css */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    background-color: #080a12;
+    color: #e0e6ed;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+header {
+    background: #121626;
+    padding: 12px 24px;
+    border-bottom: 2px solid #232d48;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    font-size: 1.25rem;
+    color: #4da6ff;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.subtitle {
+    font-size: 0.85rem;
+    color: #8a99ad;
+    margin-top: 2px;
+}
+
+#cycle-counter {
+    color: #00e699;
+    font-size: 1.1rem;
+    font-weight: bold;
+    background: #192238;
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid #2d3b5e;
+}
+
+.main-container {
+    display: flex;
+    flex: 1;
+    height: calc(100vh - 65px);
+}
+
+.viewport {
+    flex: 2;
+    position: relative;
+    background: #04060b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 2px solid #232d48;
+    padding: 20px;
+}
+
+canvas {
+    border: 2px solid #1e2945;
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(0, 162, 255, 0.12);
+    background: #090c19;
+}
+
+.dashboard {
+    flex: 1;
+    min-width: 380px;
+    background: #0e1220;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow-y: auto;
+}
+
+.metric-card {
+    background: #161c2e;
+    border-radius: 8px;
+    padding: 12px 14px;
+    border-left: 4px solid #4da6ff;
+}
+
+.metric-card.oxygen { border-left-color: #00cc66; }
+.metric-card.virtue { border-left-color: #ff9900; }
+.metric-card.order { border-left-color: #ff3366; }
+.metric-card.population { border-left-color: #9933ff; }
+
+.metric-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.metric-title {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    color: #9ab0c7;
+    font-weight: 600;
+}
+
+.metric-value {
+    font-size: 1.15rem;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.progress-bar {
+    height: 7px;
+    background: #0a0d17;
+    border-radius: 4px;
+    margin-top: 8px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    transition: width 0.4s ease;
+}
+
+.oxygen .progress-fill { background: #00cc66; }
+.virtue .progress-fill { background: #ff9900; }
+.order .progress-fill { background: #ff3366; }
+
+.actions-panel {
+    background: #141a2a;
+    padding: 14px;
+    border-radius: 8px;
+    border: 1px solid #212b45;
+}
+
+.actions-panel h3 {
+    font-size: 0.85rem;
+    color: #4da6ff;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.btn-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+button {
+    background: #1e2740;
+    color: #cdd7e5;
+    border: 1px solid #324168;
+    padding: 9px 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.78rem;
+    line-height: 1.3;
+    transition: all 0.2s ease;
+}
+
+button:hover {
+    background: #2b385c;
+    color: #ffffff;
+    border-color: #4da6ff;
+}
+
+button small {
+    color: #8096b3;
+    font-size: 0.7rem;
+}
+
+.btn-advance {
+    width: 100%;
+    background: #0066cc;
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-advance:hover {
+    background: #0080ff;
+}
+
+.log-panel {
+    flex: 1;
+    background: #080a12;
+    border: 1px solid #1c2438;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 0.78rem;
+    overflow-y: auto;
+    max-height: 180px;
+}
+
+.log-entry {
+    margin-bottom: 6px;
+    border-bottom: 1px solid #131929;
+    padding-bottom: 4px;
+    color: #b0c4de;
+}
+
+.log-entry span.keyword {
+    color: #ffcc00;
+    font-weight: bold;
+}
+
+.log-entry span.theory {
+    color: #66e699;
+    font-style: italic;
+}

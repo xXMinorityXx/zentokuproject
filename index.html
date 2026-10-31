@@ -1,0 +1,80 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astraea Station: Space Colony Governance Simulation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div>
+            <h1>Astraea Station: Governance Simulation</h1>
+            <div class="subtitle">Political Philosophy Track 1 — Aristotle, Hobbes & Locke</div>
+        </div>
+        <div id="cycle-counter">Cycle: 1</div>
+    </header>
+
+    <div class="main-container">
+        <!-- Visual Simulation Canvas -->
+        <div class="viewport">
+            <canvas id="colonyCanvas" width="560" height="420"></canvas>
+        </div>
+
+        <!-- Dashboard & Control Panel -->
+        <div class="dashboard">
+            <!-- Metrics Display -->
+            <div class="metric-card oxygen">
+                <div class="metric-header">
+                    <span class="metric-title">Life Support & Solar Apricity</span>
+                    <span class="metric-value" id="val-oxygen">90%</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" id="bar-oxygen" style="width: 90%;"></div></div>
+            </div>
+
+            <div class="metric-card virtue">
+                <div class="metric-header">
+                    <span class="metric-title">Aristotelian Virtue (Polis vs. Beast)</span>
+                    <span class="metric-value" id="val-virtue">75 / 100</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" id="bar-virtue" style="width: 75%;"></div></div>
+            </div>
+
+            <div class="metric-card order">
+                <div class="metric-header">
+                    <span class="metric-title">Hobbesian Sovereign Authority</span>
+                    <span class="metric-value" id="val-order">50%</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" id="bar-order" style="width: 50%;"></div></div>
+            </div>
+
+            <div class="metric-card population">
+                <div class="metric-header">
+                    <span class="metric-title">Colony Citizens</span>
+                    <span class="metric-value" id="val-pop">40</span>
+                </div>
+            </div>
+
+            <!-- Governance Action Buttons -->
+            <div class="actions-panel">
+                <h3>Executive Decrees</h3>
+                <div class="btn-grid">
+                    <button onclick="enactAristotle()">Construct Solarium Hub<br><small>(Aristotelian Virtue)</small></button>
+                    <button onclick="enactHobbes()">Sovereign Rationing<br><small>(Hobbesian Control)</small></button>
+                    <button onclick="enactLocke()">Private Hydroponics<br><small>(Lockean Property)</small></button>
+                    <button onclick="enactDefenestration()">Airlock Defenestration<br><small>(Purge Saboteurs)</small></button>
+                </div>
+                <button class="btn-advance" onclick="nextCycle()">Advance Turn / Cycle</button>
+            </div>
+
+            <!-- Event Log -->
+            <div class="log-panel" id="logConsole">
+                <div class="log-entry">[SYSTEM] Astraea Habitat online. Governance parameters active.</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
