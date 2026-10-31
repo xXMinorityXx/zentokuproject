@@ -16,13 +16,13 @@
             overflow: hidden;
         }
 
-        /* Modal Overlays */
+        /* Modal Screens */
         .overlay {
             position: fixed;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
-            background: rgba(3, 7, 18, 0.92);
-            backdrop-filter: blur(10px);
+            background: rgba(3, 7, 18, 0.94);
+            backdrop-filter: blur(12px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -30,44 +30,44 @@
         }
         .overlay.hidden { display: none; }
         .modal {
-            background: #0f172a;
+            background: rgba(15, 23, 42, 0.95);
             border: 2px solid #38bdf8;
-            border-radius: 14px;
-            padding: 26px 34px;
+            border-radius: 16px;
+            padding: 28px 36px;
             max-width: 580px;
             width: 90%;
-            box-shadow: 0 0 45px rgba(56, 189, 248, 0.3);
+            box-shadow: 0 0 50px rgba(56, 189, 248, 0.35);
             text-align: center;
         }
-        .modal h2 { color: #38bdf8; font-size: 1.7rem; margin-bottom: 6px; }
-        .modal-subtitle { color: #94a3b8; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 16px; }
+        .modal h2 { color: #38bdf8; font-size: 1.8rem; margin-bottom: 6px; text-shadow: 0 0 10px rgba(56, 189, 248, 0.5); }
+        .modal-subtitle { color: #94a3b8; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 18px; }
         .tut-text { font-size: 0.9rem; line-height: 1.5; color: #cbd5e1; text-align: left; margin-bottom: 16px; }
-        .tut-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; text-align: left; }
-        .tut-card { background: #1e293b; padding: 12px; border-radius: 8px; border-left: 3px solid #38bdf8; }
-        .tut-card h4 { font-size: 0.85rem; color: #f59e0b; margin-bottom: 4px; }
+        .tut-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 22px; text-align: left; }
+        .tut-card { background: #1e293b; padding: 14px; border-radius: 10px; border-left: 4px solid #38bdf8; }
+        .tut-card h4 { font-size: 0.88rem; color: #f59e0b; margin-bottom: 4px; }
         .tut-card p { font-size: 0.78rem; color: #94a3b8; margin: 0; }
         .btn-start {
-            background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; border: none; padding: 12px 30px;
-            font-size: 0.95rem; font-weight: bold; border-radius: 8px; cursor: pointer;
-            box-shadow: 0 0 15px rgba(2, 132, 199, 0.4); transition: transform 0.2s, background 0.2s;
+            background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; border: none; padding: 13px 32px;
+            font-size: 0.98rem; font-weight: bold; border-radius: 8px; cursor: pointer;
+            box-shadow: 0 0 20px rgba(2, 132, 199, 0.5); transition: all 0.2s ease;
         }
-        .btn-start:hover { transform: scale(1.03); background: linear-gradient(135deg, #0369a1, #075985); }
+        .btn-start:hover { transform: scale(1.04); background: linear-gradient(135deg, #0369a1, #075985); }
 
         /* Header UI */
         header {
-            background: #0f172a;
+            background: #0b0f19;
             padding: 12px 24px;
             border-bottom: 2px solid #1e293b;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        header h1 { font-size: 1.2rem; color: #38bdf8; text-transform: uppercase; letter-spacing: 1.2px; }
+        header h1 { font-size: 1.25rem; color: #38bdf8; text-transform: uppercase; letter-spacing: 1.5px; text-shadow: 0 0 8px rgba(56, 189, 248, 0.4); }
         .subtitle { font-size: 0.82rem; color: #64748b; margin-top: 2px; }
         #cycle-counter {
-            color: #10b981; font-size: 1rem; font-weight: bold;
-            background: #1e293b; padding: 6px 14px; border-radius: 6px; border: 1px solid #334155;
-            box-shadow: inset 0 0 8px rgba(16, 185, 129, 0.2);
+            color: #10b981; font-size: 1.05rem; font-weight: bold;
+            background: #1e293b; padding: 6px 16px; border-radius: 8px; border: 1px solid #334155;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.25);
         }
 
         /* Layout */
@@ -78,23 +78,23 @@
             border-right: 2px solid #1e293b; padding: 15px;
         }
         canvas {
-            border: 2px solid #1e293b; border-radius: 14px;
-            box-shadow: 0 0 35px rgba(56, 189, 248, 0.15); background: #070a14;
+            border: 2px solid #1e293b; border-radius: 16px;
+            box-shadow: 0 0 40px rgba(56, 189, 248, 0.2); background: #050814;
         }
         .legend {
-            display: flex; gap: 15px; margin-top: 10px; font-size: 0.75rem; color: #94a3b8;
+            display: flex; gap: 18px; margin-top: 10px; font-size: 0.78rem; color: #94a3b8;
         }
         .legend-item { display: flex; align-items: center; gap: 6px; }
         .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
 
         /* Dashboard Side Panel */
         .dashboard {
-            flex: 1; min-width: 380px; background: #0b0f19;
+            flex: 1; min-width: 380px; background: #080c16;
             padding: 16px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto;
         }
         .metric-card {
-            background: #1e293b; border-radius: 8px; padding: 10px 14px;
-            border-left: 4px solid #38bdf8;
+            background: #161f33; border-radius: 10px; padding: 11px 15px;
+            border-left: 4px solid #38bdf8; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
         .metric-card.virtue { border-left-color: #10b981; }
         .metric-card.beast { border-left-color: #ef4444; }
@@ -104,29 +104,30 @@
         .metric-header { display: flex; justify-content: space-between; align-items: center; }
         .metric-title { font-size: 0.76rem; text-transform: uppercase; color: #94a3b8; font-weight: 600; }
         .metric-value { font-size: 1.05rem; font-weight: bold; color: #f8fafc; }
-        .progress-bar { height: 6px; background: #090d16; border-radius: 4px; margin-top: 6px; overflow: hidden; }
-        .progress-fill { height: 100%; transition: width 0.4s ease; }
+        .progress-bar { height: 7px; background: #090d16; border-radius: 4px; margin-top: 7px; overflow: hidden; }
+        .progress-fill { height: 100%; transition: width 0.4s ease, background 0.4s ease; }
 
         .actions-panel {
-            background: #131d31; padding: 12px; border-radius: 8px; border: 1px solid #1e293b;
+            background: #111827; padding: 14px; border-radius: 10px; border: 1px solid #1e293b;
         }
-        .actions-panel h3 { font-size: 0.82rem; color: #38bdf8; margin-bottom: 8px; text-transform: uppercase; }
-        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+        .actions-panel h3 { font-size: 0.82rem; color: #38bdf8; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.8px; }
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
         button {
             background: #1e293b; color: #cbd5e1; border: 1px solid #334155;
-            padding: 9px 6px; border-radius: 6px; cursor: pointer; font-size: 0.78rem; line-height: 1.3;
+            padding: 9px 6px; border-radius: 7px; cursor: pointer; font-size: 0.78rem; line-height: 1.3;
             transition: all 0.2s ease;
         }
-        button:hover { background: #25344d; color: #fff; border-color: #38bdf8; transform: translateY(-1px); }
+        button:hover { background: #25344d; color: #fff; border-color: #38bdf8; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2); }
         button small { color: #64748b; font-size: 0.7rem; }
         .btn-advance {
             width: 100%; background: linear-gradient(135deg, #0284c7, #0369a1); color: #ffffff; border: none;
-            padding: 11px; font-weight: bold; font-size: 0.85rem; text-transform: uppercase; border-radius: 6px;
+            padding: 12px; font-weight: bold; font-size: 0.88rem; text-transform: uppercase; border-radius: 7px;
+            box-shadow: 0 0 15px rgba(2, 132, 199, 0.4);
         }
         .btn-advance:hover { background: linear-gradient(135deg, #0369a1, #075985); }
 
         .log-panel {
-            flex: 1; background: #020617; border: 1px solid #1e293b; border-radius: 6px;
+            flex: 1; background: #02050e; border: 1px solid #1e293b; border-radius: 8px;
             padding: 10px; font-family: 'Consolas', monospace; font-size: 0.76rem;
             overflow-y: auto; max-height: 150px;
         }
@@ -141,14 +142,14 @@
     <div id="tutorial-overlay" class="overlay">
         <div class="modal">
             <h2>Aristotle’s Outer Space Polis</h2>
-            <div class="modal-subtitle">Political Philosophy Track 1</div>
+            <div class="modal-subtitle">Political Philosophy Project Track 1</div>
             <div class="tut-text">
                 <p>Manage Astraea Station using Aristotle's political philosophy. Humans cut off from community (the <strong>Polis</strong>) descend into <strong>beastliness</strong>.</p>
             </div>
             <div class="tut-grid">
                 <div class="tut-card">
-                    <h4>🏛️ Live Map & Citizens</h4>
-                    <p>Citizens actively walk between the Agora, Lyceum, Solarium, and Hydroponics with status icons overhead.</p>
+                    <h4>🏛️ Live Habitat Map</h4>
+                    <p>Citizens actively walk between the Agora, Lyceum, Solarium, and Hydroponics with particle trails and overhead status icons.</p>
                 </div>
                 <div class="tut-card">
                     <h4>⚖️ The Golden Mean</h4>
@@ -163,7 +164,7 @@
     <div id="end-overlay" class="overlay hidden">
         <div class="modal">
             <h2 id="end-title">Simulation Complete</h2>
-            <p id="end-message" style="font-size:0.9rem; margin:16px 0 24px; color:#cbd5e1;"></p>
+            <p id="end-message" style="font-size:0.92rem; margin:16px 0 24px; color:#cbd5e1; line-height:1.5;"></p>
             <button class="btn-start" onclick="restartGame()">Re-Initialize Colony</button>
         </div>
     </div>
@@ -171,8 +172,8 @@
     <!-- Header -->
     <header>
         <div>
-            <h1>The Aristotelian Polis: Animated Space Habitat</h1>
-            <div class="subtitle">Dynamic Visual Simulation & Political Philosophy</div>
+            <h1>The Aristotelian Polis: High-Visual Space Habitat</h1>
+            <div class="subtitle">Dynamic Particle Engine & Political Philosophy</div>
         </div>
         <div id="cycle-counter">Cycle: 1 / 20</div>
     </header>
@@ -182,9 +183,9 @@
         <div class="viewport">
             <canvas id="colonyCanvas" width="560" height="420"></canvas>
             <div class="legend">
-                <div class="legend-item"><span class="dot" style="background:#10b981;"></span> Virtuous Citizen</div>
-                <div class="legend-item"><span class="dot" style="background:#f59e0b;"></span> Soaking in Apricity</div>
-                <div class="legend-item"><span class="dot" style="background:#ef4444;"></span> Beastly Outlaw</div>
+                <div class="legend-item"><span class="dot" style="background:#10b981; box-shadow:0 0 8px #10b981;"></span> Virtuous Citizen</div>
+                <div class="legend-item"><span class="dot" style="background:#f59e0b; box-shadow:0 0 8px #f59e0b;"></span> Soaking in Apricity</div>
+                <div class="legend-item"><span class="dot" style="background:#ef4444; box-shadow:0 0 8px #ef4444;"></span> Beastly Outlaw</div>
             </div>
         </div>
 
@@ -225,16 +226,16 @@
             <div class="actions-panel">
                 <h3>Polis Decrees</h3>
                 <div class="btn-grid">
-                    <button onclick="enactSolarium()">Solarium Apricity<br><small>(Radiant heat & light)</small></button>
+                    <button onclick="enactSolarium()">Solarium Apricity<br><small>(Solar heat rays & light)</small></button>
                     <button onclick="enactLyceum()">Aristotelian Lyceum<br><small>(Philosophy & virtue)</small></button>
-                    <button onclick="enactHydroponics()">Hydroponic Commons<br><small>(Generate oxygen)</small></button>
-                    <button onclick="enactDefenestration()">Airlock Defenestration<br><small>(Exile worst outlaw)</small></button>
+                    <button onclick="enactHydroponics()">Hydroponic Commons<br><small>(Bubbling oxygen generation)</small></button>
+                    <button onclick="enactDefenestration()">Airlock Defenestration<br><small>(Vortex vacuum exile)</small></button>
                 </div>
                 <button class="btn-advance" onclick="nextCycle()">Advance Turn / Cycle</button>
             </div>
 
             <div class="log-panel" id="logConsole">
-                <div class="log-entry">[SYSTEM] Astraea Polis interactive map operational.</div>
+                <div class="log-entry">[SYSTEM] Astraea Polis visual engine operational.</div>
             </div>
         </div>
     </div>
@@ -248,35 +249,38 @@
         let oxygen = 85;
         let isGameOver = false;
 
+        // Screen Shake Effect Variable
+        let shakeTime = 0;
+
         const canvas = document.getElementById('colonyCanvas');
         const ctx = canvas.getContext('2d');
 
-        // Particle & Floating Text Systems
+        // Advanced Visual Systems
         let floatingTexts = [];
         let particles = [];
         let stars = [];
 
-        // Generate background stars
-        for (let i = 0; i < 60; i++) {
+        // Generate Deep-Space Nebula & Starfield
+        for (let i = 0; i < 80; i++) {
             stars.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
-                r: Math.random() * 1.2,
+                r: Math.random() * 1.5,
                 alpha: Math.random(),
-                speed: 0.005 + Math.random() * 0.015
+                speed: 0.008 + Math.random() * 0.02
             });
         }
 
         // Station Districts
         const districts = {
-            agora: { x: 280, y: 210, r: 50, name: "CENTRAL AGORA", color: "#1e293b", border: "#38bdf8" },
-            solarium: { x: 140, y: 120, w: 100, h: 55, name: "SOLARIUM (Apricity)", color: "#3a2e10", border: "#f59e0b" },
-            lyceum: { x: 320, y: 110, w: 100, h: 55, name: "LYCEUM (Academy)", color: "#062e24", border: "#10b981" },
-            hydroponics: { x: 320, y: 270, w: 110, h: 55, name: "HYDROPONICS", color: "#072738", border: "#0284c7" },
-            airlock: { x: 130, y: 270, w: 80, h: 55, name: "AIRLOCK", color: "#3b1016", border: "#ef4444" }
+            agora: { x: 280, y: 210, r: 52, name: "CENTRAL AGORA", color: "#162032", border: "#38bdf8" },
+            solarium: { x: 135, y: 115, w: 105, h: 60, name: "SOLARIUM (Apricity)", color: "#3a2a0a", border: "#f59e0b" },
+            lyceum: { x: 320, y: 105, w: 105, h: 60, name: "LYCEUM (Academy)", color: "#062e22", border: "#10b981" },
+            hydroponics: { x: 320, y: 265, w: 115, h: 60, name: "HYDROPONICS", color: "#062638", border: "#0284c7" },
+            airlock: { x: 125, y: 265, w: 85, h: 60, name: "AIRLOCK", color: "#3b0f16", border: "#ef4444" }
         };
 
-        // Citizen Class
+        // Advanced Citizen Class with Particle Trail Engine
         class Citizen {
             constructor() {
                 this.x = districts.agora.x + (Math.random() - 0.5) * 60;
@@ -284,13 +288,18 @@
                 this.targetX = this.x;
                 this.targetY = this.y;
                 this.state = 'virtuous'; // 'virtuous', 'apricity', 'beast', 'exiled'
-                this.speed = 1.0 + Math.random() * 0.8;
+                this.speed = 1.1 + Math.random() * 0.9;
                 this.bounce = Math.random() * Math.PI * 2;
+                this.history = []; // Stores past positions for motion trail
                 this.icon = '🏛️';
             }
 
             update() {
                 if (this.state === 'exiled') return;
+
+                // Motion trail memory
+                this.history.push({ x: this.x, y: this.y });
+                if (this.history.length > 6) this.history.shift();
 
                 let dx = this.targetX - this.x;
                 let dy = this.targetY - this.y;
@@ -299,14 +308,13 @@
                 if (dist > 4) {
                     this.x += (dx / dist) * this.speed;
                     this.y += (dy / dist) * this.speed;
-                    this.bounce += 0.15; // Walking bob animation
+                    this.bounce += 0.18; // Bounce bobbing
                 } else {
-                    // Slight idle movement
-                    this.targetX += (Math.random() - 0.5) * 15;
-                    this.targetY += (Math.random() - 0.5) * 15;
+                    // Idle movement inside target district
+                    this.targetX += (Math.random() - 0.5) * 12;
+                    this.targetY += (Math.random() - 0.5) * 12;
                 }
 
-                // Update icon based on state
                 if (this.state === 'beast') this.icon = '🐺';
                 else if (this.state === 'apricity') this.icon = '☀️';
                 else this.icon = '🏛️';
@@ -315,147 +323,199 @@
             draw() {
                 if (this.state === 'exiled') return;
 
-                let bob = Math.sin(this.bounce) * 2;
+                let color = this.state === 'beast' ? '#ef4444' : (this.state === 'apricity' ? '#f59e0b' : '#10b981');
+
+                // 1. Motion Trail Render
+                for (let i = 0; i < this.history.length; i++) {
+                    let pos = this.history[i];
+                    let trailAlpha = (i / this.history.length) * 0.35;
+                    ctx.beginPath();
+                    ctx.arc(pos.x, pos.y, 3 + (i * 0.5), 0, Math.PI * 2);
+                    ctx.fillStyle = color;
+                    ctx.globalAlpha = trailAlpha;
+                    ctx.fill();
+                    ctx.globalAlpha = 1.0;
+                }
+
+                let bob = Math.sin(this.bounce) * 2.5;
                 let drawY = this.y + bob;
 
-                // Pulsing Aura under citizen feet
+                // 2. Neon Ground Shadow Pulse
                 ctx.beginPath();
-                ctx.ellipse(this.x, drawY + 6, 7, 3, 0, 0, Math.PI * 2);
-                ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
+                ctx.ellipse(this.x, drawY + 6, 8, 3.5, 0, 0, Math.PI * 2);
+                ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
                 ctx.fill();
 
-                // Citizen Body Circle
+                // 3. Citizen Core Particle
                 ctx.beginPath();
                 ctx.arc(this.x, drawY, 6, 0, Math.PI * 2);
-
-                if (this.state === 'beast') {
-                    ctx.fillStyle = '#ef4444';
-                    ctx.shadowColor = '#ef4444';
-                } else if (this.state === 'apricity') {
-                    ctx.fillStyle = '#f59e0b';
-                    ctx.shadowColor = '#f59e0b';
-                } else {
-                    ctx.fillStyle = '#10b981';
-                    ctx.shadowColor = '#10b981';
-                }
-                ctx.shadowBlur = 8;
+                ctx.shadowColor = color;
+                ctx.shadowBlur = 12;
+                ctx.fillStyle = color;
                 ctx.fill();
                 ctx.shadowBlur = 0;
                 ctx.strokeStyle = '#ffffff';
                 ctx.lineWidth = 1.5;
                 ctx.stroke();
 
-                // Overhead Status Icon
+                // 4. Floating Overhead Emojis
                 ctx.font = '10px sans-serif';
-                ctx.fillText(this.icon, this.x - 5, drawY - 9);
+                ctx.fillText(this.icon, this.x - 5, drawY - 10);
             }
         }
 
         let citizens = [];
         function initCitizens() {
             citizens = [];
-            for (let i = 0; i < 26; i++) {
+            for (let i = 0; i < 28; i++) {
                 citizens.push(new Citizen());
             }
         }
         initCitizens();
 
         function spawnFloatingText(text, x, y, color) {
-            floatingTexts.push({ text, x, y, color, opacity: 1.0, dy: -0.8 });
+            floatingTexts.push({ text, x, y, color, opacity: 1.0, dy: -0.9 });
         }
 
-        function spawnBurstParticles(x, y, color, count = 12) {
+        function spawnBurstParticles(x, y, color, count = 15, speedMult = 1) {
             for (let i = 0; i < count; i++) {
                 let angle = Math.random() * Math.PI * 2;
-                let speed = 1 + Math.random() * 3;
+                let speed = (1.2 + Math.random() * 3.5) * speedMult;
                 particles.push({
                     x, y,
                     vx: Math.cos(angle) * speed,
                     vy: Math.sin(angle) * speed,
                     color,
-                    size: 2 + Math.random() * 3,
+                    size: 2.5 + Math.random() * 3,
                     life: 1.0
                 });
             }
         }
 
+        function triggerScreenShake(duration = 10) {
+            shakeTime = duration;
+        }
+
         // Render Frame
         function drawMap() {
+            ctx.save();
+
+            // Screen Shake Logic
+            if (shakeTime > 0) {
+                let dx = (Math.random() - 0.5) * 6;
+                let dy = (Math.random() - 0.5) * 6;
+                ctx.translate(dx, dy);
+                shakeTime--;
+            }
+
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // 1. Draw Starfield
+            // 1. Starfield Render
             stars.forEach(s => {
                 s.alpha += s.speed;
                 let a = Math.abs(Math.sin(s.alpha));
-                ctx.fillStyle = `rgba(255, 255, 255, ${a * 0.7})`;
+                ctx.fillStyle = `rgba(255, 255, 255, ${a * 0.8})`;
                 ctx.beginPath();
                 ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
                 ctx.fill();
             });
 
-            // 2. Colony Outer Shield Dome
-            let domeGlow = Math.sin(Date.now() * 0.002) * 3 + 12;
+            // 2. Holographic Vector Grid Floor
+            ctx.strokeStyle = "rgba(56, 189, 248, 0.04)";
+            ctx.lineWidth = 1;
+            for (let x = 0; x < canvas.width; x += 25) {
+                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+            }
+            for (let y = 0; y < canvas.height; y += 25) {
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+            }
+
+            // 3. Colony Outer Shield Dome
+            let domeGlow = Math.sin(Date.now() * 0.003) * 5 + 14;
             ctx.strokeStyle = '#38bdf8';
             ctx.shadowColor = '#38bdf8';
             ctx.shadowBlur = domeGlow;
-            ctx.lineWidth = 3;
+            ctx.lineWidth = 3.5;
             ctx.beginPath();
             ctx.arc(280, 210, 195, 0, Math.PI * 2);
             ctx.stroke();
             ctx.shadowBlur = 0;
 
-            // Connector Power Rays between Agora & Districts
-            ctx.strokeStyle = 'rgba(56, 189, 248, 0.15)';
+            // Energy Cables Connecting Districts
+            ctx.strokeStyle = 'rgba(56, 189, 248, 0.2)';
             ctx.lineWidth = 2;
             ctx.beginPath();
-            ctx.moveTo(districts.agora.x, districts.agora.y); ctx.lineTo(districts.solarium.x + 50, districts.solarium.y + 25);
-            ctx.moveTo(districts.agora.x, districts.agora.y); ctx.lineTo(districts.lyceum.x + 50, districts.lyceum.y + 25);
-            ctx.moveTo(districts.agora.x, districts.agora.y); ctx.lineTo(districts.hydroponics.x + 55, districts.hydroponics.y + 25);
-            ctx.moveTo(districts.agora.x, districts.agora.y); ctx.lineTo(districts.airlock.x + 40, districts.airlock.y + 25);
+            ctx.moveTo(districts.agora.x, districts.agora.y); ctx.lineTo(districts.solarium.x + 52, districts.solarium.y + 30);
+            ctx.moveTo(districts.agora.x, districts.agora.y); ctx.lineTo(districts.lyceum.x + 52, districts.lyceum.y + 30);
+            ctx.moveTo(districts.agora.x, districts.agora.y); ctx.lineTo(districts.hydroponics.x + 57, districts.hydroponics.y + 30);
+            ctx.moveTo(districts.agora.x, districts.agora.y); ctx.lineTo(districts.airlock.x + 42, districts.airlock.y + 30);
             ctx.stroke();
 
-            // 3. Solarium (Apricity Radiant Heat Animation)
-            let solPulse = (Date.now() % 1800) / 1800;
-            ctx.strokeStyle = `rgba(245, 158, 11, ${1 - solPulse})`;
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.arc(districts.solarium.x + 50, districts.solarium.y + 27, 20 + solPulse * 30, 0, Math.PI * 2);
-            ctx.stroke();
+            // 4. Solarium (Apricity Radiant Heat Wave Rays)
+            let time = Date.now() * 0.002;
+            ctx.save();
+            ctx.translate(districts.solarium.x + 52, districts.solarium.y + 30);
+            for (let i = 0; i < 8; i++) {
+                let rayAngle = (i * Math.PI / 4) + time;
+                ctx.strokeStyle = "rgba(245, 158, 11, 0.15)";
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(Math.cos(rayAngle) * 50, Math.sin(rayAngle) * 50);
+                ctx.stroke();
+            }
+            ctx.restore();
 
             ctx.fillStyle = districts.solarium.color;
             ctx.fillRect(districts.solarium.x, districts.solarium.y, districts.solarium.w, districts.solarium.h);
             ctx.strokeStyle = districts.solarium.border; ctx.lineWidth = 2;
             ctx.strokeRect(districts.solarium.x, districts.solarium.y, districts.solarium.w, districts.solarium.h);
             ctx.fillStyle = "#f59e0b"; ctx.font = "bold 9.5px sans-serif";
-            ctx.fillText("☀️ SOLARIUM (Apricity)", districts.solarium.x + 6, districts.solarium.y + 32);
+            ctx.fillText("☀️ SOLARIUM (Apricity)", districts.solarium.x + 6, districts.solarium.y + 35);
 
-            // 4. Lyceum (Academy Pulse)
+            // 5. Lyceum (Academy Runes & Pulsing Glow)
             ctx.fillStyle = districts.lyceum.color;
             ctx.fillRect(districts.lyceum.x, districts.lyceum.y, districts.lyceum.w, districts.lyceum.h);
             ctx.strokeStyle = districts.lyceum.border;
             ctx.strokeRect(districts.lyceum.x, districts.lyceum.y, districts.lyceum.w, districts.lyceum.h);
             ctx.fillStyle = "#10b981";
-            ctx.fillText("🏛️ LYCEUM (Academy)", districts.lyceum.x + 6, districts.lyceum.y + 32);
+            ctx.fillText("🏛️ LYCEUM (Academy)", districts.lyceum.x + 6, districts.lyceum.y + 35);
 
-            // 5. Hydroponics Bubbling Animation
-            let hydPulse = Math.sin(Date.now() * 0.005) * 4;
+            // Floating Greek Letters over Lyceum
+            ctx.fillStyle = "rgba(16, 185, 129, 0.5)"; ctx.font = "10px sans-serif";
+            ctx.fillText("α", districts.lyceum.x + 15, districts.lyceum.y + 18);
+            ctx.fillText("β", districts.lyceum.x + 45, districts.lyceum.y + 20);
+            ctx.fillText("Ω", districts.lyceum.x + 75, districts.lyceum.y + 18);
+
+            // 6. Hydroponics Oxygen Bubbles
             ctx.fillStyle = districts.hydroponics.color;
             ctx.fillRect(districts.hydroponics.x, districts.hydroponics.y, districts.hydroponics.w, districts.hydroponics.h);
             ctx.strokeStyle = districts.hydroponics.border;
             ctx.strokeRect(districts.hydroponics.x, districts.hydroponics.y, districts.hydroponics.w, districts.hydroponics.h);
             ctx.fillStyle = "#0284c7";
-            ctx.fillText("🌱 HYDROPONICS", districts.hydroponics.x + 10, districts.hydroponics.y + 32);
+            ctx.fillText("🌱 HYDROPONICS", districts.hydroponics.x + 10, districts.hydroponics.y + 35);
 
-            // 6. Airlock (Defenestration Portal)
+            // Ambient rising bubbles inside hydroponics
+            for (let b = 0; b < 3; b++) {
+                let bubbleY = districts.hydroponics.y + 45 - ((Date.now() * 0.02 + b * 15) % 35);
+                ctx.beginPath();
+                ctx.arc(districts.hydroponics.x + 25 + b * 30, bubbleY, 2.5, 0, Math.PI * 2);
+                ctx.fillStyle = "rgba(56, 189, 248, 0.6)";
+                ctx.fill();
+            }
+
+            // 7. Airlock (Defenestration Vacuum Portal)
             ctx.fillStyle = districts.airlock.color;
             ctx.fillRect(districts.airlock.x, districts.airlock.y, districts.airlock.w, districts.airlock.h);
             ctx.strokeStyle = districts.airlock.border;
             ctx.strokeRect(districts.airlock.x, districts.airlock.y, districts.airlock.w, districts.airlock.h);
             ctx.fillStyle = "#ef4444";
-            ctx.fillText("🚀 AIRLOCK", districts.airlock.x + 14, districts.airlock.y + 32);
+            ctx.fillText("🚀 AIRLOCK", districts.airlock.x + 14, districts.airlock.y + 35);
 
-            // 7. Central Agora Ring Rotation
-            let agoraAngle = Date.now() * 0.001;
+            // 8. Central Agora Core & Rotating Dual Rings
+            let agoraAngle1 = Date.now() * 0.0015;
+            let agoraAngle2 = -Date.now() * 0.002;
+
             ctx.fillStyle = districts.agora.color;
             ctx.beginPath();
             ctx.arc(districts.agora.x, districts.agora.y, districts.agora.r, 0, Math.PI * 2);
@@ -463,27 +523,38 @@
             ctx.strokeStyle = districts.agora.border;
             ctx.stroke();
 
-            // Rotating dash ring around Agora
+            // Inner Ring
             ctx.save();
             ctx.translate(districts.agora.x, districts.agora.y);
-            ctx.rotate(agoraAngle);
-            ctx.strokeStyle = "rgba(56, 189, 248, 0.6)";
-            ctx.setLineDash([8, 8]);
+            ctx.rotate(agoraAngle1);
+            ctx.strokeStyle = "rgba(56, 189, 248, 0.7)";
+            ctx.setLineDash([10, 6]);
             ctx.beginPath();
             ctx.arc(0, 0, districts.agora.r + 5, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.restore();
+
+            // Outer Counter-Rotating Ring
+            ctx.save();
+            ctx.translate(districts.agora.x, districts.agora.y);
+            ctx.rotate(agoraAngle2);
+            ctx.strokeStyle = "rgba(16, 185, 129, 0.6)";
+            ctx.setLineDash([4, 10]);
+            ctx.beginPath();
+            ctx.arc(0, 0, districts.agora.r + 10, 0, Math.PI * 2);
             ctx.stroke();
             ctx.restore();
 
             ctx.fillStyle = "#38bdf8"; ctx.font = "bold 9px sans-serif";
             ctx.fillText("CENTRAL AGORA", districts.agora.x - 36, districts.agora.y + 3);
 
-            // 8. Draw & Update Citizens
+            // 9. Render Citizens
             citizens.forEach(c => {
                 c.update();
                 c.draw();
             });
 
-            // 9. Particle Effects
+            // 10. Particle System Physics & Fade
             for (let i = particles.length - 1; i >= 0; i--) {
                 let p = particles[i];
                 p.x += p.vx;
@@ -493,15 +564,18 @@
                     particles.splice(i, 1);
                 } else {
                     ctx.fillStyle = p.color;
+                    ctx.shadowColor = p.color;
+                    ctx.shadowBlur = 6;
                     ctx.globalAlpha = p.life;
                     ctx.beginPath();
                     ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                     ctx.fill();
                     ctx.globalAlpha = 1.0;
+                    ctx.shadowBlur = 0;
                 }
             }
 
-            // 10. Floating Text Render
+            // 11. Animated Floating Text Rendering
             for (let i = floatingTexts.length - 1; i >= 0; i--) {
                 let ft = floatingTexts[i];
                 ft.y += ft.dy;
@@ -511,12 +585,16 @@
                 } else {
                     ctx.font = "bold 12px sans-serif";
                     ctx.fillStyle = ft.color;
+                    ctx.shadowColor = ft.color;
+                    ctx.shadowBlur = 8;
                     ctx.globalAlpha = ft.opacity;
                     ctx.fillText(ft.text, ft.x, ft.y);
                     ctx.globalAlpha = 1.0;
+                    ctx.shadowBlur = 0;
                 }
             }
 
+            ctx.restore();
             requestAnimationFrame(drawMap);
         }
         drawMap();
@@ -550,21 +628,21 @@
             document.getElementById('cycle-counter').innerText = `Cycle: ${cycle} / ${MAX_CYCLES}`;
         }
 
-        // Action Buttons & Animated Effects
+        // Action Decrees with High-Impact Visual Effects
         function enactSolarium() {
             if (isGameOver) return;
             virtue = Math.min(100, virtue + 15);
             beast = Math.max(0, beast - 10);
             oxygen = Math.max(0, oxygen - 3);
 
-            spawnBurstParticles(districts.solarium.x + 50, districts.solarium.y + 27, '#f59e0b', 20);
-            spawnFloatingText("Apricity Sunshine! ☀️ +15 Virtue", districts.solarium.x, districts.solarium.y - 10, '#f59e0b');
+            spawnBurstParticles(districts.solarium.x + 52, districts.solarium.y + 30, '#f59e0b', 25, 1.2);
+            spawnFloatingText("Apricity Solar Rays! ☀️ +15 Virtue", districts.solarium.x - 10, districts.solarium.y - 12, '#f59e0b');
 
             citizens.forEach(c => {
-                if (c.state !== 'beast') {
+                if (c.state !== 'beast' && c.state !== 'exiled') {
                     c.state = 'apricity';
-                    c.targetX = districts.solarium.x + 20 + Math.random() * 60;
-                    c.targetY = districts.solarium.y + 15 + Math.random() * 25;
+                    c.targetX = districts.solarium.x + 20 + Math.random() * 65;
+                    c.targetY = districts.solarium.y + 15 + Math.random() * 30;
                 }
             });
 
@@ -577,14 +655,14 @@
             virtue = Math.min(100, virtue + 10);
             meanBalance = meanBalance > 0 ? Math.max(0, meanBalance - 15) : Math.min(0, meanBalance + 15);
 
-            spawnBurstParticles(districts.lyceum.x + 50, districts.lyceum.y + 27, '#10b981', 18);
-            spawnFloatingText("Academy Debate! 🏛️ Virtue Up", districts.lyceum.x, districts.lyceum.y - 10, '#10b981');
+            spawnBurstParticles(districts.lyceum.x + 52, districts.lyceum.y + 30, '#10b981', 25, 1.2);
+            spawnFloatingText("Academy Philosophical Debate! 🏛️", districts.lyceum.x - 10, districts.lyceum.y - 12, '#10b981');
 
             citizens.forEach(c => {
-                if (c.state !== 'beast') {
+                if (c.state !== 'beast' && c.state !== 'exiled') {
                     c.state = 'virtuous';
-                    c.targetX = districts.lyceum.x + 20 + Math.random() * 60;
-                    c.targetY = districts.lyceum.y + 15 + Math.random() * 25;
+                    c.targetX = districts.lyceum.x + 20 + Math.random() * 65;
+                    c.targetY = districts.lyceum.y + 15 + Math.random() * 30;
                 }
             });
 
@@ -597,8 +675,8 @@
             oxygen = Math.min(100, oxygen + 15);
             meanBalance += 10;
 
-            spawnBurstParticles(districts.hydroponics.x + 55, districts.hydroponics.y + 27, '#0284c7', 22);
-            spawnFloatingText("+15% Hydroponic Oxygen! 🌱", districts.hydroponics.x, districts.hydroponics.y - 10, '#0284c7');
+            spawnBurstParticles(districts.hydroponics.x + 57, districts.hydroponics.y + 30, '#0284c7', 30, 1.4);
+            spawnFloatingText("+15% Hydroponic Oxygen Replenished! 🌱", districts.hydroponics.x - 20, districts.hydroponics.y - 12, '#0284c7');
 
             log(`Hydroponics harvest completed. Atmospheric oxygen replenished (+15%).`);
             updateUI();
@@ -612,15 +690,16 @@
                 virtue = Math.min(100, virtue + 5);
 
                 let beastCitizen = beastIdx !== -1 ? citizens[beastIdx] : citizens[0];
-                beastCitizen.targetX = districts.airlock.x + 40;
-                beastCitizen.targetY = districts.airlock.y + 27;
+                beastCitizen.targetX = districts.airlock.x + 42;
+                beastCitizen.targetY = districts.airlock.y + 30;
 
-                // Ejection Animation Sequence
+                // Vortex Vacuum & Screen Shake Animation Sequence
                 setTimeout(() => {
-                    spawnBurstParticles(districts.airlock.x + 40, districts.airlock.y + 27, '#ef4444', 30);
-                    spawnFloatingText("DEFENESTRATED! 🚀 Outlaw Exiled", districts.airlock.x - 20, districts.airlock.y - 15, '#ef4444');
+                    triggerScreenShake(14);
+                    spawnBurstParticles(districts.airlock.x + 42, districts.airlock.y + 30, '#ef4444', 40, 2.0);
+                    spawnFloatingText("DEFENESTRATED! 🚀 Airlock Vacuum Exile", districts.airlock.x - 30, districts.airlock.y - 15, '#ef4444');
                     beastCitizen.state = 'exiled';
-                }, 800);
+                }, 750);
 
                 log(`An unrepentant criminal threatening life support faced emergency airlock <span class="keyword">defenestration</span>! <span class="theory">Aristotle: One outside law is a beast.</span>`);
             } else {
