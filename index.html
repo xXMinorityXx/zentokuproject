@@ -3,13 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astraea Station: Aristotle's Space Polis</title>
+    <title>Astraea Station: Executive Aristotelian Command</title>
     <style>
+        :root {
+            --bg-deep: #02040a;
+            --panel-bg: #0b1120;
+            --panel-border: #1e293b;
+            --accent-blue: #38bdf8;
+            --accent-green: #10b981;
+            --accent-gold: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-purple: #a855f7;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+        }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #03050c;
-            color: #e2e8f0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
             display: flex;
             flex-direction: column;
             height: 100vh;
@@ -21,133 +35,301 @@
             position: fixed;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
-            background: rgba(3, 7, 18, 0.94);
+            background: rgba(2, 4, 10, 0.92);
             backdrop-filter: blur(12px);
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 1000;
+            z-index: 2000;
         }
         .overlay.hidden { display: none; }
+        
         .modal {
-            background: rgba(15, 23, 42, 0.95);
-            border: 2px solid #38bdf8;
+            background: #0f172a;
+            border: 2px solid var(--accent-blue);
             border-radius: 16px;
-            padding: 28px 36px;
-            max-width: 580px;
+            padding: 32px;
+            max-width: 640px;
             width: 90%;
-            box-shadow: 0 0 50px rgba(56, 189, 248, 0.35);
+            box-shadow: 0 0 60px rgba(56, 189, 248, 0.3);
             text-align: center;
         }
-        .modal h2 { color: #38bdf8; font-size: 1.8rem; margin-bottom: 6px; text-shadow: 0 0 10px rgba(56, 189, 248, 0.5); }
-        .modal-subtitle { color: #94a3b8; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 18px; }
-        .tut-text { font-size: 0.9rem; line-height: 1.5; color: #cbd5e1; text-align: left; margin-bottom: 16px; }
-        .tut-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 22px; text-align: left; }
-        .tut-card { background: #1e293b; padding: 14px; border-radius: 10px; border-left: 4px solid #38bdf8; }
-        .tut-card h4 { font-size: 0.88rem; color: #f59e0b; margin-bottom: 4px; }
-        .tut-card p { font-size: 0.78rem; color: #94a3b8; margin: 0; }
+        .modal h2 { color: var(--accent-blue); font-size: 1.8rem; margin-bottom: 8px; text-shadow: 0 0 12px rgba(56, 189, 248, 0.4); }
+        .modal-subtitle { color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 20px; }
+        .tut-text { font-size: 0.92rem; line-height: 1.6; color: #cbd5e1; text-align: left; margin-bottom: 20px; }
+        .tut-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; text-align: left; }
+        .tut-card { background: #1e293b; padding: 14px; border-radius: 10px; border-left: 4px solid var(--accent-blue); }
+        .tut-card h4 { font-size: 0.88rem; color: var(--accent-gold); margin-bottom: 6px; }
+        .tut-card p { font-size: 0.8rem; color: var(--text-muted); margin: 0; line-height: 1.4; }
+        
         .btn-start {
-            background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; border: none; padding: 13px 32px;
-            font-size: 0.98rem; font-weight: bold; border-radius: 8px; cursor: pointer;
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            color: #fff; border: none; padding: 14px 36px;
+            font-size: 1rem; font-weight: bold; border-radius: 8px; cursor: pointer;
             box-shadow: 0 0 20px rgba(2, 132, 199, 0.5); transition: all 0.2s ease;
         }
         .btn-start:hover { transform: scale(1.04); background: linear-gradient(135deg, #0369a1, #075985); }
 
-        /* Header UI */
+        /* Navigation Header */
         header {
-            background: #0b0f19;
+            background: #090d16;
             padding: 12px 24px;
-            border-bottom: 2px solid #1e293b;
+            border-bottom: 2px solid var(--panel-border);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            height: 60px;
         }
-        header h1 { font-size: 1.25rem; color: #38bdf8; text-transform: uppercase; letter-spacing: 1.5px; text-shadow: 0 0 8px rgba(56, 189, 248, 0.4); }
-        .subtitle { font-size: 0.82rem; color: #64748b; margin-top: 2px; }
+        .title-block h1 { font-size: 1.25rem; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 1.5px; text-shadow: 0 0 10px rgba(56, 189, 248, 0.3); }
+        .title-block .subtitle { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+        
+        .header-stats { display: flex; gap: 16px; align-items: center; }
         #cycle-counter {
-            color: #10b981; font-size: 1.05rem; font-weight: bold;
+            color: var(--accent-green); font-size: 1.05rem; font-weight: bold;
             background: #1e293b; padding: 6px 16px; border-radius: 8px; border: 1px solid #334155;
-            box-shadow: 0 0 12px rgba(16, 185, 129, 0.25);
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);
         }
 
-        /* Layout */
-        .main-container { display: flex; flex: 1; height: calc(100vh - 65px); }
-        .viewport {
-            flex: 2; position: relative; background: #02040a;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            border-right: 2px solid #1e293b; padding: 15px;
+        /* 3-Column Executive Dashboard Layout */
+        .app-layout {
+            display: grid;
+            grid-template-columns: 320px 1fr 340px;
+            height: calc(100vh - 60px);
+            background: var(--bg-deep);
+        }
+
+        /* COLUMN 1: COMMANDER STATION PANEL */
+        .commander-panel {
+            background: var(--panel-bg);
+            border-right: 2px solid var(--panel-border);
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            overflow-y: auto;
+        }
+
+        .commander-card {
+            background: #111a2e;
+            border: 2px solid var(--accent-gold);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.15);
+            position: relative;
+        }
+        .commander-avatar-wrap {
+            position: relative;
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 10px;
+            border-radius: 50%;
+            background: #1e293b;
+            border: 3px solid var(--accent-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+        }
+        .commander-avatar-wrap span { font-size: 2.2rem; }
+        .commander-title { font-size: 1rem; font-weight: bold; color: var(--accent-gold); letter-spacing: 1px; }
+        .commander-role { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-top: 2px; }
+
+        .commander-actions h3 {
+            font-size: 0.82rem;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .cmd-btn-list { display: flex; flex-direction: column; gap: 8px; }
+        .cmd-btn {
+            background: #1e293b;
+            color: #f1f5f9;
+            border: 1px solid #334155;
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+        }
+        .cmd-btn:hover {
+            background: #2b3954;
+            border-color: var(--accent-gold);
+            transform: translateX(4px);
+            box-shadow: 0 2px 10px rgba(245, 158, 11, 0.2);
+        }
+        .cmd-btn span.icon { font-size: 1.1rem; }
+
+        /* COLUMN 2: CENTRAL CANVAS SIMULATION VIEWPORT */
+        .simulation-viewport {
+            position: relative;
+            background: #02040a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
         }
         canvas {
-            border: 2px solid #1e293b; border-radius: 16px;
-            box-shadow: 0 0 40px rgba(56, 189, 248, 0.2); background: #050814;
+            border: 2px solid var(--panel-border);
+            border-radius: 16px;
+            box-shadow: 0 0 45px rgba(56, 189, 248, 0.15);
+            background: #050914;
         }
-        .legend {
-            display: flex; gap: 18px; margin-top: 10px; font-size: 0.78rem; color: #94a3b8;
+        .canvas-legend {
+            display: flex;
+            gap: 16px;
+            margin-top: 12px;
+            font-size: 0.76rem;
+            color: var(--text-muted);
         }
-        .legend-item { display: flex; align-items: center; gap: 6px; }
+        .legend-tag { display: flex; align-items: center; gap: 6px; }
         .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
 
-        /* Dashboard Side Panel */
-        .dashboard {
-            flex: 1; min-width: 360px; background: #080c16;
-            padding: 16px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;
+        /* COLUMN 3: EXTERNAL AI ADVISOR & METRICS PANEL */
+        .ai-sidebar {
+            background: var(--panel-bg);
+            border-left: 2px solid var(--panel-border);
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            overflow-y: auto;
         }
+
+        /* External AI Advisor HUD Box */
+        .ai-advisor-box {
+            background: #0d1629;
+            border: 2px solid var(--accent-blue);
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 8px;
+        }
+        .ai-avatar-icon {
+            width: 40px; height: 40px;
+            background: #1e293b;
+            border: 2px solid var(--accent-blue);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+        }
+        .ai-info-text { display: flex; flex-direction: column; }
+        .ai-name { font-weight: bold; font-size: 0.85rem; color: var(--accent-blue); letter-spacing: 0.8px; }
+        .ai-status { font-size: 0.68rem; color: var(--accent-green); font-family: monospace; }
+
+        .ai-speech-bubble {
+            background: #162238;
+            border: 1px solid #283754;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 0.82rem;
+            line-height: 1.45;
+            color: #f1f5f9;
+            min-height: 75px;
+            position: relative;
+        }
+        .ai-speech-bubble span.keyword { color: var(--accent-gold); font-weight: bold; }
+        .ai-speech-bubble span.theory { color: var(--accent-green); font-style: italic; }
+
+        /* Interactive AI Prompt Suggestions */
+        .ai-prompt-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .ai-prompt-btn {
+            background: #121c2e;
+            color: var(--accent-blue);
+            border: 1px solid #23334d;
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 0.74rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .ai-prompt-btn:hover {
+            background: #1b2a47;
+            border-color: var(--accent-blue);
+            color: #fff;
+        }
+
+        /* Metrics Block */
+        .metrics-group { display: flex; flex-direction: column; gap: 10px; }
         .metric-card {
-            background: #161f33; border-radius: 10px; padding: 11px 15px;
-            border-left: 4px solid #38bdf8; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            background: #131b2e;
+            border-radius: 8px;
+            padding: 10px 12px;
+            border-left: 4px solid var(--accent-blue);
         }
-        .metric-card.virtue { border-left-color: #10b981; }
-        .metric-card.beast { border-left-color: #ef4444; }
-        .metric-card.mean { border-left-color: #f59e0b; }
+        .metric-card.virtue { border-left-color: var(--accent-green); }
+        .metric-card.beast { border-left-color: var(--accent-red); }
+        .metric-card.mean { border-left-color: var(--accent-gold); }
         .metric-card.oxygen { border-left-color: #0284c7; }
 
         .metric-header { display: flex; justify-content: space-between; align-items: center; }
-        .metric-title { font-size: 0.76rem; text-transform: uppercase; color: #94a3b8; font-weight: 600; }
-        .metric-value { font-size: 1.05rem; font-weight: bold; color: #f8fafc; }
-        .progress-bar { height: 7px; background: #090d16; border-radius: 4px; margin-top: 7px; overflow: hidden; }
+        .metric-title { font-size: 0.74rem; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
+        .metric-value { font-size: 0.95rem; font-weight: bold; color: #ffffff; }
+        .progress-bar { height: 6px; background: #080c14; border-radius: 4px; margin-top: 6px; overflow: hidden; }
         .progress-fill { height: 100%; transition: width 0.4s ease, background 0.4s ease; }
 
-        .actions-panel {
-            background: #111827; padding: 14px; border-radius: 10px; border: 1px solid #1e293b;
-        }
-        .actions-panel h3 { font-size: 0.82rem; color: #38bdf8; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.8px; }
-        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
-        button {
-            background: #1e293b; color: #cbd5e1; border: 1px solid #334155;
-            padding: 10px 6px; border-radius: 7px; cursor: pointer; font-size: 0.78rem; line-height: 1.3;
-            transition: all 0.2s ease;
-        }
-        button:hover { background: #25344d; color: #fff; border-color: #38bdf8; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2); }
-        button small { color: #64748b; font-size: 0.7rem; }
         .btn-advance {
-            width: 100%; background: linear-gradient(135deg, #0284c7, #0369a1); color: #ffffff; border: none;
-            padding: 12px; font-weight: bold; font-size: 0.88rem; text-transform: uppercase; border-radius: 7px;
+            width: 100%;
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            color: #ffffff;
+            border: none;
+            padding: 12px;
+            font-weight: bold;
+            font-size: 0.88rem;
+            text-transform: uppercase;
+            border-radius: 8px;
+            cursor: pointer;
             box-shadow: 0 0 15px rgba(2, 132, 199, 0.4);
+            transition: all 0.2s;
         }
-        .btn-advance:hover { background: linear-gradient(135deg, #0369a1, #075985); }
+        .btn-advance:hover { background: linear-gradient(135deg, #0369a1, #075985); transform: translateY(-1px); }
     </style>
 </head>
 <body>
 
-    <!-- Onboarding Tutorial -->
+    <!-- Onboarding Tutorial Modal -->
     <div id="tutorial-overlay" class="overlay">
         <div class="modal">
-            <h2>Aristotle’s Outer Space Polis</h2>
+            <h2>Aristotle’s Space Polis: Executive Control</h2>
             <div class="modal-subtitle">Political Philosophy Project Track 1</div>
             <div class="tut-text">
-                <p>Welcome to Astraea Station. Your AI Governor <strong>ARISTOTLE-AI</strong> floats outside the simulation dome, observing the habitat and narrating political philosophy events!</p>
+                <p>Welcome, Commander! You are stationed directly inside the habitat dome alongside your citizens. Your external <strong>AI Governor (ARISTOTLE-AI)</strong> monitors the simulation from orbit and gives strategic recommendations.</p>
             </div>
             <div class="tut-grid">
                 <div class="tut-card">
-                    <h4>🤖 Stationary AI Advisor</h4>
-                    <p>The AI drone floats right outside the top-left of the habitat dome, pointing speech bubbles directly inward at the colony.</p>
+                    <h4>👨‍✈️ Expanded Commander Avatar</h4>
+                    <p>Execute direct field orders (Rally Agora, Inspect Solarium, Enforce Hydroponics) to walk directly through districts and interact with citizens.</p>
                 </div>
                 <div class="tut-card">
-                    <h4>⚖️ The Golden Mean</h4>
-                    <p>Balance luxury and austerity, generate hydroponic oxygen, and exile outlaws via airlock defenestration!</p>
+                    <h4>🤖 External AI Philosopher</h4>
+                    <p>The AI Chatbot sits outside the simulation canvas, analyzing state vectors and answering tactical political queries on demand.</p>
                 </div>
             </div>
-            <button class="btn-start" onclick="closeTutorial()">Begin Governance</button>
+            <button class="btn-start" onclick="closeTutorial()">Begin Executive Command</button>
         </div>
     </div>
 
@@ -160,75 +342,142 @@
         </div>
     </div>
 
-    <!-- Header -->
+    <!-- Application Navigation Header -->
     <header>
-        <div>
-            <h1>The Aristotelian Polis: Outer AI Observer</h1>
-            <div class="subtitle">External AI Narrator & Interactive Space Habitat</div>
+        <div class="title-block">
+            <h1>Astraea Station: Aristotelian Polis</h1>
+            <div class="subtitle">Interactive Deep-Space Governance & Philosophical Simulation</div>
         </div>
-        <div id="cycle-counter">Cycle: 1 / 20</div>
+        <div class="header-stats">
+            <div id="cycle-counter">Cycle: 1 / 20</div>
+        </div>
     </header>
 
-    <div class="main-container">
-        <!-- Viewport Canvas -->
-        <div class="viewport">
-            <canvas id="colonyCanvas" width="560" height="420"></canvas>
-            <div class="legend">
-                <div class="legend-item"><span class="dot" style="background:#10b981; box-shadow:0 0 8px #10b981;"></span> Virtuous Citizen</div>
-                <div class="legend-item"><span class="dot" style="background:#f59e0b; box-shadow:0 0 8px #f59e0b;"></span> Soaking in Apricity</div>
-                <div class="legend-item"><span class="dot" style="background:#ef4444; box-shadow:0 0 8px #ef4444;"></span> Beastly Outlaw</div>
-                <div class="legend-item"><span class="dot" style="background:#38bdf8; box-shadow:0 0 8px #38bdf8;"></span> AI Observer (Outside Dome)</div>
+    <!-- Main 3-Column Interface Layout -->
+    <div class="app-layout">
+        
+        <!-- COLUMN 1: COMMANDER FIELD CONTROLS -->
+        <div class="commander-panel">
+            <div class="commander-card">
+                <div class="commander-avatar-wrap">
+                    <span>👨‍✈️</span>
+                </div>
+                <div class="commander-title">COMMANDER ASTRAEA</div>
+                <div class="commander-role">Executive Field Officer</div>
+            </div>
+
+            <div class="commander-actions">
+                <h3><span>📜</span> Executive Field Decrees</h3>
+                <div class="cmd-btn-list">
+                    <button class="cmd-btn" onclick="cmdInspectSolarium()">
+                        <span class="icon">☀️</span>
+                        <div>
+                            <strong>Solarium Apricity</strong><br>
+                            <small>Bask citizens under radiant heat (+15 Virtue)</small>
+                        </div>
+                    </button>
+                    <button class="cmd-btn" onclick="cmdRallyLyceum()">
+                        <span class="icon">🏛️</span>
+                        <div>
+                            <strong>Aristotelian Lyceum</strong><br>
+                            <small>Lead philosophical debate (+10 Virtue, Mean Balance)</small>
+                        </div>
+                    </button>
+                    <button class="cmd-btn" onclick="cmdHarvestHydroponics()">
+                        <span class="icon">🌱</span>
+                        <div>
+                            <strong>Hydroponic Harvest</strong><br>
+                            <small>Replenish life support (+15% Oxygen)</small>
+                        </div>
+                    </button>
+                    <button class="cmd-btn" onclick="cmdDefenestration()">
+                        <span class="icon">🚀</span>
+                        <div>
+                            <strong>Airlock Defenestration</strong><br>
+                            <small>Exile violent outlaws into outer space</small>
+                        </div>
+                    </button>
+                </div>
             </div>
         </div>
 
-        <!-- Dashboard Side Panel -->
-        <div class="dashboard">
-            <div class="metric-card virtue">
-                <div class="metric-header">
-                    <span class="metric-title">Civic Virtue (Polis Index)</span>
-                    <span class="metric-value" id="val-virtue">80 / 100</span>
+        <!-- COLUMN 2: CANVAS SIMULATION VIEWPORT -->
+        <div class="simulation-viewport">
+            <canvas id="colonyCanvas" width="560" height="440"></canvas>
+            <div class="canvas-legend">
+                <div class="legend-tag"><span class="dot" style="background:#f59e0b; box-shadow:0 0 8px #f59e0b;"></span> Commander (Large Avatar)</div>
+                <div class="legend-tag"><span class="dot" style="background:#10b981; box-shadow:0 0 8px #10b981;"></span> Virtuous Citizen</div>
+                <div class="legend-tag"><span class="dot" style="background:#f59e0b; box-shadow:0 0 8px #f59e0b;"></span> Apricity Basking</div>
+                <div class="legend-tag"><span class="dot" style="background:#ef4444; box-shadow:0 0 8px #ef4444;"></span> Beastly Outlaw</div>
+            </div>
+        </div>
+
+        <!-- COLUMN 3: EXTERNAL AI ADVISOR & METRICS HUD -->
+        <div class="ai-sidebar">
+            
+            <!-- External AI HUD Advisor -->
+            <div class="ai-advisor-box">
+                <div class="ai-header">
+                    <div class="ai-avatar-icon">🤖</div>
+                    <div class="ai-info-text">
+                        <div class="ai-name">ARISTOTLE-AI ADVISOR</div>
+                        <div class="ai-status">● ORBITAL SENSORS ONLINE</div>
+                    </div>
                 </div>
-                <div class="progress-bar"><div class="progress-fill" id="bar-virtue" style="width: 80%; background: #10b981;"></div></div>
+                <div class="ai-speech-bubble" id="aiSpeech">
+                    "Greetings, Commander. I am observing the simulation from orbit. Remember: 'Man is by nature a political animal.' Keep our Polis unified!"
+                </div>
+                
+                <!-- Prompt Suggestion Query Buttons -->
+                <div class="ai-prompt-grid">
+                    <button class="ai-prompt-btn" onclick="askAI('virtue')">💡 Ask AI: How do I raise Virtue?</button>
+                    <button class="ai-prompt-btn" onclick="askAI('mean')">⚖️ Ask AI: Explain the Golden Mean</button>
+                    <button class="ai-prompt-btn" onclick="askAI('status')">📡 Ask AI: Tactical Colony Diagnosis</button>
+                </div>
             </div>
 
-            <div class="metric-card beast">
-                <div class="metric-header">
-                    <span class="metric-title">Beastliness Index</span>
-                    <span class="metric-value" id="val-beast">15 / 100</span>
+            <!-- Colony Metrics Display -->
+            <div class="metrics-group">
+                <div class="metric-card virtue">
+                    <div class="metric-header">
+                        <span class="metric-title">Civic Virtue (Polis Index)</span>
+                        <span class="metric-value" id="val-virtue">80 / 100</span>
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill" id="bar-virtue" style="width: 80%; background: #10b981;"></div></div>
                 </div>
-                <div class="progress-bar"><div class="progress-fill" id="bar-beast" style="width: 15%; background: #ef4444;"></div></div>
+
+                <div class="metric-card beast">
+                    <div class="metric-header">
+                        <span class="metric-title">Beastliness Index</span>
+                        <span class="metric-value" id="val-beast">15 / 100</span>
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill" id="bar-beast" style="width: 15%; background: #ef4444;"></div></div>
+                </div>
+
+                <div class="metric-card mean">
+                    <div class="metric-header">
+                        <span class="metric-title">Golden Mean (Moderation)</span>
+                        <span class="metric-value" id="val-mean">Balanced</span>
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill" id="bar-mean" style="width: 50%; background: #f59e0b;"></div></div>
+                </div>
+
+                <div class="metric-card oxygen">
+                    <div class="metric-header">
+                        <span class="metric-title">Hydroponic Atmosphere</span>
+                        <span class="metric-value" id="val-oxygen">85%</span>
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill" id="bar-oxygen" style="width: 85%; background: #0284c7;"></div></div>
+                </div>
             </div>
 
-            <div class="metric-card mean">
-                <div class="metric-header">
-                    <span class="metric-title">The Golden Mean (Moderation)</span>
-                    <span class="metric-value" id="val-mean">Balanced</span>
-                </div>
-                <div class="progress-bar"><div class="progress-fill" id="bar-mean" style="width: 50%; background: #f59e0b;"></div></div>
-            </div>
+            <button class="btn-advance" onclick="nextCycle()">Advance Turn / Cycle</button>
 
-            <div class="metric-card oxygen">
-                <div class="metric-header">
-                    <span class="metric-title">Hydroponic Atmosphere</span>
-                    <span class="metric-value" id="val-oxygen">85%</span>
-                </div>
-                <div class="progress-bar"><div class="progress-fill" id="bar-oxygen" style="width: 85%; background: #0284c7;"></div></div>
-            </div>
-
-            <div class="actions-panel">
-                <h3>Polis Decrees</h3>
-                <div class="btn-grid">
-                    <button onclick="enactSolarium()">Solarium Apricity<br><small>(Solar heat rays & light)</small></button>
-                    <button onclick="enactLyceum()">Aristotelian Lyceum<br><small>(Philosophy & virtue)</small></button>
-                    <button onclick="enactHydroponics()">Hydroponic Commons<br><small>(Bubbling oxygen generation)</small></button>
-                    <button onclick="enactDefenestration()">Airlock Defenestration<br><small>(Vortex vacuum exile)</small></button>
-                </div>
-                <button class="btn-advance" onclick="nextCycle()">Advance Turn / Cycle</button>
-            </div>
         </div>
     </div>
 
     <script>
+        // Global Game Configuration
         const MAX_CYCLES = 20;
         let cycle = 1;
         let virtue = 80;
@@ -245,7 +494,8 @@
         let particles = [];
         let stars = [];
 
-        for (let i = 0; i < 80; i++) {
+        // Generate Ambient Starfield
+        for (let i = 0; i < 90; i++) {
             stars.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
@@ -255,159 +505,86 @@
             });
         }
 
+        // Station District Coordinates inside Habitat Dome
         const districts = {
-            agora: { x: 280, y: 210, r: 52, name: "CENTRAL AGORA", color: "#162032", border: "#38bdf8" },
-            solarium: { x: 135, y: 115, w: 105, h: 60, name: "SOLARIUM (Apricity)", color: "#3a2a0a", border: "#f59e0b" },
-            lyceum: { x: 320, y: 105, w: 105, h: 60, name: "LYCEUM (Academy)", color: "#062e22", border: "#10b981" },
-            hydroponics: { x: 320, y: 265, w: 115, h: 60, name: "HYDROPONICS", color: "#062638", border: "#0284c7" },
-            airlock: { x: 125, y: 265, w: 85, h: 60, name: "AIRLOCK", color: "#3b0f16", border: "#ef4444" }
+            agora: { x: 280, y: 220, r: 54, name: "CENTRAL AGORA", color: "#162032", border: "#38bdf8" },
+            solarium: { x: 135, y: 125, w: 105, h: 60, name: "SOLARIUM (Apricity)", color: "#3a2a0a", border: "#f59e0b" },
+            lyceum: { x: 320, y: 115, w: 105, h: 60, name: "LYCEUM (Academy)", color: "#062e22", border: "#10b981" },
+            hydroponics: { x: 320, y: 275, w: 115, h: 60, name: "HYDROPONICS", color: "#062638", border: "#0284c7" },
+            airlock: { x: 125, y: 275, w: 85, h: 60, name: "AIRLOCK", color: "#3b0f16", border: "#ef4444" }
         };
 
-        // FLOATING AI DRONE CLASS — STATIONARY OUTSIDE THE DOME LOOKING IN
-        class AIDrone {
+        // COMMANDER CLASS — PROMINENT, LARGER CHARACTER ON CANVAS
+        class CommanderCharacter {
             constructor() {
-                // Fixed position floating right outside top-left of dome
-                this.x = 65;
-                this.y = 50;
-                this.bobAngle = 0;
-                this.speechText = "Greetings, Commander! ARISTOTLE-AI observing from orbit. Lead our Polis to Cycle 20!";
-                this.speechTimer = 350;
+                this.x = districts.agora.x;
+                this.y = districts.agora.y;
+                this.targetX = districts.agora.x;
+                this.targetY = districts.agora.y;
+                this.speed = 2.2; // Fast commander movement
+                this.bounce = 0;
+                this.actionState = 'IDLE';
             }
 
-            setSpeech(text, duration = 300) {
-                this.speechText = text;
-                this.speechTimer = duration;
+            moveTo(tx, ty, actionName = 'IDLE') {
+                this.targetX = tx;
+                this.targetY = ty;
+                this.actionState = actionName;
             }
 
             update() {
-                // Gentle floating bob in place (doesn't wander inside the dome)
-                this.bobAngle += 0.04;
-                if (this.speechTimer > 0) this.speechTimer--;
+                let dx = this.targetX - this.x;
+                let dy = this.targetY - this.y;
+                let dist = Math.hypot(dx, dy);
+
+                if (dist > 5) {
+                    this.x += (dx / dist) * this.speed;
+                    this.y += (dy / dist) * this.speed;
+                    this.bounce += 0.25;
+                } else {
+                    this.x = this.targetX;
+                    this.y = this.targetY;
+                }
             }
 
             draw() {
-                let floatY = this.y + Math.sin(this.bobAngle) * 3;
+                let bob = Math.sin(this.bounce) * 3;
+                let drawY = this.y + bob;
 
-                // Outer Sensor Field Ring
+                // Commander Outer Glowing Command Ring
                 ctx.beginPath();
-                ctx.arc(this.x, floatY, 15, 0, Math.PI * 2);
-                ctx.fillStyle = "rgba(56, 189, 248, 0.2)";
+                ctx.ellipse(this.x, drawY + 12, 16, 6, 0, 0, Math.PI * 2);
+                ctx.fillStyle = "rgba(245, 158, 11, 0.4)";
                 ctx.fill();
 
-                // Metallic Chassis
+                // Commander Body Core (Larger Circle)
                 ctx.beginPath();
-                ctx.arc(this.x, floatY, 10, 0, Math.PI * 2);
-                ctx.fillStyle = "#38bdf8";
-                ctx.shadowColor = "#38bdf8";
-                ctx.shadowBlur = 14;
+                ctx.arc(this.x, drawY, 12, 0, Math.PI * 2);
+                ctx.shadowColor = "#f59e0b";
+                ctx.shadowBlur = 18;
+                ctx.fillStyle = "#f59e0b";
                 ctx.fill();
                 ctx.shadowBlur = 0;
                 ctx.strokeStyle = "#ffffff";
-                ctx.lineWidth = 1.5;
+                ctx.lineWidth = 2.5;
                 ctx.stroke();
 
-                // Holographic Glowing Eye Lens (angled down toward dome)
-                ctx.beginPath();
-                ctx.arc(this.x + 2, floatY + 2, 4.5, 0, Math.PI * 2);
-                ctx.fillStyle = "#0f172a";
-                ctx.fill();
+                // Commander Officer Icon Overhead
+                ctx.font = '16px sans-serif';
+                ctx.fillText('👨‍✈️', this.x - 10, drawY - 15);
 
-                // Camera Sensor Beam aiming into simulation
-                ctx.strokeStyle = "rgba(56, 189, 248, 0.25)";
-                ctx.lineWidth = 1.5;
-                ctx.setLineDash([4, 4]);
-                ctx.beginPath();
-                ctx.moveTo(this.x + 6, floatY + 6);
-                ctx.lineTo(this.x + 45, floatY + 45);
-                ctx.stroke();
-                ctx.setLineDash([]); // Reset line dash
-
-                // Antenna Tip
-                ctx.beginPath();
-                ctx.moveTo(this.x - 4, floatY - 8);
-                ctx.lineTo(this.x - 8, floatY - 14);
-                ctx.strokeStyle = "#38bdf8";
-                ctx.lineWidth = 2;
-                ctx.stroke();
-
-                ctx.beginPath();
-                ctx.arc(this.x - 9, floatY - 15, 2.5, 0, Math.PI * 2);
-                ctx.fillStyle = "#f59e0b";
-                ctx.fill();
-
-                // Render Speech Bubble outside dome
-                if (this.speechTimer > 0 && this.speechText) {
-                    this.drawSpeechBubble(floatY);
+                // Command Action Label Flag
+                if (this.actionState !== 'IDLE') {
+                    ctx.font = 'bold 9.5px sans-serif';
+                    ctx.fillStyle = '#f59e0b';
+                    ctx.fillText(`COMMAND: ${this.actionState}`, this.x - 45, drawY - 32);
                 }
-            }
-
-            drawSpeechBubble(floatY) {
-                ctx.save();
-                ctx.font = "bold 10.5px sans-serif";
-                
-                let words = this.speechText.split(' ');
-                let lines = [];
-                let currentLine = words[0];
-                let maxWidth = 200;
-
-                for (let i = 1; i < words.length; i++) {
-                    let testLine = currentLine + " " + words[i];
-                    let metrics = ctx.measureText(testLine);
-                    if (metrics.width > maxWidth) {
-                        lines.push(currentLine);
-                        currentLine = words[i];
-                    } else {
-                        currentLine = testLine;
-                    }
-                }
-                lines.push(currentLine);
-
-                let lineHeight = 13;
-                let padding = 10;
-                let boxWidth = Math.min(maxWidth + padding * 2, 220);
-                let boxHeight = lines.length * lineHeight + padding * 2;
-
-                // Position speech box nicely beside/below drone
-                let boxX = this.x + 18;
-                let boxY = floatY + 10;
-
-                ctx.fillStyle = "rgba(15, 23, 42, 0.95)";
-                ctx.strokeStyle = "#38bdf8";
-                ctx.lineWidth = 2;
-                ctx.shadowColor = "#38bdf8";
-                ctx.shadowBlur = 10;
-
-                ctx.beginPath();
-                if (ctx.roundRect) {
-                    ctx.roundRect(boxX, boxY, boxWidth, boxHeight, 8);
-                } else {
-                    ctx.rect(boxX, boxY, boxWidth, boxHeight);
-                }
-                ctx.fill();
-                ctx.stroke();
-                ctx.shadowBlur = 0;
-
-                // Pointer tail pointing to AI drone lens
-                ctx.beginPath();
-                ctx.moveTo(boxX, boxY + 10);
-                ctx.lineTo(this.x + 10, floatY + 5);
-                ctx.lineTo(boxX + 8, boxY + 18);
-                ctx.fillStyle = "#38bdf8";
-                ctx.fill();
-
-                // Speech Text Render
-                ctx.fillStyle = "#ffffff";
-                for (let i = 0; i < lines.length; i++) {
-                    ctx.fillText(lines[i], boxX + padding, boxY + padding + (i + 1) * lineHeight - 3);
-                }
-
-                ctx.restore();
             }
         }
 
-        const aiDrone = new AIDrone();
+        const commander = new CommanderCharacter();
 
-        // Citizen Class
+        // CITIZEN CLASS
         class Citizen {
             constructor() {
                 this.x = districts.agora.x + (Math.random() - 0.5) * 60;
@@ -494,11 +671,27 @@
         }
         initCitizens();
 
+        // EXTERNAL AI CHATBOT DIALOG ENGINE
+        function setAISpeech(formattedHtml) {
+            document.getElementById('aiSpeech').innerHTML = formattedHtml;
+        }
+
+        function askAI(topic) {
+            if (topic === 'virtue') {
+                setAISpeech(`"To elevate <span class='keyword'>Civic Virtue</span>, lead decrees at the Solarium or Lyceum. Aristotle taught that virtue is cultivated by shared communal life in the Polis!"`);
+            } else if (topic === 'mean') {
+                setAISpeech(`"The <span class='theory'>Golden Mean</span> is the moral sweet spot between extremes. Avoid extreme austerity or luxury to keep public harmony stable."`);
+            } else if (topic === 'status') {
+                let diagnosis = virtue < 50 ? "CRITICAL: Virtue is dangerously low!" : (beast > 40 ? "WARNING: Outlaw beastliness is rising!" : "STABLE: Polis operating within normal Aristotelian parameters.");
+                setAISpeech(`"Diagnostic Summary: ${diagnosis} Current Atmosphere: ${oxygen}%."`);
+            }
+        }
+
         function spawnFloatingText(text, x, y, color) {
             floatingTexts.push({ text, x, y, color, opacity: 1.0, dy: -0.9 });
         }
 
-        function spawnBurstParticles(x, y, color, count = 15, speedMult = 1) {
+        function spawnBurstParticles(x, y, color, count = 18, speedMult = 1) {
             for (let i = 0; i < count; i++) {
                 let angle = Math.random() * Math.PI * 2;
                 let speed = (1.2 + Math.random() * 3.5) * speedMult;
@@ -517,6 +710,7 @@
             shakeTime = duration;
         }
 
+        // CANVAS ANIMATION & RENDER LOOP
         function drawMap() {
             ctx.save();
 
@@ -539,14 +733,14 @@
                 ctx.fill();
             });
 
-            // 2. Outer Dome Shield Wall Glow
+            // 2. Outer Dome Shield Border
             let domeGlow = Math.sin(Date.now() * 0.003) * 5 + 14;
             ctx.strokeStyle = '#38bdf8';
             ctx.shadowColor = '#38bdf8';
             ctx.shadowBlur = domeGlow;
             ctx.lineWidth = 3.5;
             ctx.beginPath();
-            ctx.arc(280, 210, 195, 0, Math.PI * 2);
+            ctx.arc(280, 220, 195, 0, Math.PI * 2);
             ctx.stroke();
             ctx.shadowBlur = 0;
 
@@ -555,7 +749,7 @@
             // =========================================================
             ctx.save();
             ctx.beginPath();
-            ctx.arc(280, 210, 192, 0, Math.PI * 2);
+            ctx.arc(280, 220, 192, 0, Math.PI * 2);
             ctx.clip();
 
             // Grid Floor
@@ -671,13 +865,17 @@
             ctx.fillStyle = "#38bdf8"; ctx.font = "bold 9px sans-serif";
             ctx.fillText("CENTRAL AGORA", districts.agora.x - 36, districts.agora.y + 3);
 
-            // Render Citizens Inside Dome
+            // Render Citizens
             citizens.forEach(c => {
                 c.update();
                 c.draw();
             });
 
-            // Burst Particles inside Dome
+            // UPDATE & DRAW PROMINENT COMMANDER AVATAR
+            commander.update();
+            commander.draw();
+
+            // Particles
             for (let i = particles.length - 1; i >= 0; i--) {
                 let p = particles[i];
                 p.x += p.vx;
@@ -718,13 +916,6 @@
             }
 
             ctx.restore(); // Restore Clipping Mask
-
-            // =========================================================
-            // RENDER AI DRONE & SPEECH BUBBLES (OUTSIDE DOME CLIPPING)
-            // =========================================================
-            aiDrone.update();
-            aiDrone.draw();
-
             ctx.restore(); // Restore Screen Shake Transform
 
             requestAnimationFrame(drawMap);
@@ -751,17 +942,18 @@
             document.getElementById('cycle-counter').innerText = `Cycle: ${cycle} / ${MAX_CYCLES}`;
         }
 
-        // Action Decrees with External AI Speeches
-        function enactSolarium() {
+        // COMMANDER EXECUTIVE FIELD ACTIONS
+        function cmdInspectSolarium() {
             if (isGameOver) return;
             virtue = Math.min(100, virtue + 15);
             beast = Math.max(0, beast - 10);
             oxygen = Math.max(0, oxygen - 3);
 
-            aiDrone.setSpeech("Citizens gather to soak in artificial solar apricity! Aristotle noted communal warmth builds the Polis!");
+            commander.moveTo(districts.solarium.x + 52, districts.solarium.y + 30, 'SOLARIUM');
+            setAISpeech(`"Commander Astraea is inspecting the Solarium! Citizens gather under radiant solar <span class='keyword'>apricity</span>. Civic Virtue enhanced!"`);
 
             spawnBurstParticles(districts.solarium.x + 52, districts.solarium.y + 30, '#f59e0b', 25, 1.2);
-            spawnFloatingText("Apricity Rays! ☀️ +15 Virtue", districts.solarium.x - 10, districts.solarium.y - 12, '#f59e0b');
+            spawnFloatingText("Apricity Solar Heat! ☀️ +15 Virtue", districts.solarium.x - 10, districts.solarium.y - 12, '#f59e0b');
 
             citizens.forEach(c => {
                 if (c.state !== 'beast' && c.state !== 'exiled') {
@@ -773,15 +965,16 @@
             updateUI();
         }
 
-        function enactLyceum() {
+        function cmdRallyLyceum() {
             if (isGameOver) return;
             virtue = Math.min(100, virtue + 10);
             meanBalance = meanBalance > 0 ? Math.max(0, meanBalance - 15) : Math.min(0, meanBalance + 15);
 
-            aiDrone.setSpeech("Philosophical debate in the Lyceum! Virtue is a habit guided by the Golden Mean.");
+            commander.moveTo(districts.lyceum.x + 52, districts.lyceum.y + 30, 'LYCEUM');
+            setAISpeech(`"Commander Astraea is chairing debates at the Lyceum! <span class='theory'>Aristotle taught that virtue is guided by the Golden Mean.</span>"`);
 
             spawnBurstParticles(districts.lyceum.x + 52, districts.lyceum.y + 30, '#10b981', 25, 1.2);
-            spawnFloatingText("Academy Debate! 🏛️", districts.lyceum.x - 10, districts.lyceum.y - 12, '#10b981');
+            spawnFloatingText("Academy Debate! 🏛️ Virtue Up", districts.lyceum.x - 10, districts.lyceum.y - 12, '#10b981');
 
             citizens.forEach(c => {
                 if (c.state !== 'beast' && c.state !== 'exiled') {
@@ -793,12 +986,13 @@
             updateUI();
         }
 
-        function enactHydroponics() {
+        function cmdHarvestHydroponics() {
             if (isGameOver) return;
             oxygen = Math.min(100, oxygen + 15);
             meanBalance += 10;
 
-            aiDrone.setSpeech("Hydroponics harvest complete! +15% Atmospheric Oxygen generated for our citizens.");
+            commander.moveTo(districts.hydroponics.x + 57, districts.hydroponics.y + 30, 'HYDROPONICS');
+            setAISpeech(`"Hydroponics harvest supervised by Commander Astraea! +15% Atmospheric Oxygen generated for our citizens."`);
 
             spawnBurstParticles(districts.hydroponics.x + 57, districts.hydroponics.y + 30, '#0284c7', 30, 1.4);
             spawnFloatingText("+15% Hydroponic Oxygen! 🌱", districts.hydroponics.x - 20, districts.hydroponics.y - 12, '#0284c7');
@@ -806,7 +1000,7 @@
             updateUI();
         }
 
-        function enactDefenestration() {
+        function cmdDefenestration() {
             if (isGameOver) return;
             let beastIdx = citizens.findIndex(c => c.state === 'beast');
             if (beastIdx !== -1 || beast > 20) {
@@ -817,7 +1011,8 @@
                 beastCitizen.targetX = districts.airlock.x + 42;
                 beastCitizen.targetY = districts.airlock.y + 30;
 
-                aiDrone.setSpeech("AIRLOCK DEFENESTRATION! Aristotle: 'He who lives outside society is either a beast or a god!'");
+                commander.moveTo(districts.airlock.x + 42, districts.airlock.y - 15, 'AIRLOCK EXILE');
+                setAISpeech(`"AIRLOCK DEFENESTRATION EXECUTED! <span class='keyword'>Aristotle: 'He who lives outside society is either a beast or a god!'</span>"`);
 
                 setTimeout(() => {
                     triggerScreenShake(14);
@@ -826,7 +1021,7 @@
                     beastCitizen.state = 'exiled';
                 }, 750);
             } else {
-                aiDrone.setSpeech("No dangerous beastly outlaws require airlock defenestration at this time.");
+                setAISpeech(`"Notice: No dangerous beastly outlaws warrant airlock defenestration at this time."`);
             }
             updateUI();
         }
@@ -837,6 +1032,8 @@
             cycle++;
             oxygen = Math.max(0, oxygen - 4);
 
+            commander.moveTo(districts.agora.x, districts.agora.y, 'IDLE');
+
             if (virtue < 50) {
                 beast = Math.min(100, beast + 12);
                 let converted = 0;
@@ -844,12 +1041,12 @@
                     if (c.state !== 'beast' && c.state !== 'exiled' && converted < 3) {
                         c.state = 'beast';
                         c.targetX = 280 + (Math.random() - 0.5) * 310;
-                        c.targetY = 210 + (Math.random() - 0.5) * 310;
+                        c.targetY = 220 + (Math.random() - 0.5) * 310;
                         spawnFloatingText("Turned Beastly! 🐺", c.x, c.y - 10, '#ef4444');
                         converted++;
                     }
                 });
-                aiDrone.setSpeech(`WARNING: Low Civic Virtue! Deprived of community, citizens regress into bestial outlaws!`);
+                setAISpeech(`"WARNING: Low Civic Virtue! Deprived of community, citizens regress into bestial outlaws!"`);
             } else {
                 beast = Math.max(0, beast - 5);
                 citizens.forEach(c => {
@@ -859,7 +1056,7 @@
                         c.targetY = districts.agora.y + (Math.random() - 0.5) * 50;
                     }
                 });
-                aiDrone.setSpeech(`Advanced to Cycle ${cycle}! Oxygen level: ${oxygen}%. Keep the Polis united!`);
+                setAISpeech(`"Advanced to Cycle ${cycle}! Oxygen level: ${oxygen}%. Keep our Aristotelian Polis united!"`);
             }
 
             updateUI();
@@ -896,7 +1093,8 @@
             cycle = 1; virtue = 80; beast = 15; meanBalance = 0; oxygen = 85; isGameOver = false;
             initCitizens();
             document.getElementById('end-overlay').classList.add('hidden');
-            aiDrone.setSpeech("Astraea Station re-initialized! Lead our Aristotelian Polis to Cycle 20!");
+            commander.moveTo(districts.agora.x, districts.agora.y, 'IDLE');
+            setAISpeech("Astraea Station re-initialized! Lead our Aristotelian Polis to Cycle 20!");
             updateUI();
         }
     </script>
