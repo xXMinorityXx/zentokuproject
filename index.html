@@ -245,7 +245,6 @@
         let particles = [];
         let stars = [];
 
-        // Generate Starfield
         for (let i = 0; i < 80; i++) {
             stars.push({
                 x: Math.random() * canvas.width,
@@ -256,7 +255,6 @@
             });
         }
 
-        // Station Districts
         const districts = {
             agora: { x: 280, y: 210, r: 52, name: "CENTRAL AGORA", color: "#162032", border: "#38bdf8" },
             solarium: { x: 135, y: 115, w: 105, h: 60, name: "SOLARIUM (Apricity)", color: "#3a2a0a", border: "#f59e0b" },
@@ -265,7 +263,6 @@
             airlock: { x: 125, y: 265, w: 85, h: 60, name: "AIRLOCK", color: "#3b0f16", border: "#ef4444" }
         };
 
-        // FLOATING AI DRONE CLASS (BUBBLES AROUND SIMULATION CANVAS)
         class AIDrone {
             constructor() {
                 this.x = 280;
@@ -275,7 +272,7 @@
                 this.speed = 1.2;
                 this.bobAngle = 0;
                 this.speechText = "Greetings, Commander! I am ARISTOTLE-AI. I will narrate all events right here!";
-                this.speechTimer = 350; // Display timer frame count
+                this.speechTimer = 350;
             }
 
             setSpeech(text, duration = 300) {
@@ -284,7 +281,6 @@
             }
 
             update() {
-                // Bobbing & Bubbling motion
                 this.bobAngle += 0.05;
                 let dx = this.targetX - this.x;
                 let dy = this.targetY - this.y;
@@ -294,7 +290,6 @@
                     this.x += (dx / dist) * this.speed;
                     this.y += (dy / dist) * this.speed;
                 } else {
-                    // Wander gently around central Agora or districts
                     if (Math.random() < 0.02) {
                         this.targetX = 280 + (Math.random() - 0.5) * 220;
                         this.targetY = 210 + (Math.random() - 0.5) * 200;
@@ -307,13 +302,11 @@
             draw() {
                 let floatY = this.y + Math.sin(this.bobAngle) * 4;
 
-                // Glowing Outer Aura
                 ctx.beginPath();
                 ctx.arc(this.x, floatY, 14, 0, Math.PI * 2);
                 ctx.fillStyle = "rgba(56, 189, 248, 0.25)";
                 ctx.fill();
 
-                // Holographic Body Shell
                 ctx.beginPath();
                 ctx.arc(this.x, floatY, 9, 0, Math.PI * 2);
                 ctx.fillStyle = "#38bdf8";
@@ -325,13 +318,11 @@
                 ctx.lineWidth = 1.5;
                 ctx.stroke();
 
-                // Inner Eye Lens
                 ctx.beginPath();
                 ctx.arc(this.x, floatY, 4, 0, Math.PI * 2);
                 ctx.fillStyle = "#0f172a";
                 ctx.fill();
 
-                // Robot Antenna
                 ctx.beginPath();
                 ctx.moveTo(this.x, floatY - 9);
                 ctx.lineTo(this.x, floatY - 15);
@@ -344,7 +335,6 @@
                 ctx.fillStyle = "#f59e0b";
                 ctx.fill();
 
-                // DRAW SPEECH BUBBLE ON CANVAS
                 if (this.speechTimer > 0 && this.speechText) {
                     this.drawSpeechBubble(floatY);
                 }
@@ -354,7 +344,6 @@
                 ctx.save();
                 ctx.font = "bold 10.5px sans-serif";
                 
-                // Wrap text lines
                 let words = this.speechText.split(' ');
                 let lines = [];
                 let currentLine = words[0];
@@ -380,11 +369,9 @@
                 let boxX = this.x - boxWidth / 2;
                 let boxY = floatY - boxHeight - 22;
 
-                // Keep speech bubble inside canvas boundaries
                 boxX = Math.max(15, Math.min(canvas.width - boxWidth - 15, boxX));
                 boxY = Math.max(15, Math.min(canvas.height - boxHeight - 15, boxY));
 
-                // Speech Box Background & Glow
                 ctx.fillStyle = "rgba(15, 23, 42, 0.94)";
                 ctx.strokeStyle = "#38bdf8";
                 ctx.lineWidth = 2;
@@ -392,12 +379,15 @@
                 ctx.shadowBlur = 10;
 
                 ctx.beginPath();
-                ctx.roundRect(boxX, boxY, boxWidth, boxHeight, 8);
+                if (ctx.roundRect) {
+                    ctx.roundRect(boxX, boxY, boxWidth, boxHeight, 8);
+                } else {
+                    ctx.rect(boxX, boxY, boxWidth, boxHeight);
+                }
                 ctx.fill();
                 ctx.stroke();
                 ctx.shadowBlur = 0;
 
-                // Speech Bubble Pointer Tail
                 ctx.beginPath();
                 ctx.moveTo(this.x - 5, boxY + boxHeight);
                 ctx.lineTo(this.x, boxY + boxHeight + 7);
@@ -405,7 +395,6 @@
                 ctx.fillStyle = "#38bdf8";
                 ctx.fill();
 
-                // Speech Text Render
                 ctx.fillStyle = "#ffffff";
                 for (let i = 0; i < lines.length; i++) {
                     ctx.fillText(lines[i], boxX + padding, boxY + padding + (i + 1) * lineHeight - 3);
@@ -417,7 +406,6 @@
 
         const aiDrone = new AIDrone();
 
-        // Citizen Class
         class Citizen {
             constructor() {
                 this.x = districts.agora.x + (Math.random() - 0.5) * 60;
@@ -527,7 +515,6 @@
             shakeTime = duration;
         }
 
-        // RENDER LOOP WITH DOME CLIPPING MASK
         function drawMap() {
             ctx.save();
 
@@ -540,7 +527,6 @@
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Background Starfield
             stars.forEach(s => {
                 s.alpha += s.speed;
                 let a = Math.abs(Math.sin(s.alpha));
@@ -550,7 +536,6 @@
                 ctx.fill();
             });
 
-            // Outer Dome Border Glow
             let domeGlow = Math.sin(Date.now() * 0.003) * 5 + 14;
             ctx.strokeStyle = '#38bdf8';
             ctx.shadowColor = '#38bdf8';
@@ -561,15 +546,11 @@
             ctx.stroke();
             ctx.shadowBlur = 0;
 
-            // =========================================================
-            // DOME CLIPPING MASK (PREVENTS CUT-OFF EFFECTS OUTSIDE DOME)
-            // =========================================================
             ctx.save();
             ctx.beginPath();
             ctx.arc(280, 210, 192, 0, Math.PI * 2);
             ctx.clip();
 
-            // Holographic Grid Floor
             ctx.strokeStyle = "rgba(56, 189, 248, 0.04)";
             ctx.lineWidth = 1;
             for (let x = 0; x < canvas.width; x += 25) {
@@ -579,7 +560,6 @@
                 ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
             }
 
-            // Energy Cables
             ctx.strokeStyle = 'rgba(56, 189, 248, 0.2)';
             ctx.lineWidth = 2;
             ctx.beginPath();
@@ -589,7 +569,6 @@
             ctx.moveTo(districts.agora.x, districts.agora.y); ctx.lineTo(districts.airlock.x + 42, districts.airlock.y + 30);
             ctx.stroke();
 
-            // Solarium Apricity Rays
             let time = Date.now() * 0.002;
             ctx.save();
             ctx.translate(districts.solarium.x + 52, districts.solarium.y + 30);
@@ -611,7 +590,6 @@
             ctx.fillStyle = "#f59e0b"; ctx.font = "bold 9.5px sans-serif";
             ctx.fillText("☀️ SOLARIUM (Apricity)", districts.solarium.x + 6, districts.solarium.y + 35);
 
-            // Lyceum
             ctx.fillStyle = districts.lyceum.color;
             ctx.fillRect(districts.lyceum.x, districts.lyceum.y, districts.lyceum.w, districts.lyceum.h);
             ctx.strokeStyle = districts.lyceum.border;
@@ -624,7 +602,6 @@
             ctx.fillText("β", districts.lyceum.x + 45, districts.lyceum.y + 20);
             ctx.fillText("Ω", districts.lyceum.x + 75, districts.lyceum.y + 18);
 
-            // Hydroponics
             ctx.fillStyle = districts.hydroponics.color;
             ctx.fillRect(districts.hydroponics.x, districts.hydroponics.y, districts.hydroponics.w, districts.hydroponics.h);
             ctx.strokeStyle = districts.hydroponics.border;
@@ -640,7 +617,6 @@
                 ctx.fill();
             }
 
-            // Airlock
             ctx.fillStyle = districts.airlock.color;
             ctx.fillRect(districts.airlock.x, districts.airlock.y, districts.airlock.w, districts.airlock.h);
             ctx.strokeStyle = districts.airlock.border;
@@ -648,7 +624,6 @@
             ctx.fillStyle = "#ef4444";
             ctx.fillText("🚀 AIRLOCK", districts.airlock.x + 14, districts.airlock.y + 35);
 
-            // Agora Core
             let agoraAngle1 = Date.now() * 0.0015;
             let agoraAngle2 = -Date.now() * 0.002;
 
@@ -682,17 +657,14 @@
             ctx.fillStyle = "#38bdf8"; ctx.font = "bold 9px sans-serif";
             ctx.fillText("CENTRAL AGORA", districts.agora.x - 36, districts.agora.y + 3);
 
-            // Render Citizens
             citizens.forEach(c => {
                 c.update();
                 c.draw();
             });
 
-            // UPDATE & DRAW FLOATING AI DRONE ADVISOR WITH SPEECH BUBBLES
             aiDrone.update();
             aiDrone.draw();
 
-            // Render Burst Particles
             for (let i = particles.length - 1; i >= 0; i--) {
                 let p = particles[i];
                 p.x += p.vx;
@@ -713,7 +685,6 @@
                 }
             }
 
-            // Render Floating Text
             for (let i = floatingTexts.length - 1; i >= 0; i--) {
                 let ft = floatingTexts[i];
                 ft.y += ft.dy;
@@ -732,8 +703,8 @@
                 }
             }
 
-            ctx.restore(); // Restore Clipping Mask
-            ctx.restore(); // Restore Screen Shake Transformation
+            ctx.restore();
+            ctx.restore();
 
             requestAnimationFrame(drawMap);
         }
@@ -746,7 +717,7 @@
             document.getElementById('bar-virtue').style.width = virtue + '%';
 
             document.getElementById('val-beast').innerText = `${beast} / 100`;
-            document.getElementById('bar-beast().style.width = beast + '%';
+            document.getElementById('bar-beast').style.width = beast + '%';
 
             let meanState = Math.abs(meanBalance) < 15 ? "Balanced (Golden Mean)" : (meanBalance > 0 ? "Excess Luxury" : "Severe Austerity");
             document.getElementById('val-mean').innerText = meanState;
@@ -759,7 +730,6 @@
             document.getElementById('cycle-counter').innerText = `Cycle: ${cycle} / ${MAX_CYCLES}`;
         }
 
-        // Executive Action Decrees with Live AI Drone Speeches
         function enactSolarium() {
             if (isGameOver) return;
             virtue = Math.min(100, virtue + 15);
