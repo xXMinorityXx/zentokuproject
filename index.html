@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,24 +7,58 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Tutorial / Onboarding Modal -->
+    <div id="tutorial-overlay" class="overlay">
+        <div class="modal">
+            <h2>Welcome to Astraea Station</h2>
+            <div class="modal-subtitle">Political Philosophy & Governance Simulator</div>
+            <div class="tutorial-body">
+                <p><strong>Mission Objective:</strong> Guide Astraea Station through 20 Cycles of extreme deep-space isolation without running out of Oxygen or collapsing into chaos.</p>
+                
+                <div class="tutorial-grid">
+                    <div class="tut-card">
+                        <h4>🏛️ Aristotle (Civic Virtue)</h4>
+                        <p>Keep virtue high by building community hubs where citizens enjoy artificial solar <em>apricity</em>. Low virtue turns citizens into "beasts," triggering riots.</p>
+                    </div>
+                    <div class="tut-card">
+                        <h4>⚔️ Hobbes (Sovereign Order)</h4>
+                        <p>Maintain absolute authority when life support fails. Enforce rationing or practice airlock <em>defenestration</em> to crush rebellion and preserve survival.</p>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-start" onclick="closeTutorial()">Begin Command</button>
+        </div>
+    </div>
+
+    <!-- Game Over / Victory Modal -->
+    <div id="end-overlay" class="overlay hidden">
+        <div class="modal">
+            <h2 id="end-title">Simulation Complete</h2>
+            <p id="end-message" class="end-desc"></p>
+            <button class="btn-start" onclick="restartGame()">Restart Simulation</button>
+        </div>
+    </div>
+
+    <!-- Main Header -->
     <header>
         <div>
             <h1>Astraea Station: Governance Simulation</h1>
-            <div class="subtitle">Political Philosophy Track 1 — Aristotle, Hobbes & Locke</div>
+            <div class="subtitle">Political Philosophy Track 1 — Aristotle vs. Hobbes</div>
         </div>
-        <div id="cycle-counter">Cycle: 1</div>
+        <div id="cycle-counter">Cycle: 1 / 20</div>
     </header>
 
     <div class="main-container">
         <!-- Visual Simulation Canvas -->
         <div class="viewport">
             <canvas id="colonyCanvas" width="560" height="420"></canvas>
+            <button class="btn-help" onclick="openTutorial()">? Tutorial</button>
         </div>
 
         <!-- Dashboard & Control Panel -->
         <div class="dashboard">
             <!-- Metrics Display -->
-            <div class="metric-card oxygen">
+            <div class="metric-card oxygen" title="Life Support: Reaching 0% results in immediate colony failure.">
                 <div class="metric-header">
                     <span class="metric-title">Life Support & Solar Apricity</span>
                     <span class="metric-value" id="val-oxygen">90%</span>
@@ -33,17 +66,17 @@
                 <div class="progress-bar"><div class="progress-fill" id="bar-oxygen" style="width: 90%;"></div></div>
             </div>
 
-            <div class="metric-card virtue">
+            <div class="metric-card virtue" title="Aristotelian Virtue: High virtue creates a functional Polis. Low virtue leads to bestial riots.">
                 <div class="metric-header">
-                    <span class="metric-title">Aristotelian Virtue (Polis vs. Beast)</span>
+                    <span class="metric-title">Aristotelian Virtue (Polis Index)</span>
                     <span class="metric-value" id="val-virtue">75 / 100</span>
                 </div>
                 <div class="progress-bar"><div class="progress-fill" id="bar-virtue" style="width: 75%;"></div></div>
             </div>
 
-            <div class="metric-card order">
+            <div class="metric-card order" title="Hobbesian Order: Measures Leviathan authority. Low order leads to vandalism and state of nature chaos.">
                 <div class="metric-header">
-                    <span class="metric-title">Hobbesian Sovereign Authority</span>
+                    <span class="metric-title">Hobbesian Sovereign Order</span>
                     <span class="metric-value" id="val-order">50%</span>
                 </div>
                 <div class="progress-bar"><div class="progress-fill" id="bar-order" style="width: 50%;"></div></div>
@@ -60,17 +93,17 @@
             <div class="actions-panel">
                 <h3>Executive Decrees</h3>
                 <div class="btn-grid">
-                    <button onclick="enactAristotle()">Construct Solarium Hub<br><small>(Aristotelian Virtue)</small></button>
-                    <button onclick="enactHobbes()">Sovereign Rationing<br><small>(Hobbesian Control)</small></button>
-                    <button onclick="enactLocke()">Private Hydroponics<br><small>(Lockean Property)</small></button>
-                    <button onclick="enactDefenestration()">Airlock Defenestration<br><small>(Purge Saboteurs)</small></button>
+                    <button onclick="enactAristotle()" title="Increases virtue by building community solarium centers. Uses 4% Oxygen.">Construct Solarium<br><small>(Aristotelian Virtue)</small></button>
+                    <button onclick="enactHobbes()" title="Increases order by imposing strict rationing. Reduces virtue by 10.">Sovereign Rationing<br><small>(Hobbesian Control)</small></button>
+                    <button onclick="enactLocke()" title="Grants private property ownership to hydroponic workers. Boosts stability.">Private Hydroponics<br><small>(Lockean Rights)</small></button>
+                    <button onclick="enactDefenestration()" title="Executes saboteurs via airlock defenestration. Greatly increases order, decreases virtue and population.">Airlock Defenestration<br><small>(Crush Rebellion)</small></button>
                 </div>
                 <button class="btn-advance" onclick="nextCycle()">Advance Turn / Cycle</button>
             </div>
 
             <!-- Event Log -->
             <div class="log-panel" id="logConsole">
-                <div class="log-entry">[SYSTEM] Astraea Habitat online. Governance parameters active.</div>
+                <div class="log-entry">[SYSTEM] Astraea Station online. Governance parameters active.</div>
             </div>
         </div>
     </div>
