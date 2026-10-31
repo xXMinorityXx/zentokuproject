@@ -16,7 +16,7 @@
             overflow: hidden;
         }
 
-        /* Modal / Tutorial Overlay */
+        /* Modal Overlays */
         .overlay {
             position: fixed;
             top: 0; left: 0;
@@ -210,7 +210,7 @@
                 <div class="progress-bar"><div class="progress-fill" id="bar-mean" style="width: 50%; background: #f59e0b;"></div></div>
             </div>
 
-            <div class="metric-card oxygen" title="Atmospheric Hydroponics: Life support resources needed for survival.">
+            <div class="metric-card oxygen" title="Hydroponic Atmosphere: Life support resources needed for survival.">
                 <div class="metric-header">
                     <span class="metric-title">Hydroponic Atmosphere</span>
                     <span class="metric-value" id="val-oxygen">85%</span>
@@ -372,7 +372,7 @@
         function enactHydroponics() {
             if (isGameOver) return;
             oxygen = Math.min(100, oxygen + 15);
-            meanBalance += 10; // Shift toward luxury/abundance
+            meanBalance += 10; // Shift toward abundance
             log(`Hydroponics harvest completed. Atmospheric oxygen replenished (+15%).`);
             updateUI();
         }
