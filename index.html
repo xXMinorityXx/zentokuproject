@@ -70,7 +70,7 @@
             box-shadow: 0 0 12px rgba(16, 185, 129, 0.25);
         }
 
-        /* Main Container Layout */
+        /* Layout */
         .main-container { display: flex; flex: 1; height: calc(100vh - 65px); }
         .viewport {
             flex: 2; position: relative; background: #02040a;
@@ -89,11 +89,11 @@
 
         /* Dashboard Side Panel */
         .dashboard {
-            flex: 1; min-width: 390px; background: #080c16;
-            padding: 16px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto;
+            flex: 1; min-width: 360px; background: #080c16;
+            padding: 16px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;
         }
         .metric-card {
-            background: #161f33; border-radius: 10px; padding: 10px 14px;
+            background: #161f33; border-radius: 10px; padding: 11px 15px;
             border-left: 4px solid #38bdf8; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
         .metric-card.virtue { border-left-color: #10b981; }
@@ -102,98 +102,29 @@
         .metric-card.oxygen { border-left-color: #0284c7; }
 
         .metric-header { display: flex; justify-content: space-between; align-items: center; }
-        .metric-title { font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 600; }
-        .metric-value { font-size: 1rem; font-weight: bold; color: #f8fafc; }
-        .progress-bar { height: 6px; background: #090d16; border-radius: 4px; margin-top: 6px; overflow: hidden; }
+        .metric-title { font-size: 0.76rem; text-transform: uppercase; color: #94a3b8; font-weight: 600; }
+        .metric-value { font-size: 1.05rem; font-weight: bold; color: #f8fafc; }
+        .progress-bar { height: 7px; background: #090d16; border-radius: 4px; margin-top: 7px; overflow: hidden; }
         .progress-fill { height: 100%; transition: width 0.4s ease, background 0.4s ease; }
 
         .actions-panel {
-            background: #111827; padding: 12px; border-radius: 10px; border: 1px solid #1e293b;
+            background: #111827; padding: 14px; border-radius: 10px; border: 1px solid #1e293b;
         }
-        .actions-panel h3 { font-size: 0.8rem; color: #38bdf8; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.8px; }
-        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+        .actions-panel h3 { font-size: 0.82rem; color: #38bdf8; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.8px; }
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
         button {
             background: #1e293b; color: #cbd5e1; border: 1px solid #334155;
-            padding: 8px 6px; border-radius: 7px; cursor: pointer; font-size: 0.76rem; line-height: 1.3;
+            padding: 10px 6px; border-radius: 7px; cursor: pointer; font-size: 0.78rem; line-height: 1.3;
             transition: all 0.2s ease;
         }
         button:hover { background: #25344d; color: #fff; border-color: #38bdf8; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2); }
-        button small { color: #64748b; font-size: 0.68rem; }
+        button small { color: #64748b; font-size: 0.7rem; }
         .btn-advance {
             width: 100%; background: linear-gradient(135deg, #0284c7, #0369a1); color: #ffffff; border: none;
-            padding: 11px; font-weight: bold; font-size: 0.85rem; text-transform: uppercase; border-radius: 7px;
+            padding: 12px; font-weight: bold; font-size: 0.88rem; text-transform: uppercase; border-radius: 7px;
             box-shadow: 0 0 15px rgba(2, 132, 199, 0.4);
         }
         .btn-advance:hover { background: linear-gradient(135deg, #0369a1, #075985); }
-
-        /* AI Philosopher Chatbot / Narrator UI Box */
-        .advisor-panel {
-            background: #0d1527;
-            border: 1px solid #1e293b;
-            border-radius: 10px;
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.1);
-        }
-        .avatar-box {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-bottom: 1px solid #1e293b;
-            padding-bottom: 8px;
-        }
-        .avatar-portrait {
-            position: relative;
-            width: 44px;
-            height: 44px;
-            background: #162238;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #38bdf8;
-            box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
-        }
-        .avatar-ring {
-            position: absolute;
-            top: -4px; left: -4px; right: -4px; bottom: -4px;
-            border: 2px dashed #0284c7;
-            border-radius: 50%;
-            animation: rotate-ring 12s linear infinite;
-        }
-        @keyframes rotate-ring { 100% { transform: rotate(360deg); } }
-        .avatar-emoji { font-size: 1.4rem; }
-        .avatar-info { display: flex; flex-direction: column; }
-        .avatar-title { font-weight: bold; font-size: 0.85rem; color: #38bdf8; letter-spacing: 0.8px; }
-        .avatar-status { font-size: 0.7rem; color: #10b981; font-family: monospace; }
-        
-        .speech-bubble {
-            background: #162035;
-            border: 1px solid #2b3a5a;
-            border-radius: 8px;
-            padding: 10px 12px;
-            font-size: 0.82rem;
-            line-height: 1.45;
-            color: #e2e8f0;
-            position: relative;
-            min-height: 58px;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
-        }
-        .speech-bubble span.highlight { color: #f59e0b; font-weight: bold; }
-        .speech-bubble span.theory { color: #10b981; font-style: italic; }
-
-        .log-history {
-            max-height: 80px;
-            overflow-y: auto;
-            font-family: monospace;
-            font-size: 0.72rem;
-            color: #64748b;
-            border-top: 1px dashed #1e293b;
-            padding-top: 6px;
-        }
-        .log-history-item { margin-bottom: 4px; }
     </style>
 </head>
 <body>
@@ -204,16 +135,16 @@
             <h2>Aristotle’s Outer Space Polis</h2>
             <div class="modal-subtitle">Political Philosophy Project Track 1</div>
             <div class="tut-text">
-                <p>Manage Astraea Station alongside your AI Governor <strong>ARISTOTLE-UNIT</strong>. According to Aristotle, humans living outside a community (the <strong>Polis</strong>) descend into <strong>beastliness</strong>.</p>
+                <p>Welcome to Astraea Station. Watch your floating AI Governor <strong>ARISTOTLE-AI</strong> bubble around the dome and speak directly to you through dynamic canvas speech bubbles!</p>
             </div>
             <div class="tut-grid">
                 <div class="tut-card">
-                    <h4>🏛️ Habitat Map & Avatar</h4>
-                    <p>Watch citizens travel between districts while your AI Advisor narrates political philosophy and station crises in real-time.</p>
+                    <h4>🤖 Live Floating AI Advisor</h4>
+                    <p>The AI drone floats across the habitat map, broadcasting philosophical updates and decree feedback above its head.</p>
                 </div>
                 <div class="tut-card">
                     <h4>⚖️ The Golden Mean</h4>
-                    <p>Balance luxury and austerity, generate hydroponic oxygen, and exile severe outlaws via airlock defenestration!</p>
+                    <p>Balance luxury and austerity, generate hydroponic oxygen, and exile outlaws via airlock defenestration!</p>
                 </div>
             </div>
             <button class="btn-start" onclick="closeTutorial()">Begin Governance</button>
@@ -232,8 +163,8 @@
     <!-- Header -->
     <header>
         <div>
-            <h1>The Aristotelian Polis: High-Visual Space Habitat</h1>
-            <div class="subtitle">AI Governor Narrative Chatbot & Interactive Simulation</div>
+            <h1>The Aristotelian Polis: Floating AI Narrator</h1>
+            <div class="subtitle">Canvas AI Speech Bubbles & Habitat Engine</div>
         </div>
         <div id="cycle-counter">Cycle: 1 / 20</div>
     </header>
@@ -246,6 +177,7 @@
                 <div class="legend-item"><span class="dot" style="background:#10b981; box-shadow:0 0 8px #10b981;"></span> Virtuous Citizen</div>
                 <div class="legend-item"><span class="dot" style="background:#f59e0b; box-shadow:0 0 8px #f59e0b;"></span> Soaking in Apricity</div>
                 <div class="legend-item"><span class="dot" style="background:#ef4444; box-shadow:0 0 8px #ef4444;"></span> Beastly Outlaw</div>
+                <div class="legend-item"><span class="dot" style="background:#38bdf8; box-shadow:0 0 8px #38bdf8;"></span> AI Drone Advisor</div>
             </div>
         </div>
 
@@ -293,26 +225,6 @@
                 </div>
                 <button class="btn-advance" onclick="nextCycle()">Advance Turn / Cycle</button>
             </div>
-
-            <!-- AI Philosopher Narrator Avatar Box -->
-            <div class="advisor-panel">
-                <div class="avatar-box">
-                    <div class="avatar-portrait">
-                        <div class="avatar-ring"></div>
-                        <span class="avatar-emoji">🤖</span>
-                    </div>
-                    <div class="avatar-info">
-                        <div class="avatar-title">ARISTOTLE-AI (GOVERNOR)</div>
-                        <div class="avatar-status">● SYSTEM MONITORING ONLINE</div>
-                    </div>
-                </div>
-                <div class="speech-bubble" id="speechText">
-                    "Greetings, Commander. Astraea Station is operational. Remember: 'Man is by nature a political animal.' Keep our Polis united!"
-                </div>
-                <div class="log-history" id="logHistory">
-                    <div class="log-history-item">[Cycle 1] Astraea Habitat initialized.</div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -324,7 +236,6 @@
         let meanBalance = 0;
         let oxygen = 85;
         let isGameOver = false;
-
         let shakeTime = 0;
 
         const canvas = document.getElementById('colonyCanvas');
@@ -334,7 +245,7 @@
         let particles = [];
         let stars = [];
 
-        // Background Starfield
+        // Generate Starfield
         for (let i = 0; i < 80; i++) {
             stars.push({
                 x: Math.random() * canvas.width,
@@ -354,7 +265,159 @@
             airlock: { x: 125, y: 265, w: 85, h: 60, name: "AIRLOCK", color: "#3b0f16", border: "#ef4444" }
         };
 
-        // Citizen Class with Particle Trail Engine
+        // FLOATING AI DRONE CLASS (BUBBLES AROUND SIMULATION CANVAS)
+        class AIDrone {
+            constructor() {
+                this.x = 280;
+                this.y = 170;
+                this.targetX = 280;
+                this.targetY = 170;
+                this.speed = 1.2;
+                this.bobAngle = 0;
+                this.speechText = "Greetings, Commander! I am ARISTOTLE-AI. I will narrate all events right here!";
+                this.speechTimer = 350; // Display timer frame count
+            }
+
+            setSpeech(text, duration = 300) {
+                this.speechText = text;
+                this.speechTimer = duration;
+            }
+
+            update() {
+                // Bobbing & Bubbling motion
+                this.bobAngle += 0.05;
+                let dx = this.targetX - this.x;
+                let dy = this.targetY - this.y;
+                let dist = Math.hypot(dx, dy);
+
+                if (dist > 5) {
+                    this.x += (dx / dist) * this.speed;
+                    this.y += (dy / dist) * this.speed;
+                } else {
+                    // Wander gently around central Agora or districts
+                    if (Math.random() < 0.02) {
+                        this.targetX = 280 + (Math.random() - 0.5) * 220;
+                        this.targetY = 210 + (Math.random() - 0.5) * 200;
+                    }
+                }
+
+                if (this.speechTimer > 0) this.speechTimer--;
+            }
+
+            draw() {
+                let floatY = this.y + Math.sin(this.bobAngle) * 4;
+
+                // Glowing Outer Aura
+                ctx.beginPath();
+                ctx.arc(this.x, floatY, 14, 0, Math.PI * 2);
+                ctx.fillStyle = "rgba(56, 189, 248, 0.25)";
+                ctx.fill();
+
+                // Holographic Body Shell
+                ctx.beginPath();
+                ctx.arc(this.x, floatY, 9, 0, Math.PI * 2);
+                ctx.fillStyle = "#38bdf8";
+                ctx.shadowColor = "#38bdf8";
+                ctx.shadowBlur = 12;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                ctx.strokeStyle = "#ffffff";
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+
+                // Inner Eye Lens
+                ctx.beginPath();
+                ctx.arc(this.x, floatY, 4, 0, Math.PI * 2);
+                ctx.fillStyle = "#0f172a";
+                ctx.fill();
+
+                // Robot Antenna
+                ctx.beginPath();
+                ctx.moveTo(this.x, floatY - 9);
+                ctx.lineTo(this.x, floatY - 15);
+                ctx.strokeStyle = "#38bdf8";
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(this.x, floatY - 16, 2.5, 0, Math.PI * 2);
+                ctx.fillStyle = "#f59e0b";
+                ctx.fill();
+
+                // DRAW SPEECH BUBBLE ON CANVAS
+                if (this.speechTimer > 0 && this.speechText) {
+                    this.drawSpeechBubble(floatY);
+                }
+            }
+
+            drawSpeechBubble(floatY) {
+                ctx.save();
+                ctx.font = "bold 10.5px sans-serif";
+                
+                // Wrap text lines
+                let words = this.speechText.split(' ');
+                let lines = [];
+                let currentLine = words[0];
+                let maxWidth = 190;
+
+                for (let i = 1; i < words.length; i++) {
+                    let testLine = currentLine + " " + words[i];
+                    let metrics = ctx.measureText(testLine);
+                    if (metrics.width > maxWidth) {
+                        lines.push(currentLine);
+                        currentLine = words[i];
+                    } else {
+                        currentLine = testLine;
+                    }
+                }
+                lines.push(currentLine);
+
+                let lineHeight = 13;
+                let padding = 10;
+                let boxWidth = Math.min(maxWidth + padding * 2, 210);
+                let boxHeight = lines.length * lineHeight + padding * 2;
+
+                let boxX = this.x - boxWidth / 2;
+                let boxY = floatY - boxHeight - 22;
+
+                // Keep speech bubble inside canvas boundaries
+                boxX = Math.max(15, Math.min(canvas.width - boxWidth - 15, boxX));
+                boxY = Math.max(15, Math.min(canvas.height - boxHeight - 15, boxY));
+
+                // Speech Box Background & Glow
+                ctx.fillStyle = "rgba(15, 23, 42, 0.94)";
+                ctx.strokeStyle = "#38bdf8";
+                ctx.lineWidth = 2;
+                ctx.shadowColor = "#38bdf8";
+                ctx.shadowBlur = 10;
+
+                ctx.beginPath();
+                ctx.roundRect(boxX, boxY, boxWidth, boxHeight, 8);
+                ctx.fill();
+                ctx.stroke();
+                ctx.shadowBlur = 0;
+
+                // Speech Bubble Pointer Tail
+                ctx.beginPath();
+                ctx.moveTo(this.x - 5, boxY + boxHeight);
+                ctx.lineTo(this.x, boxY + boxHeight + 7);
+                ctx.lineTo(this.x + 5, boxY + boxHeight);
+                ctx.fillStyle = "#38bdf8";
+                ctx.fill();
+
+                // Speech Text Render
+                ctx.fillStyle = "#ffffff";
+                for (let i = 0; i < lines.length; i++) {
+                    ctx.fillText(lines[i], boxX + padding, boxY + padding + (i + 1) * lineHeight - 3);
+                }
+
+                ctx.restore();
+            }
+        }
+
+        const aiDrone = new AIDrone();
+
+        // Citizen Class
         class Citizen {
             constructor() {
                 this.x = districts.agora.x + (Math.random() - 0.5) * 60;
@@ -372,7 +435,7 @@
                 if (this.state === 'exiled') return;
 
                 this.history.push({ x: this.x, y: this.y });
-                if (this.history.length > 6) this.history.shift();
+                if (this.history.length > 5) this.history.shift();
 
                 let dx = this.targetX - this.x;
                 let dy = this.targetY - this.y;
@@ -441,18 +504,6 @@
         }
         initCitizens();
 
-        function speak(formattedHtml) {
-            const bubble = document.getElementById('speechText');
-            bubble.innerHTML = formattedHtml;
-
-            const logHist = document.getElementById('logHistory');
-            const item = document.createElement('div');
-            item.className = 'log-history-item';
-            item.innerHTML = `[Cycle ${cycle}] ${formattedHtml.replace(/<[^>]*>?/gm, '')}`;
-            logHist.appendChild(item);
-            logHist.scrollTop = logHist.scrollHeight;
-        }
-
         function spawnFloatingText(text, x, y, color) {
             floatingTexts.push({ text, x, y, color, opacity: 1.0, dy: -0.9 });
         }
@@ -476,7 +527,7 @@
             shakeTime = duration;
         }
 
-        // Render Frame with Circular Dome Clipping Mask
+        // RENDER LOOP WITH DOME CLIPPING MASK
         function drawMap() {
             ctx.save();
 
@@ -489,7 +540,7 @@
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // 1. Starfield Background (Full Canvas)
+            // Background Starfield
             stars.forEach(s => {
                 s.alpha += s.speed;
                 let a = Math.abs(Math.sin(s.alpha));
@@ -499,7 +550,7 @@
                 ctx.fill();
             });
 
-            // 2. Dome Wall Border Outer Glow
+            // Outer Dome Border Glow
             let domeGlow = Math.sin(Date.now() * 0.003) * 5 + 14;
             ctx.strokeStyle = '#38bdf8';
             ctx.shadowColor = '#38bdf8';
@@ -511,12 +562,12 @@
             ctx.shadowBlur = 0;
 
             // =========================================================
-            // CRITICAL FIX: CIRCULAR CLIPPING MASK TO PREVENT EFFECTS CUT-OFF
+            // DOME CLIPPING MASK (PREVENTS CUT-OFF EFFECTS OUTSIDE DOME)
             // =========================================================
             ctx.save();
             ctx.beginPath();
             ctx.arc(280, 210, 192, 0, Math.PI * 2);
-            ctx.clip(); // All drawings below will be strictly contained inside habitat!
+            ctx.clip();
 
             // Holographic Grid Floor
             ctx.strokeStyle = "rgba(56, 189, 248, 0.04)";
@@ -538,7 +589,7 @@
             ctx.moveTo(districts.agora.x, districts.agora.y); ctx.lineTo(districts.airlock.x + 42, districts.airlock.y + 30);
             ctx.stroke();
 
-            // Solarium Apricity Solar Heat Rays
+            // Solarium Apricity Rays
             let time = Date.now() * 0.002;
             ctx.save();
             ctx.translate(districts.solarium.x + 52, districts.solarium.y + 30);
@@ -637,7 +688,11 @@
                 c.draw();
             });
 
-            // Particles
+            // UPDATE & DRAW FLOATING AI DRONE ADVISOR WITH SPEECH BUBBLES
+            aiDrone.update();
+            aiDrone.draw();
+
+            // Render Burst Particles
             for (let i = particles.length - 1; i >= 0; i--) {
                 let p = particles[i];
                 p.x += p.vx;
@@ -658,7 +713,7 @@
                 }
             }
 
-            // Floating Text
+            // Render Floating Text
             for (let i = floatingTexts.length - 1; i >= 0; i--) {
                 let ft = floatingTexts[i];
                 ft.y += ft.dy;
@@ -691,7 +746,7 @@
             document.getElementById('bar-virtue').style.width = virtue + '%';
 
             document.getElementById('val-beast').innerText = `${beast} / 100`;
-            document.getElementById('bar-beast').style.width = beast + '%';
+            document.getElementById('bar-beast().style.width = beast + '%';
 
             let meanState = Math.abs(meanBalance) < 15 ? "Balanced (Golden Mean)" : (meanBalance > 0 ? "Excess Luxury" : "Severe Austerity");
             document.getElementById('val-mean').innerText = meanState;
@@ -704,15 +759,19 @@
             document.getElementById('cycle-counter').innerText = `Cycle: ${cycle} / ${MAX_CYCLES}`;
         }
 
-        // Action Decrees with Chatbot Narration
+        // Executive Action Decrees with Live AI Drone Speeches
         function enactSolarium() {
             if (isGameOver) return;
             virtue = Math.min(100, virtue + 15);
             beast = Math.max(0, beast - 10);
             oxygen = Math.max(0, oxygen - 3);
 
+            aiDrone.targetX = districts.solarium.x + 52;
+            aiDrone.targetY = districts.solarium.y + 30;
+            aiDrone.setSpeech("Citizens are soaking in artificial solar apricity! Aristotle noted communal warmth builds the Polis!");
+
             spawnBurstParticles(districts.solarium.x + 52, districts.solarium.y + 30, '#f59e0b', 25, 1.2);
-            spawnFloatingText("Apricity Solar Rays! ☀️ +15 Virtue", districts.solarium.x - 10, districts.solarium.y - 12, '#f59e0b');
+            spawnFloatingText("Apricity Rays! ☀️ +15 Virtue", districts.solarium.x - 10, districts.solarium.y - 12, '#f59e0b');
 
             citizens.forEach(c => {
                 if (c.state !== 'beast' && c.state !== 'exiled') {
@@ -721,8 +780,6 @@
                     c.targetY = districts.solarium.y + 15 + Math.random() * 30;
                 }
             });
-
-            speak(`"Commander, citizens have gathered in the Solarium to bask in the radiant <span class='highlight'>apricity</span> of our solar lamps. <span class='theory'>Aristotle noted that communal warmth builds the bonds of the Polis!</span>"`);
             updateUI();
         }
 
@@ -731,8 +788,12 @@
             virtue = Math.min(100, virtue + 10);
             meanBalance = meanBalance > 0 ? Math.max(0, meanBalance - 15) : Math.min(0, meanBalance + 15);
 
+            aiDrone.targetX = districts.lyceum.x + 52;
+            aiDrone.targetY = districts.lyceum.y + 30;
+            aiDrone.setSpeech("Philosophical debate in the Lyceum! Virtue is a habit perfected by the Golden Mean.");
+
             spawnBurstParticles(districts.lyceum.x + 52, districts.lyceum.y + 30, '#10b981', 25, 1.2);
-            spawnFloatingText("Academy Philosophical Debate! 🏛️", districts.lyceum.x - 10, districts.lyceum.y - 12, '#10b981');
+            spawnFloatingText("Academy Debate! 🏛️", districts.lyceum.x - 10, districts.lyceum.y - 12, '#10b981');
 
             citizens.forEach(c => {
                 if (c.state !== 'beast' && c.state !== 'exiled') {
@@ -741,8 +802,6 @@
                     c.targetY = districts.lyceum.y + 15 + Math.random() * 30;
                 }
             });
-
-            speak(`"Philosophical debate hosted in the Lyceum! <span class='theory'>Aristotle taught that virtue is a habit perfected by moral deliberation and guided by the Golden Mean.</span>"`);
             updateUI();
         }
 
@@ -751,10 +810,13 @@
             oxygen = Math.min(100, oxygen + 15);
             meanBalance += 10;
 
-            spawnBurstParticles(districts.hydroponics.x + 57, districts.hydroponics.y + 30, '#0284c7', 30, 1.4);
-            spawnFloatingText("+15% Hydroponic Oxygen Replenished! 🌱", districts.hydroponics.x - 20, districts.hydroponics.y - 12, '#0284c7');
+            aiDrone.targetX = districts.hydroponics.x + 57;
+            aiDrone.targetY = districts.hydroponics.y + 30;
+            aiDrone.setSpeech("Hydroponics harvest complete! +15% Atmospheric Oxygen generated for our citizens.");
 
-            speak(`"Atmospheric harvest completed! +15% Oxygen generated for our habitat commons."`);
+            spawnBurstParticles(districts.hydroponics.x + 57, districts.hydroponics.y + 30, '#0284c7', 30, 1.4);
+            spawnFloatingText("+15% Hydroponic Oxygen! 🌱", districts.hydroponics.x - 20, districts.hydroponics.y - 12, '#0284c7');
+
             updateUI();
         }
 
@@ -769,16 +831,18 @@
                 beastCitizen.targetX = districts.airlock.x + 42;
                 beastCitizen.targetY = districts.airlock.y + 30;
 
+                aiDrone.targetX = districts.airlock.x + 42;
+                aiDrone.targetY = districts.airlock.y - 10;
+                aiDrone.setSpeech("AIRLOCK DEFENESTRATION! Aristotle: 'He who lives outside society is either a beast or a god!'");
+
                 setTimeout(() => {
                     triggerScreenShake(14);
                     spawnBurstParticles(districts.airlock.x + 42, districts.airlock.y + 30, '#ef4444', 40, 2.0);
                     spawnFloatingText("DEFENESTRATED! 🚀 Airlock Vacuum Exile", districts.airlock.x - 30, districts.airlock.y - 15, '#ef4444');
                     beastCitizen.state = 'exiled';
                 }, 750);
-
-                speak(`"A violent outlaw threatening life-support faced immediate airlock <span class='highlight'>defenestration</span> into outer space! <span class='theory'>Aristotle warned: 'He who is unable to live in society is either a beast or a god.'</span>"`);
             } else {
-                speak(`"Notice: No bestial offenders currently warrant airlock defenestration."`);
+                aiDrone.setSpeech("No dangerous beastly outlaws require airlock defenestration at this time.");
             }
             updateUI();
         }
@@ -801,7 +865,7 @@
                         converted++;
                     }
                 });
-                speak(`"WARNING: Civic virtue is low! Without communal life in the Polis, citizens are regressing into bestial outlaws."`);
+                aiDrone.setSpeech(`WARNING: Low Civic Virtue! Deprived of community, citizens regress into bestial outlaws!`);
             } else {
                 beast = Math.max(0, beast - 5);
                 citizens.forEach(c => {
@@ -811,7 +875,7 @@
                         c.targetY = districts.agora.y + (Math.random() - 0.5) * 50;
                     }
                 });
-                speak(`"Cycle ${cycle} under way. Atmosphere level: ${oxygen}%. Maintain balance in our Aristotelian Polis."`);
+                aiDrone.setSpeech(`Advanced to Cycle ${cycle}! Oxygen level: ${oxygen}%. Keep the Polis united!`);
             }
 
             updateUI();
@@ -848,8 +912,8 @@
             cycle = 1; virtue = 80; beast = 15; meanBalance = 0; oxygen = 85; isGameOver = false;
             initCitizens();
             document.getElementById('end-overlay').classList.add('hidden');
-            document.getElementById('logHistory').innerHTML = '<div class="log-history-item">[Cycle 1] Aristotle Polis map reset.</div>';
-            speak(`"Re-initializing Astraea Station under Aristotelian governance protocols."`);
+            aiDrone.targetX = 280; aiDrone.targetY = 170;
+            aiDrone.setSpeech("Astraea Station re-initialized! Lead our Aristotelian Polis to Cycle 20!");
             updateUI();
         }
     </script>
