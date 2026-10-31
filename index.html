@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Aristotelian Polis: Space Colony Simulator</title>
+    <title>Astraea Station: Aristotle's Space Polis</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: #060913;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #050814;
             color: #e2e8f0;
             display: flex;
             flex-direction: column;
@@ -16,12 +16,12 @@
             overflow: hidden;
         }
 
-        /* Modal Overlays */
+        /* Modal Screens */
         .overlay {
             position: fixed;
             top: 0; left: 0;
             width: 100vw; height: 100vh;
-            background: rgba(3, 7, 18, 0.88);
+            background: rgba(3, 7, 18, 0.9);
             backdrop-filter: blur(8px);
             display: flex;
             align-items: center;
@@ -31,12 +31,12 @@
         .overlay.hidden { display: none; }
         .modal {
             background: #0f172a;
-            border: 2px solid #1e293b;
+            border: 2px solid #38bdf8;
             border-radius: 12px;
             padding: 24px 32px;
-            max-width: 580px;
+            max-width: 560px;
             width: 90%;
-            box-shadow: 0 0 35px rgba(56, 189, 248, 0.2);
+            box-shadow: 0 0 35px rgba(56, 189, 248, 0.25);
             text-align: center;
         }
         .modal h2 { color: #38bdf8; font-size: 1.6rem; margin-bottom: 6px; }
@@ -45,7 +45,7 @@
         .tut-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; text-align: left; }
         .tut-card { background: #1e293b; padding: 12px; border-radius: 8px; border-left: 3px solid #38bdf8; }
         .tut-card h4 { font-size: 0.85rem; color: #f59e0b; margin-bottom: 4px; }
-        .tut-card p { font-size: 0.78rem; color: #94a3b8; }
+        .tut-card p { font-size: 0.78rem; color: #94a3b8; margin: 0; }
         .btn-start {
             background: #0284c7; color: #fff; border: none; padding: 12px 28px;
             font-size: 0.95rem; font-weight: bold; border-radius: 6px; cursor: pointer;
@@ -53,7 +53,7 @@
         }
         .btn-start:hover { background: #0369a1; }
 
-        /* UI Header */
+        /* Header UI */
         header {
             background: #0f172a;
             padding: 12px 24px;
@@ -69,31 +69,31 @@
             background: #1e293b; padding: 6px 14px; border-radius: 6px; border: 1px solid #334155;
         }
 
-        /* Layout */
+        /* Main Container Layout */
         .main-container { display: flex; flex: 1; height: calc(100vh - 65px); }
         .viewport {
             flex: 2; position: relative; background: #020617;
-            display: flex; align-items: center; justify-content: center;
-            border-right: 2px solid #1e293b; padding: 20px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border-right: 2px solid #1e293b; padding: 15px;
         }
         canvas {
             border: 2px solid #1e293b; border-radius: 12px;
             box-shadow: 0 0 25px rgba(56, 189, 248, 0.1); background: #090d16;
         }
-        .btn-help {
-            position: absolute; top: 15px; right: 15px;
-            background: #1e293b; color: #38bdf8; border: 1px solid #334155;
-            padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; cursor: pointer;
+        .legend {
+            display: flex; gap: 15px; margin-top: 10px; font-size: 0.75rem; color: #94a3b8;
         }
+        .legend-item { display: flex; align-items: center; gap: 5px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
 
-        /* Dashboard Panel */
+        /* Dashboard Side Panel */
         .dashboard {
             flex: 1; min-width: 380px; background: #0b0f19;
             padding: 16px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto;
         }
         .metric-card {
             background: #1e293b; border-radius: 8px; padding: 10px 14px;
-            border-left: 4px solid #38bdf8; cursor: help;
+            border-left: 4px solid #38bdf8;
         }
         .metric-card.virtue { border-left-color: #10b981; }
         .metric-card.beast { border-left-color: #ef4444; }
@@ -102,9 +102,9 @@
 
         .metric-header { display: flex; justify-content: space-between; align-items: center; }
         .metric-title { font-size: 0.76rem; text-transform: uppercase; color: #94a3b8; font-weight: 600; }
-        .metric-value { font-size: 1.1rem; font-weight: bold; color: #f8fafc; }
+        .metric-value { font-size: 1.05rem; font-weight: bold; color: #f8fafc; }
         .progress-bar { height: 6px; background: #090d16; border-radius: 4px; margin-top: 6px; overflow: hidden; }
-        .progress-fill { height: 100%; transition: width 0.4s ease, background 0.4s ease; }
+        .progress-fill { height: 100%; transition: width 0.4s ease; }
 
         .actions-panel {
             background: #131d31; padding: 12px; border-radius: 8px; border: 1px solid #1e293b;
@@ -127,7 +127,7 @@
         .log-panel {
             flex: 1; background: #020617; border: 1px solid #1e293b; border-radius: 6px;
             padding: 10px; font-family: 'Consolas', monospace; font-size: 0.76rem;
-            overflow-y: auto; max-height: 160px;
+            overflow-y: auto; max-height: 150px;
         }
         .log-entry { margin-bottom: 6px; border-bottom: 1px solid #0f172a; padding-bottom: 4px; color: #94a3b8; }
         .log-entry span.keyword { color: #f59e0b; font-weight: bold; }
@@ -136,29 +136,29 @@
 </head>
 <body>
 
-    <!-- Onboarding Tutorial Modal -->
+    <!-- Onboarding Tutorial -->
     <div id="tutorial-overlay" class="overlay">
         <div class="modal">
             <h2>Aristotle’s Outer Space Polis</h2>
-            <div class="modal-subtitle">Political Philosophy Project Track 1</div>
+            <div class="modal-subtitle">Political Philosophy Track 1</div>
             <div class="tut-text">
-                <p>Aristotle posited that <em>"Man is by nature a political animal."</em> Anyone who lives outside of a community (the <strong>Polis</strong>) is either a <strong>beast</strong> or a <strong>god</strong>.</p>
+                <p>In this simulation, you manage an isolated space habitat based on Aristotle's political philosophy. Aristotle taught that humans living outside a community (the <strong>Polis</strong>) revert to <strong>beasts</strong>.</p>
             </div>
             <div class="tut-grid">
                 <div class="tut-card">
-                    <h4>🏛️ Civic Virtue & The Polis</h4>
-                    <p>Build Lyceums and Solarium decks to foster community. High virtue prevents citizens from descending into bestial behavior.</p>
+                    <h4>🏛️ Map & Citizens</h4>
+                    <p>Watch citizens travel between the Agora, Lyceum, Solarium, and Hydroponics. Virtuous citizens gather together; beastly outlaws wander the outer rim.</p>
                 </div>
                 <div class="tut-card">
                     <h4>⚖️ The Golden Mean</h4>
-                    <p>Maintain balance between Extreme Luxury and Extreme Austerity. Imbalance breeds social decay.</p>
+                    <p>Keep moderation between luxury and austerity while maintaining hydroponic oxygen levels to reach Cycle 20.</p>
                 </div>
             </div>
-            <button class="btn-start" onclick="closeTutorial()">Begin Governance</button>
+            <button class="btn-start" onclick="closeTutorial()">Start Governance</button>
         </div>
     </div>
 
-    <!-- Game End Modal -->
+    <!-- Game Over Screen -->
     <div id="end-overlay" class="overlay hidden">
         <div class="modal">
             <h2 id="end-title">Simulation Complete</h2>
@@ -167,26 +167,29 @@
         </div>
     </div>
 
-    <!-- Main Header -->
+    <!-- Header -->
     <header>
         <div>
-            <h1>The Aristotelian Polis: Colony Governance</h1>
-            <div class="subtitle">Focus: Aristotle's <em>Polis</em>, Civic Virtue, & Eudaimonia</div>
+            <h1>The Aristotelian Polis: Space Colony</h1>
+            <div class="subtitle">Interactive Map & Philosophical Governance</div>
         </div>
         <div id="cycle-counter">Cycle: 1 / 20</div>
     </header>
 
     <div class="main-container">
-        <!-- Visual Simulation Canvas -->
+        <!-- Interactive Station Map -->
         <div class="viewport">
             <canvas id="colonyCanvas" width="560" height="420"></canvas>
-            <button class="btn-help" onclick="openTutorial()">? Help</button>
+            <div class="legend">
+                <div class="legend-item"><span class="dot" style="background:#10b981;"></span> Virtuous Citizen (In Polis)</div>
+                <div class="legend-item"><span class="dot" style="background:#f59e0b;"></span> Soaking in Apricity</div>
+                <div class="legend-item"><span class="dot" style="background:#ef4444;"></span> Beastly Outlaw (Isolated)</div>
+            </div>
         </div>
 
-        <!-- Dashboard Panel -->
+        <!-- Control Dashboard -->
         <div class="dashboard">
-            <!-- Metrics -->
-            <div class="metric-card virtue" title="Civic Virtue: High virtue reflects a functioning Aristotelian Polis.">
+            <div class="metric-card virtue">
                 <div class="metric-header">
                     <span class="metric-title">Civic Virtue (Polis Index)</span>
                     <span class="metric-value" id="val-virtue">80 / 100</span>
@@ -194,15 +197,15 @@
                 <div class="progress-bar"><div class="progress-fill" id="bar-virtue" style="width: 80%; background: #10b981;"></div></div>
             </div>
 
-            <div class="metric-card beast" title="Beastliness Index: High values indicate citizens isolated from law, acting on bestial instincts.">
+            <div class="metric-card beast">
                 <div class="metric-header">
-                    <span class="metric-title">Bestial Behavior Index</span>
+                    <span class="metric-title">Beastliness Index</span>
                     <span class="metric-value" id="val-beast">15 / 100</span>
                 </div>
                 <div class="progress-bar"><div class="progress-fill" id="bar-beast" style="width: 15%; background: #ef4444;"></div></div>
             </div>
 
-            <div class="metric-card mean" title="Golden Mean Balance: Measures moderation vs extremes (Luxury vs Austerity).">
+            <div class="metric-card mean">
                 <div class="metric-header">
                     <span class="metric-title">The Golden Mean (Moderation)</span>
                     <span class="metric-value" id="val-mean">Balanced</span>
@@ -210,7 +213,7 @@
                 <div class="progress-bar"><div class="progress-fill" id="bar-mean" style="width: 50%; background: #f59e0b;"></div></div>
             </div>
 
-            <div class="metric-card oxygen" title="Hydroponic Atmosphere: Life support resources needed for survival.">
+            <div class="metric-card oxygen">
                 <div class="metric-header">
                     <span class="metric-title">Hydroponic Atmosphere</span>
                     <span class="metric-value" id="val-oxygen">85%</span>
@@ -218,21 +221,19 @@
                 <div class="progress-bar"><div class="progress-fill" id="bar-oxygen" style="width: 85%; background: #0284c7;"></div></div>
             </div>
 
-            <!-- Decrees -->
             <div class="actions-panel">
                 <h3>Polis Decrees</h3>
                 <div class="btn-grid">
-                    <button onclick="enactSolarium()" title="Builds Solarium deck for citizens to soak in artificial solar apricity. Boosts Civic Virtue.">Solarium Apricity<br><small>(Build Solarium Deck)</small></button>
-                    <button onclick="enactLyceum()" title="Establishes a Lyceum for philosophical debate. Restores Golden Mean Balance.">Aristotelian Lyceum<br><small>(Promote Philosophy)</small></button>
-                    <button onclick="enactHydroponics()" title="Cultivates commons garden to regenerate oxygen and food.">Hydroponic Commons<br><small>(Regenerate Oxygen)</small></button>
-                    <button onclick="enactDefenestration()" title="Exiles unrepentant bestial violent offenders outside the station airlock. Restores order.">Airlock Defenestration<br><small>(Punish Beastly Outlaws)</small></button>
+                    <button onclick="enactSolarium()">Solarium Apricity<br><small>(Gather citizens for heat)</small></button>
+                    <button onclick="enactLyceum()">Aristotelian Lyceum<br><small>(Debate virtue/ethics)</small></button>
+                    <button onclick="enactHydroponics()">Hydroponic Commons<br><small>(Generate oxygen)</small></button>
+                    <button onclick="enactDefenestration()">Airlock Defenestration<br><small>(Exile worst outlaw)</small></button>
                 </div>
                 <button class="btn-advance" onclick="nextCycle()">Advance Turn / Cycle</button>
             </div>
 
-            <!-- Log Console -->
             <div class="log-panel" id="logConsole">
-                <div class="log-entry">[SYSTEM] Aristotle's Polis online. Citizens gathered in communal habitat.</div>
+                <div class="log-entry">[SYSTEM] Aristotle's Polis visual map online.</div>
             </div>
         </div>
     </div>
@@ -240,88 +241,131 @@
     <script>
         const MAX_CYCLES = 20;
         let cycle = 1;
-        let virtue = 80;    // Aristotle Polis Virtue
-        let beast = 15;     // Beastliness (Isolation/Lawlessness)
-        let meanBalance = 0; // -50 (Extreme Austerity) to +50 (Extreme Luxury)
+        let virtue = 80;
+        let beast = 15;
+        let meanBalance = 0;
         let oxygen = 85;
-        let population = 35;
         let isGameOver = false;
 
         const canvas = document.getElementById('colonyCanvas');
         const ctx = canvas.getContext('2d');
 
-        // Citizens visually moving inside dome
+        // Defined Districts on the Canvas Map
+        const districts = {
+            agora: { x: 280, y: 210, r: 45, name: "AGORA (Polis Center)", color: "#1e293b", border: "#38bdf8" },
+            solarium: { x: 160, y: 130, w: 90, h: 50, name: "SOLARIUM (Apricity)", color: "#3a2e10", border: "#f59e0b" },
+            lyceum: { x: 310, y: 120, w: 90, h: 50, name: "LYCEUM (Academy)", color: "#062e24", border: "#10b981" },
+            hydroponics: { x: 310, y: 280, w: 100, h: 50, name: "HYDROPONICS", color: "#072738", border: "#0284c7" },
+            airlock: { x: 140, y: 280, w: 70, h: 50, name: "AIRLOCK", color: "#3b1016", border: "#ef4444" }
+        };
+
+        // Citizen Object Definition
         let citizens = [];
         function initCitizens() {
             citizens = [];
-            for (let i = 0; i < 30; i++) {
+            for (let i = 0; i < 24; i++) {
                 citizens.push({
-                    x: Math.random() * 340 + 110,
-                    y: Math.random() * 240 + 90,
-                    vx: (Math.random() - 0.5) * 1.5,
-                    vy: (Math.random() - 0.5) * 1.5
+                    x: districts.agora.x + (Math.random() - 0.5) * 60,
+                    y: districts.agora.y + (Math.random() - 0.5) * 60,
+                    targetX: districts.agora.x,
+                    targetY: districts.agora.y,
+                    state: 'virtuous', // 'virtuous', 'apricity', 'beast'
+                    speed: 0.8 + Math.random() * 0.8
                 });
             }
         }
         initCitizens();
 
-        // Canvas Visual Drawing
-        function drawColony() {
+        // Canvas Map Drawing Loop
+        function drawMap() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // 1. Habitat Glass Dome (The Polis)
-            ctx.strokeStyle = '#334155';
-            ctx.lineWidth = 5;
+            // Outer Colony Dome Wall
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 6;
             ctx.beginPath();
-            ctx.arc(280, 210, 185, 0, Math.PI * 2);
+            ctx.arc(280, 210, 195, 0, Math.PI * 2);
             ctx.stroke();
 
-            // 2. Central Agora / Solarium
-            ctx.fillStyle = '#1e293b';
-            ctx.fillRect(230, 160, 100, 100);
-            ctx.strokeStyle = '#f59e0b';
-            ctx.strokeRect(230, 160, 100, 100);
-            ctx.fillStyle = '#f59e0b';
-            ctx.font = 'bold 10px sans-serif';
-            ctx.fillText('AGORA & SOLARIUM', 234, 215);
+            // Draw Solarium Building
+            ctx.fillStyle = districts.solarium.color;
+            ctx.fillRect(districts.solarium.x, districts.solarium.y, districts.solarium.w, districts.solarium.h);
+            ctx.strokeStyle = districts.solarium.border; ctx.lineWidth = 2;
+            ctx.strokeRect(districts.solarium.x, districts.solarium.y, districts.solarium.w, districts.solarium.h);
+            ctx.fillStyle = "#f59e0b"; ctx.font = "bold 9px sans-serif";
+            ctx.fillText(districts.solarium.name, districts.solarium.x + 4, districts.solarium.y + 28);
 
-            // 3. Lyceum (Academy of Virtue)
-            ctx.fillStyle = '#0f172a';
-            ctx.fillRect(120, 110, 80, 50);
-            ctx.fillStyle = '#10b981';
-            ctx.fillText('LYCEUM', 138, 138);
+            // Draw Lyceum Building
+            ctx.fillStyle = districts.lyceum.color;
+            ctx.fillRect(districts.lyceum.x, districts.lyceum.y, districts.lyceum.w, districts.lyceum.h);
+            ctx.strokeStyle = districts.lyceum.border;
+            ctx.strokeRect(districts.lyceum.x, districts.lyceum.y, districts.lyceum.w, districts.lyceum.h);
+            ctx.fillStyle = "#10b981";
+            ctx.fillText(districts.lyceum.name, districts.lyceum.x + 6, districts.lyceum.y + 28);
 
-            // 4. Hydroponics Commons
-            ctx.fillStyle = '#0f172a';
-            ctx.fillRect(360, 260, 85, 50);
-            ctx.fillStyle = '#0284c7';
-            ctx.fillText('HYDROPONICS', 365, 288);
+            // Draw Hydroponics Module
+            ctx.fillStyle = districts.hydroponics.color;
+            ctx.fillRect(districts.hydroponics.x, districts.hydroponics.y, districts.hydroponics.w, districts.hydroponics.h);
+            ctx.strokeStyle = districts.hydroponics.border;
+            ctx.strokeRect(districts.hydroponics.x, districts.hydroponics.y, districts.hydroponics.w, districts.hydroponics.h);
+            ctx.fillStyle = "#0284c7";
+            ctx.fillText(districts.hydroponics.name, districts.hydroponics.x + 12, districts.hydroponics.y + 28);
 
-            // 5. Render Citizen Particles
+            // Draw Airlock Exit
+            ctx.fillStyle = districts.airlock.color;
+            ctx.fillRect(districts.airlock.x, districts.airlock.y, districts.airlock.w, districts.airlock.h);
+            ctx.strokeStyle = districts.airlock.border;
+            ctx.strokeRect(districts.airlock.x, districts.airlock.y, districts.airlock.w, districts.airlock.h);
+            ctx.fillStyle = "#ef4444";
+            ctx.fillText(districts.airlock.name, districts.airlock.x + 12, districts.airlock.y + 28);
+
+            // Draw Central Agora / Polis Hub
+            ctx.fillStyle = districts.agora.color;
+            ctx.beginPath();
+            ctx.arc(districts.agora.x, districts.agora.y, districts.agora.r, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = districts.agora.border;
+            ctx.stroke();
+            ctx.fillStyle = "#38bdf8";
+            ctx.fillText("CENTRAL AGORA", districts.agora.x - 38, districts.agora.y + 3);
+
+            // Update & Draw Citizens
             citizens.forEach(c => {
-                c.x += c.vx;
-                c.y += c.vy;
+                // Move towards assigned target location on map
+                let dx = c.targetX - c.x;
+                let dy = c.targetY - c.y;
+                let dist = Math.hypot(dx, dy);
 
-                let dist = Math.hypot(c.x - 280, c.y - 210);
-                if (dist > 170) {
-                    c.vx *= -1;
-                    c.vy *= -1;
+                if (dist > 3) {
+                    c.x += (dx / dist) * c.speed;
+                    c.y += (dy / dist) * c.speed;
+                } else {
+                    // Random slight movement around their current district
+                    c.targetX += (Math.random() - 0.5) * 20;
+                    c.targetY += (Math.random() - 0.5) * 20;
                 }
 
-                // Particle Color based on Aristotelian State (Virtuous vs Beastly)
-                let color = beast > 50 ? '#ef4444' : (virtue > 70 ? '#10b981' : '#38bdf8');
-
-                ctx.fillStyle = color;
+                // Render Citizen Marker based on Aristotelian State
                 ctx.beginPath();
-                ctx.arc(c.x, c.y, 4.5, 0, Math.PI * 2);
+                ctx.arc(c.x, c.y, 5, 0, Math.PI * 2);
+
+                if (c.state === 'beast') {
+                    ctx.fillStyle = '#ef4444'; // Red = Isolated Beast
+                } else if (c.state === 'apricity') {
+                    ctx.fillStyle = '#f59e0b'; // Gold = Basking in Apricity
+                } else {
+                    ctx.fillStyle = '#10b981'; // Green = Virtuous Citizen in Polis
+                }
                 ctx.fill();
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 1;
+                ctx.stroke();
             });
 
-            requestAnimationFrame(drawColony);
+            requestAnimationFrame(drawMap);
         }
-        drawColony();
+        drawMap();
 
-        function openTutorial() { document.getElementById('tutorial-overlay').classList.remove('hidden'); }
         function closeTutorial() { document.getElementById('tutorial-overlay').classList.add('hidden'); }
 
         function log(msg) {
@@ -351,13 +395,23 @@
             document.getElementById('cycle-counter').innerText = `Cycle: ${cycle} / ${MAX_CYCLES}`;
         }
 
-        // Action Decrees
+        // Action Buttons & Citizen Map Behaviors
         function enactSolarium() {
             if (isGameOver) return;
             virtue = Math.min(100, virtue + 15);
             beast = Math.max(0, beast - 10);
             oxygen = Math.max(0, oxygen - 3);
-            log(`Citizens gather in the Solarium deck, relaxing under the warm artificial <span class="keyword">apricity</span> of radiant solar lamps. <span class="theory">Aristotle: Community strengthens the Polis.</span>`);
+
+            // Move citizens visually to Solarium
+            citizens.forEach(c => {
+                if (c.state !== 'beast') {
+                    c.state = 'apricity';
+                    c.targetX = districts.solarium.x + 20 + Math.random() * 50;
+                    c.targetY = districts.solarium.y + 15 + Math.random() * 20;
+                }
+            });
+
+            log(`Citizens gather in the Solarium, soaking in artificial solar <span class="keyword">apricity</span>. <span class="theory">Aristotle: Community strengthens the Polis.</span>`);
             updateUI();
         }
 
@@ -365,27 +419,45 @@
             if (isGameOver) return;
             virtue = Math.min(100, virtue + 10);
             meanBalance = meanBalance > 0 ? Math.max(0, meanBalance - 15) : Math.min(0, meanBalance + 15);
-            log(`Debates conducted in the Lyceum centered on moral virtue. <span class="theory">Aristotle: Virtue is a habit guided by the Golden Mean.</span>`);
+
+            citizens.forEach(c => {
+                if (c.state !== 'beast') {
+                    c.state = 'virtuous';
+                    c.targetX = districts.lyceum.x + 20 + Math.random() * 50;
+                    c.targetY = districts.lyceum.y + 15 + Math.random() * 20;
+                }
+            });
+
+            log(`Philosophical debates held at the Lyceum. <span class="theory">Aristotle: Virtue is guided by the Golden Mean.</span>`);
             updateUI();
         }
 
         function enactHydroponics() {
             if (isGameOver) return;
             oxygen = Math.min(100, oxygen + 15);
-            meanBalance += 10; // Shift toward abundance
-            log(`Hydroponics harvest completed. Atmospheric oxygen replenished (+15%).`);
+            meanBalance += 10;
+
+            log(`Hydroponics commons harvested. Atmospheric oxygen replenished (+15%).`);
             updateUI();
         }
 
         function enactDefenestration() {
             if (isGameOver) return;
-            if (beast > 20) {
+            let beastIdx = citizens.findIndex(c => c.state === 'beast');
+            if (beastIdx !== -1 || beast > 20) {
                 beast = Math.max(0, beast - 25);
                 virtue = Math.min(100, virtue + 5);
-                citizens.pop();
-                log(`A violent, unrepentant outcast who attacked station life support faced emergency airlock <span class="keyword">defenestration</span>! <span class="theory">Aristotle: One outside the law is either a beast or a god.</span>`);
+
+                if (beastIdx !== -1) {
+                    // Send beastly citizen to airlock and remove
+                    citizens[beastIdx].targetX = districts.airlock.x + 30;
+                    citizens[beastIdx].targetY = districts.airlock.y + 25;
+                    setTimeout(() => citizens.splice(beastIdx, 1), 1200);
+                }
+
+                log(`An unrepentant criminal threatening life support faced emergency airlock <span class="keyword">defenestration</span>! <span class="theory">Aristotle: One outside law is a beast.</span>`);
             } else {
-                log(`No severe bestial threats warranting airlock defenestration at this time.`);
+                log(`No dangerous beastly offenders require defenestration at this time.`);
             }
             updateUI();
         }
@@ -396,18 +468,30 @@
             cycle++;
             oxygen = Math.max(0, oxygen - 4);
 
-            // Aristotle Logic: Low virtue causes citizens to regress into beasts
+            // Aristotle Logic: Low virtue turns citizens into beasts on map
             if (virtue < 50) {
                 beast = Math.min(100, beast + 12);
-                log(`Civic virtue is declining! Deprived of active community life, citizens begin acting like bestial creatures.`);
+                let numToBeast = Math.floor(citizens.length * 0.3);
+                let converted = 0;
+                citizens.forEach(c => {
+                    if (c.state !== 'beast' && converted < numToBeast) {
+                        c.state = 'beast';
+                        // Beastly citizens wander out to edge of habitat
+                        c.targetX = 280 + (Math.random() - 0.5) * 320;
+                        c.targetY = 210 + (Math.random() - 0.5) * 320;
+                        converted++;
+                    }
+                });
+                log(`Low virtue! Citizens isolated from the Polis regress into beastly outlaws.`);
             } else {
                 beast = Math.max(0, beast - 5);
-            }
-
-            // Extreme Austerity or Luxury penalizes stability
-            if (Math.abs(meanBalance) > 35) {
-                virtue = Math.max(0, virtue - 8);
-                log(`Departure from the Golden Mean! Imbalance causes social dissatisfaction.`);
+                citizens.forEach(c => {
+                    if (c.state === 'beast' && Math.random() > 0.5) {
+                        c.state = 'virtuous';
+                        c.targetX = districts.agora.x + (Math.random() - 0.5) * 50;
+                        c.targetY = districts.agora.y + (Math.random() - 0.5) * 50;
+                    }
+                });
             }
 
             updateUI();
@@ -423,28 +507,28 @@
                 isGameOver = true;
                 endTitle.innerText = "SIMULATION FAILED: Atmosphere Exhausted";
                 endTitle.style.color = "#ef4444";
-                endMsg.innerHTML = "Life support failed. Without a functioning environment, the Polis collapsed into ruin.";
+                endMsg.innerHTML = "Life support failed. Without a functioning atmosphere, the Polis collapsed.";
                 endOverlay.classList.remove('hidden');
             } else if (beast >= 80) {
                 isGameOver = true;
                 endTitle.innerText = "SIMULATION FAILED: Bestial Regression";
                 endTitle.style.color = "#ef4444";
-                endMsg.innerHTML = "Isolation and lack of civic virtue destroyed the community. As Aristotle predicted, humans without law and polis reverted to beastly savagery.";
+                endMsg.innerHTML = "Isolation destroyed civic life. As Aristotle predicted, humans cut off from law and community reverted to beastly violence.";
                 endOverlay.classList.remove('hidden');
             } else if (cycle >= MAX_CYCLES) {
                 isGameOver = true;
-                endTitle.innerText = "MISSION SUCCESS: Aristotelian Eudaimonia Achieved!";
+                endTitle.innerText = "MISSION SUCCESS: Aristotelian Eudaimonia!";
                 endTitle.style.color = "#10b981";
-                endMsg.innerHTML = `You successfully guided Astraea Station through 20 Cycles! Final Civic Virtue: <strong>${virtue}/100</strong>. The colony stands as a beacon of human flourishing in deep space.`;
+                endMsg.innerHTML = `You guided Astraea Station through 20 Cycles! Final Civic Virtue: <strong>${virtue}/100</strong>. You built a flourishing Aristotelian Polis.`;
                 endOverlay.classList.remove('hidden');
             }
         }
 
         function restartGame() {
-            cycle = 1; virtue = 80; beast = 15; meanBalance = 0; oxygen = 85; population = 35; isGameOver = false;
+            cycle = 1; virtue = 80; beast = 15; meanBalance = 0; oxygen = 85; isGameOver = false;
             initCitizens();
             document.getElementById('end-overlay').classList.add('hidden');
-            document.getElementById('logConsole').innerHTML = '<div class="log-entry">[SYSTEM] Polis re-initialized under Aristotelian principles.</div>';
+            document.getElementById('logConsole').innerHTML = '<div class="log-entry">[SYSTEM] Aristotle Polis map reset.</div>';
             updateUI();
         }
     </script>
