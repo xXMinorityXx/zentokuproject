@@ -3,47 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astraea Station: Space Colony Governance Simulation</title>
-    <link rel="stylesheet" href="style.css">
+    <title>The Aristotelian Polis: Space Colony Simulator</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: #060913;
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Modal / Tutorial Overlay */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(3, 7, 18, 0.88);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .overlay.hidden { display: none; }
+        .modal {
+            background: #0f172a;
+            border: 2px solid #1e293b;
+            border-radius: 12px;
+            padding: 24px 32px;
+            max-width: 580px;
+            width: 90%;
+            box-shadow: 0 0 35px rgba(56, 189, 248, 0.2);
+            text-align: center;
+        }
+        .modal h2 { color: #38bdf8; font-size: 1.6rem; margin-bottom: 6px; }
+        .modal-subtitle { color: #94a3b8; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+        .tut-text { font-size: 0.9rem; line-height: 1.5; color: #cbd5e1; text-align: left; margin-bottom: 16px; }
+        .tut-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; text-align: left; }
+        .tut-card { background: #1e293b; padding: 12px; border-radius: 8px; border-left: 3px solid #38bdf8; }
+        .tut-card h4 { font-size: 0.85rem; color: #f59e0b; margin-bottom: 4px; }
+        .tut-card p { font-size: 0.78rem; color: #94a3b8; }
+        .btn-start {
+            background: #0284c7; color: #fff; border: none; padding: 12px 28px;
+            font-size: 0.95rem; font-weight: bold; border-radius: 6px; cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-start:hover { background: #0369a1; }
+
+        /* UI Header */
+        header {
+            background: #0f172a;
+            padding: 12px 24px;
+            border-bottom: 2px solid #1e293b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 { font-size: 1.2rem; color: #38bdf8; text-transform: uppercase; letter-spacing: 1.2px; }
+        .subtitle { font-size: 0.82rem; color: #64748b; margin-top: 2px; }
+        #cycle-counter {
+            color: #10b981; font-size: 1rem; font-weight: bold;
+            background: #1e293b; padding: 6px 14px; border-radius: 6px; border: 1px solid #334155;
+        }
+
+        /* Layout */
+        .main-container { display: flex; flex: 1; height: calc(100vh - 65px); }
+        .viewport {
+            flex: 2; position: relative; background: #020617;
+            display: flex; align-items: center; justify-content: center;
+            border-right: 2px solid #1e293b; padding: 20px;
+        }
+        canvas {
+            border: 2px solid #1e293b; border-radius: 12px;
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.1); background: #090d16;
+        }
+        .btn-help {
+            position: absolute; top: 15px; right: 15px;
+            background: #1e293b; color: #38bdf8; border: 1px solid #334155;
+            padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; cursor: pointer;
+        }
+
+        /* Dashboard Panel */
+        .dashboard {
+            flex: 1; min-width: 380px; background: #0b0f19;
+            padding: 16px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto;
+        }
+        .metric-card {
+            background: #1e293b; border-radius: 8px; padding: 10px 14px;
+            border-left: 4px solid #38bdf8; cursor: help;
+        }
+        .metric-card.virtue { border-left-color: #10b981; }
+        .metric-card.beast { border-left-color: #ef4444; }
+        .metric-card.mean { border-left-color: #f59e0b; }
+        .metric-card.oxygen { border-left-color: #0284c7; }
+
+        .metric-header { display: flex; justify-content: space-between; align-items: center; }
+        .metric-title { font-size: 0.76rem; text-transform: uppercase; color: #94a3b8; font-weight: 600; }
+        .metric-value { font-size: 1.1rem; font-weight: bold; color: #f8fafc; }
+        .progress-bar { height: 6px; background: #090d16; border-radius: 4px; margin-top: 6px; overflow: hidden; }
+        .progress-fill { height: 100%; transition: width 0.4s ease, background 0.4s ease; }
+
+        .actions-panel {
+            background: #131d31; padding: 12px; border-radius: 8px; border: 1px solid #1e293b;
+        }
+        .actions-panel h3 { font-size: 0.82rem; color: #38bdf8; margin-bottom: 8px; text-transform: uppercase; }
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+        button {
+            background: #1e293b; color: #cbd5e1; border: 1px solid #334155;
+            padding: 8px 6px; border-radius: 6px; cursor: pointer; font-size: 0.78rem; line-height: 1.3;
+            transition: all 0.2s ease;
+        }
+        button:hover { background: #334155; color: #fff; border-color: #38bdf8; }
+        button small { color: #64748b; font-size: 0.7rem; }
+        .btn-advance {
+            width: 100%; background: #0284c7; color: #ffffff; border: none;
+            padding: 10px; font-weight: bold; font-size: 0.85rem; text-transform: uppercase;
+        }
+        .btn-advance:hover { background: #0369a1; }
+
+        .log-panel {
+            flex: 1; background: #020617; border: 1px solid #1e293b; border-radius: 6px;
+            padding: 10px; font-family: 'Consolas', monospace; font-size: 0.76rem;
+            overflow-y: auto; max-height: 160px;
+        }
+        .log-entry { margin-bottom: 6px; border-bottom: 1px solid #0f172a; padding-bottom: 4px; color: #94a3b8; }
+        .log-entry span.keyword { color: #f59e0b; font-weight: bold; }
+        .log-entry span.theory { color: #10b981; font-style: italic; }
+    </style>
 </head>
 <body>
-    <!-- Tutorial / Onboarding Modal -->
+
+    <!-- Onboarding Tutorial Modal -->
     <div id="tutorial-overlay" class="overlay">
         <div class="modal">
-            <h2>Welcome to Astraea Station</h2>
-            <div class="modal-subtitle">Political Philosophy & Governance Simulator</div>
-            <div class="tutorial-body">
-                <p><strong>Mission Objective:</strong> Guide Astraea Station through 20 Cycles of extreme deep-space isolation without running out of Oxygen or collapsing into chaos.</p>
-                
-                <div class="tutorial-grid">
-                    <div class="tut-card">
-                        <h4>🏛️ Aristotle (Civic Virtue)</h4>
-                        <p>Keep virtue high by building community hubs where citizens enjoy artificial solar <em>apricity</em>. Low virtue turns citizens into "beasts," triggering riots.</p>
-                    </div>
-                    <div class="tut-card">
-                        <h4>⚔️ Hobbes (Sovereign Order)</h4>
-                        <p>Maintain absolute authority when life support fails. Enforce rationing or practice airlock <em>defenestration</em> to crush rebellion and preserve survival.</p>
-                    </div>
+            <h2>Aristotle’s Outer Space Polis</h2>
+            <div class="modal-subtitle">Political Philosophy Project Track 1</div>
+            <div class="tut-text">
+                <p>Aristotle posited that <em>"Man is by nature a political animal."</em> Anyone who lives outside of a community (the <strong>Polis</strong>) is either a <strong>beast</strong> or a <strong>god</strong>.</p>
+            </div>
+            <div class="tut-grid">
+                <div class="tut-card">
+                    <h4>🏛️ Civic Virtue & The Polis</h4>
+                    <p>Build Lyceums and Solarium decks to foster community. High virtue prevents citizens from descending into bestial behavior.</p>
+                </div>
+                <div class="tut-card">
+                    <h4>⚖️ The Golden Mean</h4>
+                    <p>Maintain balance between Extreme Luxury and Extreme Austerity. Imbalance breeds social decay.</p>
                 </div>
             </div>
-            <button class="btn-start" onclick="closeTutorial()">Begin Command</button>
+            <button class="btn-start" onclick="closeTutorial()">Begin Governance</button>
         </div>
     </div>
 
-    <!-- Game Over / Victory Modal -->
+    <!-- Game End Modal -->
     <div id="end-overlay" class="overlay hidden">
         <div class="modal">
             <h2 id="end-title">Simulation Complete</h2>
-            <p id="end-message" class="end-desc"></p>
-            <button class="btn-start" onclick="restartGame()">Restart Simulation</button>
+            <p id="end-message" style="font-size:0.9rem; margin:16px 0 24px; color:#cbd5e1;"></p>
+            <button class="btn-start" onclick="restartGame()">Re-Initialize Colony</button>
         </div>
     </div>
 
     <!-- Main Header -->
     <header>
         <div>
-            <h1>Astraea Station: Governance Simulation</h1>
-            <div class="subtitle">Political Philosophy Track 1 — Aristotle vs. Hobbes</div>
+            <h1>The Aristotelian Polis: Colony Governance</h1>
+            <div class="subtitle">Focus: Aristotle's <em>Polis</em>, Civic Virtue, & Eudaimonia</div>
         </div>
         <div id="cycle-counter">Cycle: 1 / 20</div>
     </header>
@@ -52,62 +180,273 @@
         <!-- Visual Simulation Canvas -->
         <div class="viewport">
             <canvas id="colonyCanvas" width="560" height="420"></canvas>
-            <button class="btn-help" onclick="openTutorial()">? Tutorial</button>
+            <button class="btn-help" onclick="openTutorial()">? Help</button>
         </div>
 
-        <!-- Dashboard & Control Panel -->
+        <!-- Dashboard Panel -->
         <div class="dashboard">
-            <!-- Metrics Display -->
-            <div class="metric-card oxygen" title="Life Support: Reaching 0% results in immediate colony failure.">
+            <!-- Metrics -->
+            <div class="metric-card virtue" title="Civic Virtue: High virtue reflects a functioning Aristotelian Polis.">
                 <div class="metric-header">
-                    <span class="metric-title">Life Support & Solar Apricity</span>
-                    <span class="metric-value" id="val-oxygen">90%</span>
+                    <span class="metric-title">Civic Virtue (Polis Index)</span>
+                    <span class="metric-value" id="val-virtue">80 / 100</span>
                 </div>
-                <div class="progress-bar"><div class="progress-fill" id="bar-oxygen" style="width: 90%;"></div></div>
+                <div class="progress-bar"><div class="progress-fill" id="bar-virtue" style="width: 80%; background: #10b981;"></div></div>
             </div>
 
-            <div class="metric-card virtue" title="Aristotelian Virtue: High virtue creates a functional Polis. Low virtue leads to bestial riots.">
+            <div class="metric-card beast" title="Beastliness Index: High values indicate citizens isolated from law, acting on bestial instincts.">
                 <div class="metric-header">
-                    <span class="metric-title">Aristotelian Virtue (Polis Index)</span>
-                    <span class="metric-value" id="val-virtue">75 / 100</span>
+                    <span class="metric-title">Bestial Behavior Index</span>
+                    <span class="metric-value" id="val-beast">15 / 100</span>
                 </div>
-                <div class="progress-bar"><div class="progress-fill" id="bar-virtue" style="width: 75%;"></div></div>
+                <div class="progress-bar"><div class="progress-fill" id="bar-beast" style="width: 15%; background: #ef4444;"></div></div>
             </div>
 
-            <div class="metric-card order" title="Hobbesian Order: Measures Leviathan authority. Low order leads to vandalism and state of nature chaos.">
+            <div class="metric-card mean" title="Golden Mean Balance: Measures moderation vs extremes (Luxury vs Austerity).">
                 <div class="metric-header">
-                    <span class="metric-title">Hobbesian Sovereign Order</span>
-                    <span class="metric-value" id="val-order">50%</span>
+                    <span class="metric-title">The Golden Mean (Moderation)</span>
+                    <span class="metric-value" id="val-mean">Balanced</span>
                 </div>
-                <div class="progress-bar"><div class="progress-fill" id="bar-order" style="width: 50%;"></div></div>
+                <div class="progress-bar"><div class="progress-fill" id="bar-mean" style="width: 50%; background: #f59e0b;"></div></div>
             </div>
 
-            <div class="metric-card population">
+            <div class="metric-card oxygen" title="Atmospheric Hydroponics: Life support resources needed for survival.">
                 <div class="metric-header">
-                    <span class="metric-title">Colony Citizens</span>
-                    <span class="metric-value" id="val-pop">40</span>
+                    <span class="metric-title">Hydroponic Atmosphere</span>
+                    <span class="metric-value" id="val-oxygen">85%</span>
                 </div>
+                <div class="progress-bar"><div class="progress-fill" id="bar-oxygen" style="width: 85%; background: #0284c7;"></div></div>
             </div>
 
-            <!-- Governance Action Buttons -->
+            <!-- Decrees -->
             <div class="actions-panel">
-                <h3>Executive Decrees</h3>
+                <h3>Polis Decrees</h3>
                 <div class="btn-grid">
-                    <button onclick="enactAristotle()" title="Increases virtue by building community solarium centers. Uses 4% Oxygen.">Construct Solarium<br><small>(Aristotelian Virtue)</small></button>
-                    <button onclick="enactHobbes()" title="Increases order by imposing strict rationing. Reduces virtue by 10.">Sovereign Rationing<br><small>(Hobbesian Control)</small></button>
-                    <button onclick="enactLocke()" title="Grants private property ownership to hydroponic workers. Boosts stability.">Private Hydroponics<br><small>(Lockean Rights)</small></button>
-                    <button onclick="enactDefenestration()" title="Executes saboteurs via airlock defenestration. Greatly increases order, decreases virtue and population.">Airlock Defenestration<br><small>(Crush Rebellion)</small></button>
+                    <button onclick="enactSolarium()" title="Builds Solarium deck for citizens to soak in artificial solar apricity. Boosts Civic Virtue.">Solarium Apricity<br><small>(Build Solarium Deck)</small></button>
+                    <button onclick="enactLyceum()" title="Establishes a Lyceum for philosophical debate. Restores Golden Mean Balance.">Aristotelian Lyceum<br><small>(Promote Philosophy)</small></button>
+                    <button onclick="enactHydroponics()" title="Cultivates commons garden to regenerate oxygen and food.">Hydroponic Commons<br><small>(Regenerate Oxygen)</small></button>
+                    <button onclick="enactDefenestration()" title="Exiles unrepentant bestial violent offenders outside the station airlock. Restores order.">Airlock Defenestration<br><small>(Punish Beastly Outlaws)</small></button>
                 </div>
                 <button class="btn-advance" onclick="nextCycle()">Advance Turn / Cycle</button>
             </div>
 
-            <!-- Event Log -->
+            <!-- Log Console -->
             <div class="log-panel" id="logConsole">
-                <div class="log-entry">[SYSTEM] Astraea Station online. Governance parameters active.</div>
+                <div class="log-entry">[SYSTEM] Aristotle's Polis online. Citizens gathered in communal habitat.</div>
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        const MAX_CYCLES = 20;
+        let cycle = 1;
+        let virtue = 80;    // Aristotle Polis Virtue
+        let beast = 15;     // Beastliness (Isolation/Lawlessness)
+        let meanBalance = 0; // -50 (Extreme Austerity) to +50 (Extreme Luxury)
+        let oxygen = 85;
+        let population = 35;
+        let isGameOver = false;
+
+        const canvas = document.getElementById('colonyCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Citizens visually moving inside dome
+        let citizens = [];
+        function initCitizens() {
+            citizens = [];
+            for (let i = 0; i < 30; i++) {
+                citizens.push({
+                    x: Math.random() * 340 + 110,
+                    y: Math.random() * 240 + 90,
+                    vx: (Math.random() - 0.5) * 1.5,
+                    vy: (Math.random() - 0.5) * 1.5
+                });
+            }
+        }
+        initCitizens();
+
+        // Canvas Visual Drawing
+        function drawColony() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 1. Habitat Glass Dome (The Polis)
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 5;
+            ctx.beginPath();
+            ctx.arc(280, 210, 185, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // 2. Central Agora / Solarium
+            ctx.fillStyle = '#1e293b';
+            ctx.fillRect(230, 160, 100, 100);
+            ctx.strokeStyle = '#f59e0b';
+            ctx.strokeRect(230, 160, 100, 100);
+            ctx.fillStyle = '#f59e0b';
+            ctx.font = 'bold 10px sans-serif';
+            ctx.fillText('AGORA & SOLARIUM', 234, 215);
+
+            // 3. Lyceum (Academy of Virtue)
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(120, 110, 80, 50);
+            ctx.fillStyle = '#10b981';
+            ctx.fillText('LYCEUM', 138, 138);
+
+            // 4. Hydroponics Commons
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(360, 260, 85, 50);
+            ctx.fillStyle = '#0284c7';
+            ctx.fillText('HYDROPONICS', 365, 288);
+
+            // 5. Render Citizen Particles
+            citizens.forEach(c => {
+                c.x += c.vx;
+                c.y += c.vy;
+
+                let dist = Math.hypot(c.x - 280, c.y - 210);
+                if (dist > 170) {
+                    c.vx *= -1;
+                    c.vy *= -1;
+                }
+
+                // Particle Color based on Aristotelian State (Virtuous vs Beastly)
+                let color = beast > 50 ? '#ef4444' : (virtue > 70 ? '#10b981' : '#38bdf8');
+
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.arc(c.x, c.y, 4.5, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            requestAnimationFrame(drawColony);
+        }
+        drawColony();
+
+        function openTutorial() { document.getElementById('tutorial-overlay').classList.remove('hidden'); }
+        function closeTutorial() { document.getElementById('tutorial-overlay').classList.add('hidden'); }
+
+        function log(msg) {
+            const consoleBox = document.getElementById('logConsole');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.innerHTML = `[Cycle ${cycle}] ${msg}`;
+            consoleBox.appendChild(entry);
+            consoleBox.scrollTop = consoleBox.scrollHeight;
+        }
+
+        function updateUI() {
+            document.getElementById('val-virtue').innerText = `${virtue} / 100`;
+            document.getElementById('bar-virtue').style.width = virtue + '%';
+
+            document.getElementById('val-beast').innerText = `${beast} / 100`;
+            document.getElementById('bar-beast').style.width = beast + '%';
+
+            let meanState = Math.abs(meanBalance) < 15 ? "Balanced (Golden Mean)" : (meanBalance > 0 ? "Excess Luxury" : "Severe Austerity");
+            document.getElementById('val-mean').innerText = meanState;
+            let meanWidth = Math.min(100, Math.max(0, 50 + meanBalance));
+            document.getElementById('bar-mean').style.width = meanWidth + '%';
+
+            document.getElementById('val-oxygen').innerText = oxygen + '%';
+            document.getElementById('bar-oxygen').style.width = oxygen + '%';
+
+            document.getElementById('cycle-counter').innerText = `Cycle: ${cycle} / ${MAX_CYCLES}`;
+        }
+
+        // Action Decrees
+        function enactSolarium() {
+            if (isGameOver) return;
+            virtue = Math.min(100, virtue + 15);
+            beast = Math.max(0, beast - 10);
+            oxygen = Math.max(0, oxygen - 3);
+            log(`Citizens gather in the Solarium deck, relaxing under the warm artificial <span class="keyword">apricity</span> of radiant solar lamps. <span class="theory">Aristotle: Community strengthens the Polis.</span>`);
+            updateUI();
+        }
+
+        function enactLyceum() {
+            if (isGameOver) return;
+            virtue = Math.min(100, virtue + 10);
+            meanBalance = meanBalance > 0 ? Math.max(0, meanBalance - 15) : Math.min(0, meanBalance + 15);
+            log(`Debates conducted in the Lyceum centered on moral virtue. <span class="theory">Aristotle: Virtue is a habit guided by the Golden Mean.</span>`);
+            updateUI();
+        }
+
+        function enactHydroponics() {
+            if (isGameOver) return;
+            oxygen = Math.min(100, oxygen + 15);
+            meanBalance += 10; // Shift toward luxury/abundance
+            log(`Hydroponics harvest completed. Atmospheric oxygen replenished (+15%).`);
+            updateUI();
+        }
+
+        function enactDefenestration() {
+            if (isGameOver) return;
+            if (beast > 20) {
+                beast = Math.max(0, beast - 25);
+                virtue = Math.min(100, virtue + 5);
+                citizens.pop();
+                log(`A violent, unrepentant outcast who attacked station life support faced emergency airlock <span class="keyword">defenestration</span>! <span class="theory">Aristotle: One outside the law is either a beast or a god.</span>`);
+            } else {
+                log(`No severe bestial threats warranting airlock defenestration at this time.`);
+            }
+            updateUI();
+        }
+
+        function nextCycle() {
+            if (isGameOver) return;
+
+            cycle++;
+            oxygen = Math.max(0, oxygen - 4);
+
+            // Aristotle Logic: Low virtue causes citizens to regress into beasts
+            if (virtue < 50) {
+                beast = Math.min(100, beast + 12);
+                log(`Civic virtue is declining! Deprived of active community life, citizens begin acting like bestial creatures.`);
+            } else {
+                beast = Math.max(0, beast - 5);
+            }
+
+            // Extreme Austerity or Luxury penalizes stability
+            if (Math.abs(meanBalance) > 35) {
+                virtue = Math.max(0, virtue - 8);
+                log(`Departure from the Golden Mean! Imbalance causes social dissatisfaction.`);
+            }
+
+            updateUI();
+            checkEndConditions();
+        }
+
+        function checkEndConditions() {
+            const endOverlay = document.getElementById('end-overlay');
+            const endTitle = document.getElementById('end-title');
+            const endMsg = document.getElementById('end-message');
+
+            if (oxygen <= 0) {
+                isGameOver = true;
+                endTitle.innerText = "SIMULATION FAILED: Atmosphere Exhausted";
+                endTitle.style.color = "#ef4444";
+                endMsg.innerHTML = "Life support failed. Without a functioning environment, the Polis collapsed into ruin.";
+                endOverlay.classList.remove('hidden');
+            } else if (beast >= 80) {
+                isGameOver = true;
+                endTitle.innerText = "SIMULATION FAILED: Bestial Regression";
+                endTitle.style.color = "#ef4444";
+                endMsg.innerHTML = "Isolation and lack of civic virtue destroyed the community. As Aristotle predicted, humans without law and polis reverted to beastly savagery.";
+                endOverlay.classList.remove('hidden');
+            } else if (cycle >= MAX_CYCLES) {
+                isGameOver = true;
+                endTitle.innerText = "MISSION SUCCESS: Aristotelian Eudaimonia Achieved!";
+                endTitle.style.color = "#10b981";
+                endMsg.innerHTML = `You successfully guided Astraea Station through 20 Cycles! Final Civic Virtue: <strong>${virtue}/100</strong>. The colony stands as a beacon of human flourishing in deep space.`;
+                endOverlay.classList.remove('hidden');
+            }
+        }
+
+        function restartGame() {
+            cycle = 1; virtue = 80; beast = 15; meanBalance = 0; oxygen = 85; population = 35; isGameOver = false;
+            initCitizens();
+            document.getElementById('end-overlay').classList.add('hidden');
+            document.getElementById('logConsole').innerHTML = '<div class="log-entry">[SYSTEM] Polis re-initialized under Aristotelian principles.</div>';
+            updateUI();
+        }
+    </script>
 </body>
 </html>
