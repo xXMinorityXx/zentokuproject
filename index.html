@@ -16,7 +16,7 @@
             overflow: hidden;
         }
 
-        /* Modal Screens */
+        /* Modal Overlays */
         .overlay {
             position: fixed;
             top: 0; left: 0;
@@ -70,7 +70,7 @@
             box-shadow: 0 0 12px rgba(16, 185, 129, 0.25);
         }
 
-        /* Layout */
+        /* Main Container Layout */
         .main-container { display: flex; flex: 1; height: calc(100vh - 65px); }
         .viewport {
             flex: 2; position: relative; background: #02040a;
@@ -89,11 +89,11 @@
 
         /* Dashboard Side Panel */
         .dashboard {
-            flex: 1; min-width: 380px; background: #080c16;
+            flex: 1; min-width: 390px; background: #080c16;
             padding: 16px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto;
         }
         .metric-card {
-            background: #161f33; border-radius: 10px; padding: 11px 15px;
+            background: #161f33; border-radius: 10px; padding: 10px 14px;
             border-left: 4px solid #38bdf8; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
         }
         .metric-card.virtue { border-left-color: #10b981; }
@@ -102,38 +102,98 @@
         .metric-card.oxygen { border-left-color: #0284c7; }
 
         .metric-header { display: flex; justify-content: space-between; align-items: center; }
-        .metric-title { font-size: 0.76rem; text-transform: uppercase; color: #94a3b8; font-weight: 600; }
-        .metric-value { font-size: 1.05rem; font-weight: bold; color: #f8fafc; }
-        .progress-bar { height: 7px; background: #090d16; border-radius: 4px; margin-top: 7px; overflow: hidden; }
+        .metric-title { font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 600; }
+        .metric-value { font-size: 1rem; font-weight: bold; color: #f8fafc; }
+        .progress-bar { height: 6px; background: #090d16; border-radius: 4px; margin-top: 6px; overflow: hidden; }
         .progress-fill { height: 100%; transition: width 0.4s ease, background 0.4s ease; }
 
         .actions-panel {
-            background: #111827; padding: 14px; border-radius: 10px; border: 1px solid #1e293b;
+            background: #111827; padding: 12px; border-radius: 10px; border: 1px solid #1e293b;
         }
-        .actions-panel h3 { font-size: 0.82rem; color: #38bdf8; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.8px; }
-        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+        .actions-panel h3 { font-size: 0.8rem; color: #38bdf8; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.8px; }
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
         button {
             background: #1e293b; color: #cbd5e1; border: 1px solid #334155;
-            padding: 9px 6px; border-radius: 7px; cursor: pointer; font-size: 0.78rem; line-height: 1.3;
+            padding: 8px 6px; border-radius: 7px; cursor: pointer; font-size: 0.76rem; line-height: 1.3;
             transition: all 0.2s ease;
         }
         button:hover { background: #25344d; color: #fff; border-color: #38bdf8; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2); }
-        button small { color: #64748b; font-size: 0.7rem; }
+        button small { color: #64748b; font-size: 0.68rem; }
         .btn-advance {
             width: 100%; background: linear-gradient(135deg, #0284c7, #0369a1); color: #ffffff; border: none;
-            padding: 12px; font-weight: bold; font-size: 0.88rem; text-transform: uppercase; border-radius: 7px;
+            padding: 11px; font-weight: bold; font-size: 0.85rem; text-transform: uppercase; border-radius: 7px;
             box-shadow: 0 0 15px rgba(2, 132, 199, 0.4);
         }
         .btn-advance:hover { background: linear-gradient(135deg, #0369a1, #075985); }
 
-        .log-panel {
-            flex: 1; background: #02050e; border: 1px solid #1e293b; border-radius: 8px;
-            padding: 10px; font-family: 'Consolas', monospace; font-size: 0.76rem;
-            overflow-y: auto; max-height: 150px;
+        /* AI Philosopher Chatbot / Narrator UI Box */
+        .advisor-panel {
+            background: #0d1527;
+            border: 1px solid #1e293b;
+            border-radius: 10px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.1);
         }
-        .log-entry { margin-bottom: 6px; border-bottom: 1px solid #0f172a; padding-bottom: 4px; color: #94a3b8; }
-        .log-entry span.keyword { color: #f59e0b; font-weight: bold; }
-        .log-entry span.theory { color: #10b981; font-style: italic; }
+        .avatar-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 8px;
+        }
+        .avatar-portrait {
+            position: relative;
+            width: 44px;
+            height: 44px;
+            background: #162238;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #38bdf8;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+        }
+        .avatar-ring {
+            position: absolute;
+            top: -4px; left: -4px; right: -4px; bottom: -4px;
+            border: 2px dashed #0284c7;
+            border-radius: 50%;
+            animation: rotate-ring 12s linear infinite;
+        }
+        @keyframes rotate-ring { 100% { transform: rotate(360deg); } }
+        .avatar-emoji { font-size: 1.4rem; }
+        .avatar-info { display: flex; flex-direction: column; }
+        .avatar-title { font-weight: bold; font-size: 0.85rem; color: #38bdf8; letter-spacing: 0.8px; }
+        .avatar-status { font-size: 0.7rem; color: #10b981; font-family: monospace; }
+        
+        .speech-bubble {
+            background: #162035;
+            border: 1px solid #2b3a5a;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 0.82rem;
+            line-height: 1.45;
+            color: #e2e8f0;
+            position: relative;
+            min-height: 58px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+        }
+        .speech-bubble span.highlight { color: #f59e0b; font-weight: bold; }
+        .speech-bubble span.theory { color: #10b981; font-style: italic; }
+
+        .log-history {
+            max-height: 80px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 0.72rem;
+            color: #64748b;
+            border-top: 1px dashed #1e293b;
+            padding-top: 6px;
+        }
+        .log-history-item { margin-bottom: 4px; }
     </style>
 </head>
 <body>
@@ -144,12 +204,12 @@
             <h2>Aristotle’s Outer Space Polis</h2>
             <div class="modal-subtitle">Political Philosophy Project Track 1</div>
             <div class="tut-text">
-                <p>Manage Astraea Station using Aristotle's political philosophy. Humans cut off from community (the <strong>Polis</strong>) descend into <strong>beastliness</strong>.</p>
+                <p>Manage Astraea Station alongside your AI Governor <strong>ARISTOTLE-UNIT</strong>. According to Aristotle, humans living outside a community (the <strong>Polis</strong>) descend into <strong>beastliness</strong>.</p>
             </div>
             <div class="tut-grid">
                 <div class="tut-card">
-                    <h4>🏛️ Live Habitat Map</h4>
-                    <p>Citizens actively walk between the Agora, Lyceum, Solarium, and Hydroponics with particle trails and overhead status icons.</p>
+                    <h4>🏛️ Habitat Map & Avatar</h4>
+                    <p>Watch citizens travel between districts while your AI Advisor narrates political philosophy and station crises in real-time.</p>
                 </div>
                 <div class="tut-card">
                     <h4>⚖️ The Golden Mean</h4>
@@ -173,13 +233,13 @@
     <header>
         <div>
             <h1>The Aristotelian Polis: High-Visual Space Habitat</h1>
-            <div class="subtitle">Dynamic Particle Engine & Political Philosophy</div>
+            <div class="subtitle">AI Governor Narrative Chatbot & Interactive Simulation</div>
         </div>
         <div id="cycle-counter">Cycle: 1 / 20</div>
     </header>
 
     <div class="main-container">
-        <!-- Interactive Station Map -->
+        <!-- Interactive Station Map Viewport -->
         <div class="viewport">
             <canvas id="colonyCanvas" width="560" height="420"></canvas>
             <div class="legend">
@@ -189,7 +249,7 @@
             </div>
         </div>
 
-        <!-- Control Dashboard -->
+        <!-- Control Dashboard Side Panel -->
         <div class="dashboard">
             <div class="metric-card virtue">
                 <div class="metric-header">
@@ -234,8 +294,24 @@
                 <button class="btn-advance" onclick="nextCycle()">Advance Turn / Cycle</button>
             </div>
 
-            <div class="log-panel" id="logConsole">
-                <div class="log-entry">[SYSTEM] Astraea Polis visual engine operational.</div>
+            <!-- AI Philosopher Narrator Avatar Box -->
+            <div class="advisor-panel">
+                <div class="avatar-box">
+                    <div class="avatar-portrait">
+                        <div class="avatar-ring"></div>
+                        <span class="avatar-emoji">🤖</span>
+                    </div>
+                    <div class="avatar-info">
+                        <div class="avatar-title">ARISTOTLE-AI (GOVERNOR)</div>
+                        <div class="avatar-status">● SYSTEM MONITORING ONLINE</div>
+                    </div>
+                </div>
+                <div class="speech-bubble" id="speechText">
+                    "Greetings, Commander. Astraea Station is operational. Remember: 'Man is by nature a political animal.' Keep our Polis united!"
+                </div>
+                <div class="log-history" id="logHistory">
+                    <div class="log-history-item">[Cycle 1] Astraea Habitat initialized.</div>
+                </div>
             </div>
         </div>
     </div>
@@ -249,18 +325,16 @@
         let oxygen = 85;
         let isGameOver = false;
 
-        // Screen Shake Effect Variable
         let shakeTime = 0;
 
         const canvas = document.getElementById('colonyCanvas');
         const ctx = canvas.getContext('2d');
 
-        // Advanced Visual Systems
         let floatingTexts = [];
         let particles = [];
         let stars = [];
 
-        // Generate Deep-Space Nebula & Starfield
+        // Background Starfield
         for (let i = 0; i < 80; i++) {
             stars.push({
                 x: Math.random() * canvas.width,
@@ -280,24 +354,23 @@
             airlock: { x: 125, y: 265, w: 85, h: 60, name: "AIRLOCK", color: "#3b0f16", border: "#ef4444" }
         };
 
-        // Advanced Citizen Class with Particle Trail Engine
+        // Citizen Class with Particle Trail Engine
         class Citizen {
             constructor() {
                 this.x = districts.agora.x + (Math.random() - 0.5) * 60;
                 this.y = districts.agora.y + (Math.random() - 0.5) * 60;
                 this.targetX = this.x;
                 this.targetY = this.y;
-                this.state = 'virtuous'; // 'virtuous', 'apricity', 'beast', 'exiled'
+                this.state = 'virtuous';
                 this.speed = 1.1 + Math.random() * 0.9;
                 this.bounce = Math.random() * Math.PI * 2;
-                this.history = []; // Stores past positions for motion trail
+                this.history = [];
                 this.icon = '🏛️';
             }
 
             update() {
                 if (this.state === 'exiled') return;
 
-                // Motion trail memory
                 this.history.push({ x: this.x, y: this.y });
                 if (this.history.length > 6) this.history.shift();
 
@@ -308,9 +381,8 @@
                 if (dist > 4) {
                     this.x += (dx / dist) * this.speed;
                     this.y += (dy / dist) * this.speed;
-                    this.bounce += 0.18; // Bounce bobbing
+                    this.bounce += 0.18;
                 } else {
-                    // Idle movement inside target district
                     this.targetX += (Math.random() - 0.5) * 12;
                     this.targetY += (Math.random() - 0.5) * 12;
                 }
@@ -325,7 +397,6 @@
 
                 let color = this.state === 'beast' ? '#ef4444' : (this.state === 'apricity' ? '#f59e0b' : '#10b981');
 
-                // 1. Motion Trail Render
                 for (let i = 0; i < this.history.length; i++) {
                     let pos = this.history[i];
                     let trailAlpha = (i / this.history.length) * 0.35;
@@ -340,13 +411,11 @@
                 let bob = Math.sin(this.bounce) * 2.5;
                 let drawY = this.y + bob;
 
-                // 2. Neon Ground Shadow Pulse
                 ctx.beginPath();
                 ctx.ellipse(this.x, drawY + 6, 8, 3.5, 0, 0, Math.PI * 2);
                 ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
                 ctx.fill();
 
-                // 3. Citizen Core Particle
                 ctx.beginPath();
                 ctx.arc(this.x, drawY, 6, 0, Math.PI * 2);
                 ctx.shadowColor = color;
@@ -358,7 +427,6 @@
                 ctx.lineWidth = 1.5;
                 ctx.stroke();
 
-                // 4. Floating Overhead Emojis
                 ctx.font = '10px sans-serif';
                 ctx.fillText(this.icon, this.x - 5, drawY - 10);
             }
@@ -372,6 +440,18 @@
             }
         }
         initCitizens();
+
+        function speak(formattedHtml) {
+            const bubble = document.getElementById('speechText');
+            bubble.innerHTML = formattedHtml;
+
+            const logHist = document.getElementById('logHistory');
+            const item = document.createElement('div');
+            item.className = 'log-history-item';
+            item.innerHTML = `[Cycle ${cycle}] ${formattedHtml.replace(/<[^>]*>?/gm, '')}`;
+            logHist.appendChild(item);
+            logHist.scrollTop = logHist.scrollHeight;
+        }
 
         function spawnFloatingText(text, x, y, color) {
             floatingTexts.push({ text, x, y, color, opacity: 1.0, dy: -0.9 });
@@ -396,11 +476,10 @@
             shakeTime = duration;
         }
 
-        // Render Frame
+        // Render Frame with Circular Dome Clipping Mask
         function drawMap() {
             ctx.save();
 
-            // Screen Shake Logic
             if (shakeTime > 0) {
                 let dx = (Math.random() - 0.5) * 6;
                 let dy = (Math.random() - 0.5) * 6;
@@ -410,7 +489,7 @@
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // 1. Starfield Render
+            // 1. Starfield Background (Full Canvas)
             stars.forEach(s => {
                 s.alpha += s.speed;
                 let a = Math.abs(Math.sin(s.alpha));
@@ -420,17 +499,7 @@
                 ctx.fill();
             });
 
-            // 2. Holographic Vector Grid Floor
-            ctx.strokeStyle = "rgba(56, 189, 248, 0.04)";
-            ctx.lineWidth = 1;
-            for (let x = 0; x < canvas.width; x += 25) {
-                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
-            }
-            for (let y = 0; y < canvas.height; y += 25) {
-                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
-            }
-
-            // 3. Colony Outer Shield Dome
+            // 2. Dome Wall Border Outer Glow
             let domeGlow = Math.sin(Date.now() * 0.003) * 5 + 14;
             ctx.strokeStyle = '#38bdf8';
             ctx.shadowColor = '#38bdf8';
@@ -441,7 +510,25 @@
             ctx.stroke();
             ctx.shadowBlur = 0;
 
-            // Energy Cables Connecting Districts
+            // =========================================================
+            // CRITICAL FIX: CIRCULAR CLIPPING MASK TO PREVENT EFFECTS CUT-OFF
+            // =========================================================
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(280, 210, 192, 0, Math.PI * 2);
+            ctx.clip(); // All drawings below will be strictly contained inside habitat!
+
+            // Holographic Grid Floor
+            ctx.strokeStyle = "rgba(56, 189, 248, 0.04)";
+            ctx.lineWidth = 1;
+            for (let x = 0; x < canvas.width; x += 25) {
+                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+            }
+            for (let y = 0; y < canvas.height; y += 25) {
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+            }
+
+            // Energy Cables
             ctx.strokeStyle = 'rgba(56, 189, 248, 0.2)';
             ctx.lineWidth = 2;
             ctx.beginPath();
@@ -451,7 +538,7 @@
             ctx.moveTo(districts.agora.x, districts.agora.y); ctx.lineTo(districts.airlock.x + 42, districts.airlock.y + 30);
             ctx.stroke();
 
-            // 4. Solarium (Apricity Radiant Heat Wave Rays)
+            // Solarium Apricity Solar Heat Rays
             let time = Date.now() * 0.002;
             ctx.save();
             ctx.translate(districts.solarium.x + 52, districts.solarium.y + 30);
@@ -473,7 +560,7 @@
             ctx.fillStyle = "#f59e0b"; ctx.font = "bold 9.5px sans-serif";
             ctx.fillText("☀️ SOLARIUM (Apricity)", districts.solarium.x + 6, districts.solarium.y + 35);
 
-            // 5. Lyceum (Academy Runes & Pulsing Glow)
+            // Lyceum
             ctx.fillStyle = districts.lyceum.color;
             ctx.fillRect(districts.lyceum.x, districts.lyceum.y, districts.lyceum.w, districts.lyceum.h);
             ctx.strokeStyle = districts.lyceum.border;
@@ -481,13 +568,12 @@
             ctx.fillStyle = "#10b981";
             ctx.fillText("🏛️ LYCEUM (Academy)", districts.lyceum.x + 6, districts.lyceum.y + 35);
 
-            // Floating Greek Letters over Lyceum
             ctx.fillStyle = "rgba(16, 185, 129, 0.5)"; ctx.font = "10px sans-serif";
             ctx.fillText("α", districts.lyceum.x + 15, districts.lyceum.y + 18);
             ctx.fillText("β", districts.lyceum.x + 45, districts.lyceum.y + 20);
             ctx.fillText("Ω", districts.lyceum.x + 75, districts.lyceum.y + 18);
 
-            // 6. Hydroponics Oxygen Bubbles
+            // Hydroponics
             ctx.fillStyle = districts.hydroponics.color;
             ctx.fillRect(districts.hydroponics.x, districts.hydroponics.y, districts.hydroponics.w, districts.hydroponics.h);
             ctx.strokeStyle = districts.hydroponics.border;
@@ -495,7 +581,6 @@
             ctx.fillStyle = "#0284c7";
             ctx.fillText("🌱 HYDROPONICS", districts.hydroponics.x + 10, districts.hydroponics.y + 35);
 
-            // Ambient rising bubbles inside hydroponics
             for (let b = 0; b < 3; b++) {
                 let bubbleY = districts.hydroponics.y + 45 - ((Date.now() * 0.02 + b * 15) % 35);
                 ctx.beginPath();
@@ -504,7 +589,7 @@
                 ctx.fill();
             }
 
-            // 7. Airlock (Defenestration Vacuum Portal)
+            // Airlock
             ctx.fillStyle = districts.airlock.color;
             ctx.fillRect(districts.airlock.x, districts.airlock.y, districts.airlock.w, districts.airlock.h);
             ctx.strokeStyle = districts.airlock.border;
@@ -512,7 +597,7 @@
             ctx.fillStyle = "#ef4444";
             ctx.fillText("🚀 AIRLOCK", districts.airlock.x + 14, districts.airlock.y + 35);
 
-            // 8. Central Agora Core & Rotating Dual Rings
+            // Agora Core
             let agoraAngle1 = Date.now() * 0.0015;
             let agoraAngle2 = -Date.now() * 0.002;
 
@@ -523,7 +608,6 @@
             ctx.strokeStyle = districts.agora.border;
             ctx.stroke();
 
-            // Inner Ring
             ctx.save();
             ctx.translate(districts.agora.x, districts.agora.y);
             ctx.rotate(agoraAngle1);
@@ -534,7 +618,6 @@
             ctx.stroke();
             ctx.restore();
 
-            // Outer Counter-Rotating Ring
             ctx.save();
             ctx.translate(districts.agora.x, districts.agora.y);
             ctx.rotate(agoraAngle2);
@@ -548,13 +631,13 @@
             ctx.fillStyle = "#38bdf8"; ctx.font = "bold 9px sans-serif";
             ctx.fillText("CENTRAL AGORA", districts.agora.x - 36, districts.agora.y + 3);
 
-            // 9. Render Citizens
+            // Render Citizens
             citizens.forEach(c => {
                 c.update();
                 c.draw();
             });
 
-            // 10. Particle System Physics & Fade
+            // Particles
             for (let i = particles.length - 1; i >= 0; i--) {
                 let p = particles[i];
                 p.x += p.vx;
@@ -575,7 +658,7 @@
                 }
             }
 
-            // 11. Animated Floating Text Rendering
+            // Floating Text
             for (let i = floatingTexts.length - 1; i >= 0; i--) {
                 let ft = floatingTexts[i];
                 ft.y += ft.dy;
@@ -594,21 +677,14 @@
                 }
             }
 
-            ctx.restore();
+            ctx.restore(); // Restore Clipping Mask
+            ctx.restore(); // Restore Screen Shake Transformation
+
             requestAnimationFrame(drawMap);
         }
         drawMap();
 
         function closeTutorial() { document.getElementById('tutorial-overlay').classList.add('hidden'); }
-
-        function log(msg) {
-            const consoleBox = document.getElementById('logConsole');
-            const entry = document.createElement('div');
-            entry.className = 'log-entry';
-            entry.innerHTML = `[Cycle ${cycle}] ${msg}`;
-            consoleBox.appendChild(entry);
-            consoleBox.scrollTop = consoleBox.scrollHeight;
-        }
 
         function updateUI() {
             document.getElementById('val-virtue').innerText = `${virtue} / 100`;
@@ -628,7 +704,7 @@
             document.getElementById('cycle-counter').innerText = `Cycle: ${cycle} / ${MAX_CYCLES}`;
         }
 
-        // Action Decrees with High-Impact Visual Effects
+        // Action Decrees with Chatbot Narration
         function enactSolarium() {
             if (isGameOver) return;
             virtue = Math.min(100, virtue + 15);
@@ -646,7 +722,7 @@
                 }
             });
 
-            log(`Citizens gather in the Solarium, soaking in artificial solar <span class="keyword">apricity</span>. <span class="theory">Aristotle: Community strengthens the Polis.</span>`);
+            speak(`"Commander, citizens have gathered in the Solarium to bask in the radiant <span class='highlight'>apricity</span> of our solar lamps. <span class='theory'>Aristotle noted that communal warmth builds the bonds of the Polis!</span>"`);
             updateUI();
         }
 
@@ -666,7 +742,7 @@
                 }
             });
 
-            log(`Philosophical debates held at the Lyceum. <span class="theory">Aristotle: Virtue is guided by the Golden Mean.</span>`);
+            speak(`"Philosophical debate hosted in the Lyceum! <span class='theory'>Aristotle taught that virtue is a habit perfected by moral deliberation and guided by the Golden Mean.</span>"`);
             updateUI();
         }
 
@@ -678,7 +754,7 @@
             spawnBurstParticles(districts.hydroponics.x + 57, districts.hydroponics.y + 30, '#0284c7', 30, 1.4);
             spawnFloatingText("+15% Hydroponic Oxygen Replenished! 🌱", districts.hydroponics.x - 20, districts.hydroponics.y - 12, '#0284c7');
 
-            log(`Hydroponics harvest completed. Atmospheric oxygen replenished (+15%).`);
+            speak(`"Atmospheric harvest completed! +15% Oxygen generated for our habitat commons."`);
             updateUI();
         }
 
@@ -693,7 +769,6 @@
                 beastCitizen.targetX = districts.airlock.x + 42;
                 beastCitizen.targetY = districts.airlock.y + 30;
 
-                // Vortex Vacuum & Screen Shake Animation Sequence
                 setTimeout(() => {
                     triggerScreenShake(14);
                     spawnBurstParticles(districts.airlock.x + 42, districts.airlock.y + 30, '#ef4444', 40, 2.0);
@@ -701,9 +776,9 @@
                     beastCitizen.state = 'exiled';
                 }, 750);
 
-                log(`An unrepentant criminal threatening life support faced emergency airlock <span class="keyword">defenestration</span>! <span class="theory">Aristotle: One outside law is a beast.</span>`);
+                speak(`"A violent outlaw threatening life-support faced immediate airlock <span class='highlight'>defenestration</span> into outer space! <span class='theory'>Aristotle warned: 'He who is unable to live in society is either a beast or a god.'</span>"`);
             } else {
-                log(`No dangerous beastly offenders require defenestration at this time.`);
+                speak(`"Notice: No bestial offenders currently warrant airlock defenestration."`);
             }
             updateUI();
         }
@@ -726,7 +801,7 @@
                         converted++;
                     }
                 });
-                log(`Low virtue! Citizens isolated from the Polis regress into beastly outlaws.`);
+                speak(`"WARNING: Civic virtue is low! Without communal life in the Polis, citizens are regressing into bestial outlaws."`);
             } else {
                 beast = Math.max(0, beast - 5);
                 citizens.forEach(c => {
@@ -736,6 +811,7 @@
                         c.targetY = districts.agora.y + (Math.random() - 0.5) * 50;
                     }
                 });
+                speak(`"Cycle ${cycle} under way. Atmosphere level: ${oxygen}%. Maintain balance in our Aristotelian Polis."`);
             }
 
             updateUI();
@@ -751,13 +827,13 @@
                 isGameOver = true;
                 endTitle.innerText = "SIMULATION FAILED: Atmosphere Exhausted";
                 endTitle.style.color = "#ef4444";
-                endMsg.innerHTML = "Life support failed. Without a functioning atmosphere, the Polis collapsed.";
+                endMsg.innerHTML = "Life support failed. Without a functioning atmosphere, the Polis collapsed into ruin.";
                 endOverlay.classList.remove('hidden');
             } else if (beast >= 80) {
                 isGameOver = true;
                 endTitle.innerText = "SIMULATION FAILED: Bestial Regression";
                 endTitle.style.color = "#ef4444";
-                endMsg.innerHTML = "Isolation destroyed civic life. As Aristotle predicted, humans cut off from law and community reverted to beastly violence.";
+                endMsg.innerHTML = "Isolation destroyed civic life. As Aristotle predicted, humans cut off from law and community reverted to beastly savagery.";
                 endOverlay.classList.remove('hidden');
             } else if (cycle >= MAX_CYCLES) {
                 isGameOver = true;
@@ -772,7 +848,8 @@
             cycle = 1; virtue = 80; beast = 15; meanBalance = 0; oxygen = 85; isGameOver = false;
             initCitizens();
             document.getElementById('end-overlay').classList.add('hidden');
-            document.getElementById('logConsole').innerHTML = '<div class="log-entry">[SYSTEM] Aristotle Polis map reset.</div>';
+            document.getElementById('logHistory').innerHTML = '<div class="log-history-item">[Cycle 1] Aristotle Polis map reset.</div>';
+            speak(`"Re-initializing Astraea Station under Aristotelian governance protocols."`);
             updateUI();
         }
     </script>
