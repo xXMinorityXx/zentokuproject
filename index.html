@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astraea Station: Aristotelian Executive Simulation v2.0</title>
+    <title>Astraea Station: Liquid Glass Aristotelian Polis v3.0</title>
     <style>
         :root {
-            --bg-deep: #02040a;
-            --panel-bg: #0b1120;
-            --panel-border: #1e293b;
+            --glass-bg: rgba(15, 23, 42, 0.55);
+            --glass-border: rgba(255, 255, 255, 0.14);
+            --glass-shine: rgba(255, 255, 255, 0.25);
+            --glass-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
             --accent-blue: #38bdf8;
             --accent-green: #10b981;
-            --accent-gold: #f59e0b;
-            --accent-red: #ef4444;
-            --accent-purple: #a855f7;
-            --text-main: #e2e8f0;
+            --accent-gold: #fbbf24;
+            --accent-red: #f43f5e;
+            --accent-purple: #c084fc;
+            --text-main: #f8fafc;
             --text-muted: #94a3b8;
         }
 
@@ -22,208 +23,301 @@
 
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-deep);
+            background: #02040a;
             color: var(--text-main);
             display: flex;
             flex-direction: column;
             height: 100vh;
             overflow: hidden;
+            position: relative;
         }
 
-        /* Modal Overlays */
+        /* Ambient Liquid Fluid Orbs Behind UI */
+        .fluid-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.35;
+            pointer-events: none;
+            z-index: 0;
+            animation: orbFloat 18s ease-in-out infinite alternate;
+        }
+        .orb-1 { width: 450px; height: 450px; background: #0284c7; top: -100px; left: -100px; }
+        .orb-2 { width: 500px; height: 500px; background: #7e22ce; bottom: -150px; right: -100px; animation-delay: -6s; }
+        .orb-3 { width: 350px; height: 350px; background: #059669; top: 40%; left: 35%; animation-delay: -12s; }
+
+        @keyframes orbFloat {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(60px, 40px) scale(1.15); }
+            100% { transform: translate(-40px, 80px) scale(0.9); }
+        }
+
+        /* Glassmorphism Overlays */
         .overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background: rgba(2, 4, 10, 0.92);
-            backdrop-filter: blur(12px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(3, 7, 18, 0.7);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            display: flex; align-items: center; justify-content: center;
             z-index: 2000;
+            transition: opacity 0.4s ease;
         }
         .overlay.hidden { display: none; }
         
         .modal {
-            background: #0f172a;
-            border: 2px solid var(--accent-blue);
-            border-radius: 16px;
-            padding: 32px;
-            max-width: 640px;
-            width: 90%;
-            max-height: 85vh;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid var(--glass-shine);
+            border-radius: 24px;
+            padding: 36px;
+            max-width: 650px; width: 90%; max-height: 85vh;
             overflow-y: auto;
-            box-shadow: 0 0 60px rgba(56, 189, 248, 0.3);
+            box-shadow: var(--glass-shadow), 0 0 40px rgba(56, 189, 248, 0.25);
             text-align: center;
+            position: relative;
         }
-        .modal h2 { color: var(--accent-blue); font-size: 1.8rem; margin-bottom: 8px; text-shadow: 0 0 12px rgba(56, 189, 248, 0.4); }
+        .modal h2 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #fff, var(--accent-blue));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
         .modal-subtitle { color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 20px; }
-        .tut-text { font-size: 0.92rem; line-height: 1.6; color: #cbd5e1; text-align: left; margin-bottom: 20px; }
+        .tut-text { font-size: 0.95rem; line-height: 1.6; color: #cbd5e1; text-align: left; margin-bottom: 20px; }
         .tut-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; text-align: left; }
-        .tut-card { background: #1e293b; padding: 14px; border-radius: 10px; border-left: 4px solid var(--accent-blue); }
-        .tut-card h4 { font-size: 0.88rem; color: var(--accent-gold); margin-bottom: 6px; }
-        .tut-card p { font-size: 0.8rem; color: var(--text-muted); margin: 0; line-height: 1.4; }
-        
-        /* Changelog Specific Styles */
-        .changelog-list { text-align: left; display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; }
-        .changelog-item { background: #162032; padding: 14px; border-radius: 8px; border-left: 4px solid var(--accent-purple); }
-        .changelog-ver { font-size: 0.95rem; font-weight: bold; color: var(--accent-blue); margin-bottom: 6px; }
-        .changelog-item ul { margin-left: 18px; font-size: 0.83rem; color: var(--text-main); line-height: 1.5; }
-
-        .btn-start {
-            background: linear-gradient(135deg, #0284c7, #0369a1);
-            color: #fff; border: none; padding: 12px 32px;
-            font-size: 0.95rem; font-weight: bold; border-radius: 8px; cursor: pointer;
-            box-shadow: 0 0 20px rgba(2, 132, 199, 0.5); transition: all 0.2s ease;
+        .tut-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 16px; border-radius: 16px;
+            backdrop-filter: blur(10px);
         }
-        .btn-start:hover { transform: scale(1.04); background: linear-gradient(135deg, #0369a1, #075985); }
+        .tut-card h4 { font-size: 0.9rem; color: var(--accent-gold); margin-bottom: 6px; }
+        .tut-card p { font-size: 0.82rem; color: var(--text-muted); margin: 0; line-height: 1.4; }
+        
+        /* Glass Buttons */
+        .btn-glass {
+            position: relative;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(2, 132, 199, 0.4));
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-top: 1px solid rgba(255, 255, 255, 0.5);
+            color: #fff;
+            padding: 14px 36px;
+            font-size: 0.95rem; font-weight: bold;
+            border-radius: 14px; cursor: pointer;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 25px rgba(2, 132, 199, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+        }
+        .btn-glass::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: skewX(-25deg); transition: 0.75s;
+        }
+        .btn-glass:hover::before { left: 150%; }
+        .btn-glass:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 12px 35px rgba(56, 189, 248, 0.45); }
 
         /* Navigation Header */
         header {
-            background: #090d16;
-            padding: 12px 24px;
-            border-bottom: 2px solid var(--panel-border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 60px;
+            z-index: 10;
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 12px 28px;
+            display: flex; justify-content: space-between; align-items: center;
+            height: 65px;
         }
-        .title-block h1 { font-size: 1.25rem; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 1.5px; text-shadow: 0 0 10px rgba(56, 189, 248, 0.3); }
-        .title-block .subtitle { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+        .title-block h1 {
+            font-size: 1.3rem; font-weight: 800;
+            background: linear-gradient(135deg, #fff 30%, var(--accent-blue));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            letter-spacing: 1.2px;
+        }
+        .title-block .subtitle { font-size: 0.8rem; color: var(--text-muted); margin-top: 1px; }
         
-        .header-controls { display: flex; gap: 12px; align-items: center; }
+        .header-controls { display: flex; gap: 14px; align-items: center; }
         .btn-changelog {
-            background: #1e293b; color: var(--accent-purple); border: 1px solid var(--accent-purple);
-            padding: 6px 14px; border-radius: 8px; font-weight: bold; font-size: 0.8rem; cursor: pointer;
-            transition: all 0.2s ease;
+            background: rgba(192, 132, 252, 0.15);
+            color: var(--accent-purple);
+            border: 1px solid rgba(192, 132, 252, 0.4);
+            padding: 7px 16px; border-radius: 12px; font-weight: 700; font-size: 0.8rem; cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .btn-changelog:hover { background: var(--accent-purple); color: #fff; }
+        .btn-changelog:hover { background: var(--accent-purple); color: #fff; transform: translateY(-2px); }
 
         #cycle-counter {
-            color: var(--accent-green); font-size: 1.05rem; font-weight: bold;
-            background: #1e293b; padding: 6px 16px; border-radius: 8px; border: 1px solid #334155;
-            box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);
+            color: var(--accent-green); font-size: 1rem; font-weight: 800;
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 7px 18px; border-radius: 12px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.15);
         }
 
-        /* 3-Column Executive Dashboard Layout */
+        /* 3-Column Glass Layout */
         .app-layout {
+            z-index: 5;
             display: grid;
             grid-template-columns: 320px 1fr 340px;
-            height: calc(100vh - 60px);
-            background: var(--bg-deep);
+            height: calc(100vh - 65px);
+            gap: 16px; padding: 16px;
         }
 
-        /* COLUMN 1: COMMANDER PANEL & DECREES */
-        .commander-panel {
-            background: var(--panel-bg);
-            border-right: 2px solid var(--panel-border);
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
+        .glass-panel {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid var(--glass-shine);
+            border-radius: 20px;
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            box-shadow: var(--glass-shadow);
+            padding: 18px;
+            display: flex; flex-direction: column; gap: 14px;
             overflow-y: auto;
+            position: relative;
         }
 
+        /* Commander Glass Card */
         .commander-card {
-            background: #111a2e;
-            border: 2px solid var(--accent-gold);
-            border-radius: 12px;
-            padding: 14px;
-            text-align: center;
-            box-shadow: 0 0 20px rgba(245, 158, 11, 0.15);
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.12), rgba(245, 158, 11, 0.04));
+            border: 1px solid rgba(251, 191, 36, 0.35);
+            border-radius: 16px; padding: 16px; text-align: center;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
         .commander-avatar-wrap {
-            width: 64px; height: 64px; margin: 0 auto 8px; border-radius: 50%;
-            background: #1e293b; border: 3px solid var(--accent-gold);
+            width: 68px; height: 68px; margin: 0 auto 8px; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid var(--accent-gold);
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+            font-size: 2.2rem;
+            animation: pulseGlow 3s ease-in-out infinite alternate;
         }
-        .commander-avatar-wrap span { font-size: 2rem; }
-        .commander-title { font-size: 0.95rem; font-weight: bold; color: var(--accent-gold); letter-spacing: 1px; }
 
-        .commander-actions h3 {
-            font-size: 0.8rem; color: var(--accent-gold); text-transform: uppercase;
-            letter-spacing: 1px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+        @keyframes pulseGlow {
+            from { box-shadow: 0 0 15px rgba(251, 191, 36, 0.2); }
+            to { box-shadow: 0 0 28px rgba(251, 191, 36, 0.5); }
         }
+
+        .commander-title { font-size: 0.95rem; font-weight: 800; color: var(--accent-gold); letter-spacing: 1px; }
+
+        /* Decrees List */
         .cmd-btn-list { display: flex; flex-direction: column; gap: 8px; }
         .cmd-btn {
-            background: #1e293b; color: #f1f5f9; border: 1px solid #334155;
-            padding: 9px 11px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; text-align: left;
-            display: flex; align-items: center; gap: 10px; transition: all 0.2s ease;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 10px 12px; border-radius: 12px; cursor: pointer; font-size: 0.8rem; text-align: left;
+            display: flex; align-items: center; gap: 10px;
+            backdrop-filter: blur(8px);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .cmd-btn:hover {
-            background: #2b3954; border-color: var(--accent-gold); transform: translateX(3px);
+            background: rgba(56, 189, 248, 0.15);
+            border-color: rgba(56, 189, 248, 0.4);
+            transform: translateX(4px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
-        /* Upgrades Tab Section */
+        /* Upgrades Section */
         .upgrades-section {
-            background: #0d1629; border: 1px solid #1e293b; border-radius: 10px; padding: 12px;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px; padding: 12px;
         }
-        .upgrades-section h3 { font-size: 0.8rem; color: var(--accent-blue); text-transform: uppercase; margin-bottom: 8px; }
+        .upgrades-section h3 { font-size: 0.78rem; color: var(--accent-blue); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.8px; }
         .upgrade-btn {
-            width: 100%; background: #162238; border: 1px solid #2b3e63; color: var(--accent-blue);
-            padding: 8px; border-radius: 6px; font-size: 0.74rem; cursor: pointer; margin-bottom: 6px; text-align: left;
-            transition: all 0.2s;
+            width: 100%; background: rgba(56, 189, 248, 0.08);
+            border: 1px solid rgba(56, 189, 248, 0.2); color: var(--accent-blue);
+            padding: 8px 10px; border-radius: 10px; font-size: 0.74rem; cursor: pointer; margin-bottom: 6px; text-align: left;
+            transition: all 0.3s;
         }
-        .upgrade-btn:hover { background: #1e3052; border-color: var(--accent-blue); color: #fff; }
+        .upgrade-btn:hover { background: rgba(56, 189, 248, 0.25); color: #fff; transform: translateY(-1px); }
 
-        /* COLUMN 2: CENTRAL CANVAS SIMULATION VIEWPORT */
+        /* Simulation Canvas Viewport */
         .simulation-viewport {
-            position: relative; background: #02040a;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px;
+            position: relative;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid var(--glass-shine);
+            border-radius: 20px;
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            box-shadow: var(--glass-shadow);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 16px; overflow: hidden;
         }
         canvas {
-            border: 2px solid var(--panel-border); border-radius: 16px;
-            box-shadow: 0 0 45px rgba(56, 189, 248, 0.15); background: #050914;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 18px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+            background: radial-gradient(circle at center, #091024 0%, #030612 100%);
         }
-        .canvas-legend { display: flex; gap: 16px; margin-top: 10px; font-size: 0.76rem; color: var(--text-muted); }
+        .canvas-legend { display: flex; gap: 16px; margin-top: 12px; font-size: 0.76rem; color: var(--text-muted); }
         .legend-tag { display: flex; align-items: center; gap: 6px; }
-        .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+        .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
 
-        /* Crisis Alert HUD */
+        /* Crisis Alert HUD Banner */
         #crisis-banner {
-            position: absolute; top: 25px; background: rgba(239, 68, 68, 0.9); color: #fff;
-            padding: 8px 20px; border-radius: 20px; font-size: 0.85rem; font-weight: bold;
-            box-shadow: 0 0 20px rgba(239, 68, 68, 0.6); animation: pulse-alert 1.2s infinite alternate;
+            position: absolute; top: 25px;
+            background: linear-gradient(135deg, rgba(244, 63, 94, 0.85), rgba(225, 29, 72, 0.95));
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff; padding: 10px 24px; border-radius: 30px;
+            font-size: 0.85rem; font-weight: 800; letter-spacing: 0.8px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 0 30px rgba(244, 63, 94, 0.6);
+            animation: pulseAlert 1s infinite alternate cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 50;
         }
-        @keyframes pulse-alert { from { transform: scale(1); } to { transform: scale(1.05); } }
+        @keyframes pulseAlert { from { transform: scale(0.96); } to { transform: scale(1.04); } }
 
-        /* COLUMN 3: AI ADVISOR & METRICS PANEL */
-        .ai-sidebar {
-            background: var(--panel-bg); border-left: 2px solid var(--panel-border);
-            padding: 16px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto;
-        }
-
+        /* AI External Glass HUD Box */
         .ai-advisor-box {
-            background: #0d1629; border: 2px solid var(--accent-blue);
-            border-radius: 12px; padding: 14px; box-shadow: 0 0 25px rgba(56, 189, 248, 0.2);
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(15, 23, 42, 0.4));
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 16px; padding: 14px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
             display: flex; flex-direction: column; gap: 10px;
         }
-        .ai-header { display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #1e293b; padding-bottom: 8px; }
+        .ai-header { display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 8px; }
         .ai-avatar-icon {
-            width: 38px; height: 38px; background: #1e293b; border: 2px solid var(--accent-blue);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+            width: 38px; height: 38px; background: rgba(56, 189, 248, 0.15);
+            border: 1px solid var(--accent-blue); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
         }
-        .ai-name { font-weight: bold; font-size: 0.85rem; color: var(--accent-blue); }
+        .ai-name { font-weight: 800; font-size: 0.85rem; color: var(--accent-blue); }
         .ai-status { font-size: 0.68rem; color: var(--accent-green); font-family: monospace; }
 
         .ai-speech-bubble {
-            background: #162238; border: 1px solid #283754; border-radius: 8px; padding: 12px;
-            font-size: 0.82rem; line-height: 1.45; color: #f1f5f9; min-height: 75px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px; padding: 12px;
+            font-size: 0.82rem; line-height: 1.5; color: #f1f5f9; min-height: 75px;
         }
         .ai-speech-bubble span.keyword { color: var(--accent-gold); font-weight: bold; }
         .ai-speech-bubble span.theory { color: var(--accent-green); font-style: italic; }
 
         .ai-prompt-grid { display: flex; flex-direction: column; gap: 6px; }
         .ai-prompt-btn {
-            background: #121c2e; color: var(--accent-blue); border: 1px solid #23334d;
-            padding: 7px 9px; border-radius: 6px; font-size: 0.74rem; text-align: left; cursor: pointer; transition: all 0.2s;
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--accent-blue);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            padding: 7px 10px; border-radius: 10px; font-size: 0.74rem; text-align: left; cursor: pointer;
+            transition: all 0.3s;
         }
-        .ai-prompt-btn:hover { background: #1b2a47; border-color: var(--accent-blue); color: #fff; }
+        .ai-prompt-btn:hover { background: rgba(56, 189, 248, 0.2); color: #fff; }
 
         /* Metrics Block */
         .metrics-group { display: flex; flex-direction: column; gap: 9px; }
-        .metric-card { background: #131b2e; border-radius: 8px; padding: 9px 12px; border-left: 4px solid var(--accent-blue); }
+        .metric-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px; padding: 9px 12px;
+            border-left: 4px solid var(--accent-blue);
+        }
         .metric-card.virtue { border-left-color: var(--accent-green); }
         .metric-card.beast { border-left-color: var(--accent-red); }
         .metric-card.mean { border-left-color: var(--accent-gold); }
@@ -231,40 +325,49 @@
         .metric-card.credits { border-left-color: var(--accent-purple); }
 
         .metric-header { display: flex; justify-content: space-between; align-items: center; }
-        .metric-title { font-size: 0.72rem; text-transform: uppercase; color: var(--text-muted); font-weight: 600; }
-        .metric-value { font-size: 0.92rem; font-weight: bold; color: #ffffff; }
-        .progress-bar { height: 6px; background: #080c14; border-radius: 4px; margin-top: 5px; overflow: hidden; }
+        .metric-title { font-size: 0.72rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; }
+        .metric-value { font-size: 0.92rem; font-weight: 800; color: #ffffff; }
+        .progress-bar { height: 6px; background: rgba(0, 0, 0, 0.4); border-radius: 4px; margin-top: 5px; overflow: hidden; }
         .progress-fill { height: 100%; transition: width 0.4s ease, background 0.4s ease; }
 
-        .btn-advance {
-            width: 100%; background: linear-gradient(135deg, #0284c7, #0369a1); color: #ffffff; border: none;
-            padding: 12px; font-weight: bold; font-size: 0.88rem; text-transform: uppercase; border-radius: 8px; cursor: pointer;
-            box-shadow: 0 0 15px rgba(2, 132, 199, 0.4); transition: all 0.2s;
+        /* Changelog List */
+        .changelog-list { text-align: left; display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; }
+        .changelog-item {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 14px; border-radius: 14px;
+            border-left: 4px solid var(--accent-purple);
         }
-        .btn-advance:hover { background: linear-gradient(135deg, #0369a1, #075985); }
+        .changelog-ver { font-size: 0.95rem; font-weight: 800; color: var(--accent-blue); margin-bottom: 6px; }
+        .changelog-item ul { margin-left: 18px; font-size: 0.83rem; color: var(--text-main); line-height: 1.5; }
     </style>
 </head>
 <body>
 
+    <!-- Ambient Liquid Orbs -->
+    <div class="fluid-orb orb-1"></div>
+    <div class="fluid-orb orb-2"></div>
+    <div class="fluid-orb orb-3"></div>
+
     <!-- Onboarding Tutorial Modal -->
     <div id="tutorial-overlay" class="overlay">
         <div class="modal">
-            <h2>Aristotle’s Space Polis v2.0</h2>
-            <div class="modal-subtitle">Expanded Political Philosophy Engine</div>
+            <h2>Aristotle’s Liquid Glass Polis</h2>
+            <div class="modal-subtitle">Political Philosophy Track 1 — Version 3.0</div>
             <div class="tut-text">
-                <p>Welcome back, Commander! Version 2.0 introduces <strong>Polis Credits</strong>, <strong>Random Events & Crises</strong>, and <strong>District Upgrades</strong> to deepen governance mechanics.</p>
+                <p>Welcome to Astraea Station! Version 3.0 features a full <strong>Liquid Glass UI</strong> with fluid backdrop blurring, soft particle dynamics, and realistic glass sheen overlays.</p>
             </div>
             <div class="tut-grid">
                 <div class="tut-card">
-                    <h4>💎 Credits & Crises</h4>
-                    <p>Manage Polis Credits earned each turn to fund district upgrades or resolve random atmospheric flares & outlaws.</p>
+                    <h4>💎 Liquid Glass Mechanics</h4>
+                    <p>Manage Polis Credits, trigger fluid apricity beams, and execute emergency decrees under full glassmorphism HUD visuals.</p>
                 </div>
                 <div class="tut-card">
-                    <h4>📜 In-Game Changelog</h4>
-                    <p>Click the Changelog button at the top header to inspect full patch notes and system updates.</p>
+                    <h4>📜 Mandated Philosophy</h4>
+                    <p>Demonstrate Aristotle's <em>Polis</em>, Civic Virtue, and Golden Mean balance while naturally applying <strong>Apricity</strong> and <strong>Defenestration</strong>.</p>
                 </div>
             </div>
-            <button class="btn-start" onclick="closeTutorial()">Begin v2.0 Governance</button>
+            <button class="btn-glass" onclick="closeTutorial()">Begin Liquid Simulation</button>
         </div>
     </div>
 
@@ -276,33 +379,22 @@
             
             <div class="changelog-list">
                 <div class="changelog-item">
-                    <div class="changelog-ver">v2.0 — Executive Economy & Crisis Expansion (Current)</div>
+                    <div class="changelog-ver">v3.0 — Liquid Glass & Fluid Visual Engine (Current)</div>
                     <ul>
-                        <li><strong>Polis Credits Economy:</strong> Earn 25+ credits per cycle to spend on upgrades and decrees.</li>
-                        <li><strong>Random Crisis Events:</strong> Solar Flares, Atmospheric Leaks, and Agora Riots randomly occur.</li>
-                        <li><strong>District Upgrades:</strong> Spend credits to level up Solarium (+Efficiency), Lyceum (+Debate output), and Hydroponics (+Oxygen generation).</li>
-                        <li><strong>New Decrees:</strong> Added "Quarantine Sector" and "Distribute Rations" actions.</li>
-                        <li><strong>In-Game Changelog:</strong> Added interactive HUD modal to view project version history.</li>
+                        <li><strong>Liquid Glass UI:</strong> Complete redesign featuring backdrop blur, glossy border glows, and ambient background fluid orbs.</li>
+                        <li><strong>Fluid Canvas Physics:</strong> Organic wave deformation on central Agora, glowing fluid citizen particle trails, and interactive ripple bursts.</li>
+                        <li><strong>Refined Speech HUD:</strong> Translucent glass speech bubbles with animated pointer tails and crisp typography.</li>
                     </ul>
                 </div>
                 <div class="changelog-item">
-                    <div class="changelog-ver">v1.2 — Commander & External AI Overhaul</div>
+                    <div class="changelog-ver">v2.0 — Executive Economy & Crisis Expansion</div>
                     <ul>
-                        <li>Positioned AI Advisor chatbot outside the habitat simulation viewport.</li>
-                        <li>Added large interactive Commander Avatar (👨‍✈️) walking between station districts.</li>
-                        <li>Created 3-column executive UI layout for field commands and diagnostic prompts.</li>
-                    </ul>
-                </div>
-                <div class="changelog-item">
-                    <div class="changelog-ver">v1.1 — Simulation Engine & Canvas Fixes</div>
-                    <ul>
-                        <li>Applied circular HTML5 Canvas clipping mask (`ctx.clip()`) to prevent particle overflow outside the dome.</li>
-                        <li>Added particle bursts, apricity light rays, and smooth bouncing walk cycles.</li>
+                        <li>Added Polis Credits economy, random Solar Flares / Riots, and District Upgrade trees.</li>
                     </ul>
                 </div>
             </div>
 
-            <button class="btn-start" onclick="toggleChangelog()">Close Changelog</button>
+            <button class="btn-glass" onclick="toggleChangelog()">Close Changelog</button>
         </div>
     </div>
 
@@ -311,15 +403,15 @@
         <div class="modal">
             <h2 id="end-title">Simulation Complete</h2>
             <p id="end-message" style="font-size:0.92rem; margin:16px 0 24px; color:#cbd5e1; line-height:1.5;"></p>
-            <button class="btn-start" onclick="restartGame()">Re-Initialize Colony</button>
+            <button class="btn-glass" onclick="restartGame()">Re-Initialize Colony</button>
         </div>
     </div>
 
-    <!-- Application Navigation Header -->
+    <!-- Navigation Header -->
     <header>
         <div class="title-block">
-            <h1>Astraea Station: Aristotelian Polis</h1>
-            <div class="subtitle">Interactive Deep-Space Governance Simulation</div>
+            <h1>Astraea Station: Liquid Glass Polis</h1>
+            <div class="subtitle">Aristotelian Political Philosophy Engine v3.0</div>
         </div>
         <div class="header-controls">
             <button class="btn-changelog" onclick="toggleChangelog()">📜 Changelog</button>
@@ -330,15 +422,15 @@
     <!-- Main Layout -->
     <div class="app-layout">
         
-        <!-- COLUMN 1: COMMANDER DECREES & UPGRADES -->
-        <div class="commander-panel">
+        <!-- COLUMN 1: COMMANDER PANEL & DECREES -->
+        <div class="glass-panel">
             <div class="commander-card">
-                <div class="commander-avatar-wrap"><span>👨‍✈️</span></div>
+                <div class="commander-avatar-wrap">👨‍✈️</div>
                 <div class="commander-title">COMMANDER ASTRAEA</div>
             </div>
 
             <div class="commander-actions">
-                <h3><span>📜</span> Executive Decrees</h3>
+                <h3 style="font-size: 0.78rem; color: var(--accent-gold); text-transform: uppercase; margin-bottom: 8px;">📜 Executive Decrees</h3>
                 <div class="cmd-btn-list">
                     <button class="cmd-btn" onclick="cmdInspectSolarium()">
                         <span>☀️</span>
@@ -354,7 +446,7 @@
                     </button>
                     <button class="cmd-btn" onclick="cmdQuarantine()">
                         <span>🛡️</span>
-                        <div><strong>Quarantine Outlaws</strong><br><small>Suppress beastliness (-15 Beast, 15 💎)</small></div>
+                        <div><strong>Quarantine Outlaws</strong><br><small>Suppress beastliness (-18 Beast, 15 💎)</small></div>
                     </button>
                     <button class="cmd-btn" onclick="cmdDistributeRations()">
                         <span>🍞</span>
@@ -369,9 +461,9 @@
 
             <div class="upgrades-section">
                 <h3>🛠️ District Upgrades</h3>
-                <button class="upgrade-btn" onclick="upgradeDistrict('solarium')">☀️ Upgrade Solarium (Lvl <span id="lvl-solarium">1</span>) — 40 💎</button>
-                <button class="upgrade-btn" onclick="upgradeDistrict('lyceum')">🏛️ Upgrade Lyceum (Lvl <span id="lvl-lyceum">1</span>) — 45 💎</button>
-                <button class="upgrade-btn" onclick="upgradeDistrict('hydroponics')">🌱 Upgrade Hydroponics (Lvl <span id="lvl-hydroponics">1</span>) — 50 💎</button>
+                <button class="upgrade-btn" onclick="upgradeDistrict('solarium')">☀️ Solarium Lvl <span id="lvl-solarium">1</span> — 40 💎</button>
+                <button class="upgrade-btn" onclick="upgradeDistrict('lyceum')">🏛️ Lyceum Lvl <span id="lvl-lyceum">1</span> — 45 💎</button>
+                <button class="upgrade-btn" onclick="upgradeDistrict('hydroponics')">🌱 Hydroponics Lvl <span id="lvl-hydroponics">1</span> — 50 💎</button>
             </div>
         </div>
 
@@ -388,27 +480,26 @@
         </div>
 
         <!-- COLUMN 3: AI ADVISOR & METRICS HUD -->
-        <div class="ai-sidebar">
+        <div class="glass-panel">
             <div class="ai-advisor-box">
                 <div class="ai-header">
                     <div class="ai-avatar-icon">🤖</div>
                     <div class="ai-info-text">
                         <div class="ai-name">ARISTOTLE-AI ADVISOR</div>
-                        <div class="ai-status">● ORBITAL SENSORS ONLINE</div>
+                        <div class="ai-status">● FLUID GLASS SENSORS ONLINE</div>
                     </div>
                 </div>
                 <div class="ai-speech-bubble" id="aiSpeech">
-                    "Greetings, Commander. Station initialized in v2.0 mode. Manage Polis Credits and watch for unexpected solar flares!"
+                    "Greetings, Commander. Station online in Liquid Glass v3.0 mode. Manage Polis Credits and keep our Polis flourishing!"
                 </div>
                 
                 <div class="ai-prompt-grid">
-                    <button class="ai-prompt-btn" onclick="askAI('upgrades')">🛠️ Ask AI: Which upgrade should I buy?</button>
-                    <button class="ai-prompt-btn" onclick="askAI('credits')">💎 Ask AI: How do I gain Credits?</button>
-                    <button class="ai-prompt-btn" onclick="askAI('status')">📡 Ask AI: Tactical Colony Diagnosis</button>
+                    <button class="ai-prompt-btn" onclick="askAI('upgrades')">🛠️ Ask AI: Upgrade strategy?</button>
+                    <button class="ai-prompt-btn" onclick="askAI('apricity')">☀️ Ask AI: Meaning of Apricity?</button>
+                    <button class="ai-prompt-btn" onclick="askAI('status')">📡 Ask AI: Tactical Diagnosis</button>
                 </div>
             </div>
 
-            <!-- Colony Metrics Display -->
             <div class="metrics-group">
                 <div class="metric-card credits">
                     <div class="metric-header">
@@ -450,7 +541,7 @@
                 </div>
             </div>
 
-            <button class="btn-advance" onclick="nextCycle()">Advance Turn / Cycle</button>
+            <button class="btn-glass" style="width:100%; border-radius:14px; padding:12px;" onclick="nextCycle()">Advance Turn / Cycle</button>
         </div>
     </div>
 
@@ -464,9 +555,7 @@
         let credits = 60;
         let isGameOver = false;
         let shakeTime = 0;
-        let activeCrisis = null;
 
-        // Upgrade Levels
         let solariumLvl = 1;
         let lyceumLvl = 1;
         let hydroLvl = 1;
@@ -502,7 +591,7 @@
                 this.y = districts.agora.y;
                 this.targetX = districts.agora.x;
                 this.targetY = districts.agora.y;
-                this.speed = 2.2;
+                this.speed = 2.4;
                 this.bounce = 0;
                 this.actionState = 'IDLE';
             }
@@ -534,14 +623,14 @@
 
                 ctx.beginPath();
                 ctx.ellipse(this.x, drawY + 12, 16, 6, 0, 0, Math.PI * 2);
-                ctx.fillStyle = "rgba(245, 158, 11, 0.4)";
+                ctx.fillStyle = "rgba(251, 191, 36, 0.4)";
                 ctx.fill();
 
                 ctx.beginPath();
                 ctx.arc(this.x, drawY, 12, 0, Math.PI * 2);
-                ctx.shadowColor = "#f59e0b";
+                ctx.shadowColor = "#fbbf24";
                 ctx.shadowBlur = 18;
-                ctx.fillStyle = "#f59e0b";
+                ctx.fillStyle = "#fbbf24";
                 ctx.fill();
                 ctx.shadowBlur = 0;
                 ctx.strokeStyle = "#ffffff";
@@ -553,7 +642,7 @@
 
                 if (this.actionState !== 'IDLE') {
                     ctx.font = 'bold 9.5px sans-serif';
-                    ctx.fillStyle = '#f59e0b';
+                    ctx.fillStyle = '#fbbf24';
                     ctx.fillText(`COMMAND: ${this.actionState}`, this.x - 45, drawY - 32);
                 }
             }
@@ -601,7 +690,7 @@
             draw() {
                 if (this.state === 'exiled') return;
 
-                let color = this.state === 'beast' ? '#ef4444' : (this.state === 'apricity' ? '#f59e0b' : '#10b981');
+                let color = this.state === 'beast' ? '#f43f5e' : (this.state === 'apricity' ? '#fbbf24' : '#10b981');
 
                 for (let i = 0; i < this.history.length; i++) {
                     let pos = this.history[i];
@@ -657,12 +746,12 @@
 
         function askAI(topic) {
             if (topic === 'upgrades') {
-                setAISpeech(`"Upgrade <span class='keyword'>Hydroponics</span> first if atmosphere drops quickly, or <span class='keyword'>Lyceum</span> to multiply Virtue gains!"`);
-            } else if (topic === 'credits') {
-                setAISpeech(`"You gain <span class='keyword'>+25 Polis Credits</span> per cycle. Higher Civic Virtue boosts turn income!"`);
+                setAISpeech(`"Upgrade <span class='keyword'>Hydroponics</span> to double life support or <span class='keyword'>Lyceum</span> to maximize virtue!"`);
+            } else if (topic === 'apricity') {
+                setAISpeech(`"<span class='keyword'>Apricity</span> refers to the warmth of the sun in winter. In our station, solar lamps recreate this apricity to nurture civic virtue!"`);
             } else if (topic === 'status') {
-                let diagnosis = virtue < 50 ? "CRITICAL: Virtue is low!" : (beast > 40 ? "WARNING: Outlaws active!" : "STABLE: Polis operating smoothly.");
-                setAISpeech(`"Diagnostic: ${diagnosis} Credits: ${credits} 💎. Atmosphere: ${oxygen}%."`);
+                let diagnosis = virtue < 50 ? "CRITICAL: Virtue low!" : (beast > 40 ? "WARNING: Outlaws violent!" : "STABLE: Polis operating smoothly.");
+                setAISpeech(`"Diagnostic: ${diagnosis} Credits: ${credits} 💎. Oxygen: ${oxygen}%."`);
             }
         }
 
@@ -708,8 +797,9 @@
                 ctx.fill();
             });
 
+            // Outer Liquid Glass Dome Ring
             let domeGlow = Math.sin(Date.now() * 0.003) * 5 + 14;
-            ctx.strokeStyle = '#38bdf8';
+            ctx.strokeStyle = 'rgba(56, 189, 248, 0.6)';
             ctx.shadowColor = '#38bdf8';
             ctx.shadowBlur = domeGlow;
             ctx.lineWidth = 3.5;
@@ -723,7 +813,8 @@
             ctx.arc(280, 220, 192, 0, Math.PI * 2);
             ctx.clip();
 
-            ctx.strokeStyle = "rgba(56, 189, 248, 0.04)";
+            // Fluid Holographic Grid
+            ctx.strokeStyle = "rgba(56, 189, 248, 0.05)";
             ctx.lineWidth = 1;
             for (let x = 0; x < canvas.width; x += 25) {
                 ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
@@ -732,7 +823,8 @@
                 ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
             }
 
-            ctx.strokeStyle = 'rgba(56, 189, 248, 0.2)';
+            // Energy Connectors
+            ctx.strokeStyle = 'rgba(56, 189, 248, 0.25)';
             ctx.lineWidth = 2;
             ctx.beginPath();
             ctx.moveTo(districts.agora.x, districts.agora.y); ctx.lineTo(districts.solarium.x + 52, districts.solarium.y + 30);
@@ -741,17 +833,15 @@
             ctx.moveTo(districts.agora.x, districts.agora.y); ctx.lineTo(districts.airlock.x + 42, districts.airlock.y + 30);
             ctx.stroke();
 
+            // Solarium Apricity Rays
             let time = Date.now() * 0.002;
             ctx.save();
             ctx.translate(districts.solarium.x + 52, districts.solarium.y + 30);
             for (let i = 0; i < 8; i++) {
                 let rayAngle = (i * Math.PI / 4) + time;
-                ctx.strokeStyle = "rgba(245, 158, 11, 0.15)";
+                ctx.strokeStyle = "rgba(251, 191, 36, 0.18)";
                 ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.moveTo(0, 0);
-                ctx.lineTo(Math.cos(rayAngle) * 50, Math.sin(rayAngle) * 50);
-                ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(Math.cos(rayAngle) * 50, Math.sin(rayAngle) * 50); ctx.stroke();
             }
             ctx.restore();
 
@@ -760,7 +850,7 @@
             ctx.fillRect(districts.solarium.x, districts.solarium.y, districts.solarium.w, districts.solarium.h);
             ctx.strokeStyle = districts.solarium.border; ctx.lineWidth = 2;
             ctx.strokeRect(districts.solarium.x, districts.solarium.y, districts.solarium.w, districts.solarium.h);
-            ctx.fillStyle = "#f59e0b"; ctx.font = "bold 9.5px sans-serif";
+            ctx.fillStyle = "#fbbf24"; ctx.font = "bold 9.5px sans-serif";
             ctx.fillText(`☀️ SOLARIUM Lvl ${solariumLvl}`, districts.solarium.x + 6, districts.solarium.y + 35);
 
             // Lyceum
@@ -784,13 +874,14 @@
             ctx.fillRect(districts.airlock.x, districts.airlock.y, districts.airlock.w, districts.airlock.h);
             ctx.strokeStyle = districts.airlock.border;
             ctx.strokeRect(districts.airlock.x, districts.airlock.y, districts.airlock.w, districts.airlock.h);
-            ctx.fillStyle = "#ef4444";
+            ctx.fillStyle = "#f43f5e";
             ctx.fillText("🚀 AIRLOCK", districts.airlock.x + 14, districts.airlock.y + 35);
 
-            // Agora Core
+            // Fluid Deforming Agora Core
+            let fluidR = districts.agora.r + Math.sin(Date.now() * 0.003) * 3;
             ctx.fillStyle = districts.agora.color;
             ctx.beginPath();
-            ctx.arc(districts.agora.x, districts.agora.y, districts.agora.r, 0, Math.PI * 2);
+            ctx.arc(districts.agora.x, districts.agora.y, fluidR, 0, Math.PI * 2);
             ctx.fill();
             ctx.strokeStyle = districts.agora.border;
             ctx.stroke();
@@ -851,24 +942,22 @@
             document.getElementById('cycle-counter').innerText = `Cycle: ${cycle} / ${MAX_CYCLES}`;
         }
 
-        // District Upgrades
         function upgradeDistrict(type) {
             if (type === 'solarium' && credits >= 40) {
                 credits -= 40; solariumLvl++;
-                setAISpeech(`"Solarium upgraded to Lvl ${solariumLvl}! Apricity heat yield enhanced."`);
+                setAISpeech(`"Solarium upgraded to Lvl ${solariumLvl}! Apricity warmth yield increased."`);
             } else if (type === 'lyceum' && credits >= 45) {
                 credits -= 45; lyceumLvl++;
-                setAISpeech(`"Lyceum upgraded to Lvl ${lyceumLvl}! Virtue gains increased."`);
+                setAISpeech(`"Lyceum upgraded to Lvl ${lyceumLvl}! Philosophical debate enhanced."`);
             } else if (type === 'hydroponics' && credits >= 50) {
                 credits -= 50; hydroLvl++;
-                setAISpeech(`"Hydroponics upgraded to Lvl ${hydroLvl}! Atmospheric production doubled."`);
+                setAISpeech(`"Hydroponics upgraded to Lvl ${hydroLvl}! Atmospheric generation doubled."`);
             } else {
                 setAISpeech(`"Insufficient Polis Credits to purchase upgrade!"`);
             }
             updateUI();
         }
 
-        // Executive Decrees
         function cmdInspectSolarium() {
             if (isGameOver) return;
             let boost = 12 + solariumLvl * 4;
@@ -877,9 +966,9 @@
             oxygen = Math.max(0, oxygen - 3);
 
             commander.moveTo(districts.solarium.x + 52, districts.solarium.y + 30, 'SOLARIUM');
-            setAISpeech(`"Commander Astraea inspecting Solarium! <span class='keyword'>+${boost} Virtue</span> generated from solar apricity."`);
-            spawnBurstParticles(districts.solarium.x + 52, districts.solarium.y + 30, '#f59e0b', 25, 1.2);
-            spawnFloatingText(`Apricity! ☀️ +${boost} Virtue`, districts.solarium.x - 10, districts.solarium.y - 12, '#f59e0b');
+            setAISpeech(`"Commander Astraea inspecting Solarium! Citizens soaking in solar <span class='keyword'>apricity</span> (+${boost} Virtue)."`);
+            spawnBurstParticles(districts.solarium.x + 52, districts.solarium.y + 30, '#fbbf24', 25, 1.2);
+            spawnFloatingText(`Apricity! ☀️ +${boost} Virtue`, districts.solarium.x - 10, districts.solarium.y - 12, '#fbbf24');
             updateUI();
         }
 
@@ -890,7 +979,7 @@
             meanBalance = meanBalance > 0 ? Math.max(0, meanBalance - 15) : Math.min(0, meanBalance + 15);
 
             commander.moveTo(districts.lyceum.x + 52, districts.lyceum.y + 30, 'LYCEUM');
-            setAISpeech(`"Philosophical debate in Lyceum! <span class='theory'>Virtue increased by +${boost}.</span>"`);
+            setAISpeech(`"Philosophical debate hosted at Lyceum! <span class='theory'>Virtue increased by +${boost}.</span>"`);
             spawnBurstParticles(districts.lyceum.x + 52, districts.lyceum.y + 30, '#10b981', 25, 1.2);
             spawnFloatingText(`Lyceum Debate! 🏛️ +${boost} Virtue`, districts.lyceum.x - 10, districts.lyceum.y - 12, '#10b981');
             updateUI();
@@ -912,7 +1001,7 @@
             if (isGameOver) return;
             if (credits >= 15) {
                 credits -= 15; beast = Math.max(0, beast - 18);
-                setAISpeech(`"Commander ordered sector quarantine! Beastliness suppressed by 18 points."`);
+                setAISpeech(`"Sector quarantine enforced! Outlaw beastliness reduced by 18 points."`);
                 updateUI();
             } else { setAISpeech(`"Need 15 Credits for Quarantine!"`); }
         }
@@ -921,7 +1010,7 @@
             if (isGameOver) return;
             if (credits >= 10) {
                 credits -= 10; meanBalance = 0;
-                setAISpeech(`"Equal food rations distributed! Golden Mean restored to perfect balance."`);
+                setAISpeech(`"Equal rations distributed! Golden Mean restored to perfect balance."`);
                 updateUI();
             } else { setAISpeech(`"Need 10 Credits for Rations!"`); }
         }
@@ -936,12 +1025,12 @@
                 beastCitizen.targetX = districts.airlock.x + 42; beastCitizen.targetY = districts.airlock.y + 30;
 
                 commander.moveTo(districts.airlock.x + 42, districts.airlock.y - 15, 'AIRLOCK EXILE');
-                setAISpeech(`"AIRLOCK DEFENESTRATION! Aristotle: 'He who lives outside society is either a beast or a god!'"`);
+                setAISpeech(`"AIRLOCK DEFENESTRATION! <span class='keyword'>Aristotle: 'He who lives outside society is either a beast or a god!'</span>"`);
 
                 setTimeout(() => {
                     triggerScreenShake(14);
-                    spawnBurstParticles(districts.airlock.x + 42, districts.airlock.y + 30, '#ef4444', 40, 2.0);
-                    spawnFloatingText("DEFENESTRATED! 🚀 Airlock Exile", districts.airlock.x - 30, districts.airlock.y - 15, '#ef4444');
+                    spawnBurstParticles(districts.airlock.x + 42, districts.airlock.y + 30, '#f43f5e', 40, 2.0);
+                    spawnFloatingText("DEFENESTRATED! 🚀 Airlock Exile", districts.airlock.x - 30, districts.airlock.y - 15, '#f43f5e');
                     beastCitizen.state = 'exiled';
                 }, 750);
             } else { setAISpeech(`"No dangerous beastly outlaws warrant airlock defenestration."`); }
@@ -957,18 +1046,14 @@
 
             const crisisBanner = document.getElementById('crisis-banner');
             crisisBanner.classList.add('hidden');
-            activeCrisis = null;
 
-            // Random Events Engine
             let rand = Math.random();
             if (rand < 0.25) {
-                activeCrisis = "SOLAR FLARE";
                 oxygen = Math.max(0, oxygen - 8);
                 crisisBanner.innerText = "⚠️ CRISIS: SOLAR FLARE! (-8% Oxygen)";
                 crisisBanner.classList.remove('hidden');
-                setAISpeech(`"ALERT: Solar Flare detected! Life support drained."`);
+                setAISpeech(`"ALERT: Solar Flare detected! Atmosphere drained."`);
             } else if (rand < 0.45) {
-                activeCrisis = "AGORA RIOT";
                 beast = Math.min(100, beast + 15);
                 crisisBanner.innerText = "⚠️ CRISIS: AGORA RIOT! (+15 Beastliness)";
                 crisisBanner.classList.remove('hidden');
@@ -990,13 +1075,13 @@
             if (oxygen <= 0) {
                 isGameOver = true;
                 endTitle.innerText = "SIMULATION FAILED: Atmosphere Exhausted";
-                endTitle.style.color = "#ef4444";
+                endTitle.style.color = "#f43f5e";
                 endMsg.innerHTML = "Life support failed. Without a functioning atmosphere, the Polis collapsed into ruin.";
                 endOverlay.classList.remove('hidden');
             } else if (beast >= 80) {
                 isGameOver = true;
                 endTitle.innerText = "SIMULATION FAILED: Bestial Regression";
-                endTitle.style.color = "#ef4444";
+                endTitle.style.color = "#f43f5e";
                 endMsg.innerHTML = "Isolation destroyed civic life. As Aristotle predicted, humans cut off from law reverted to beastly savagery.";
                 endOverlay.classList.remove('hidden');
             } else if (cycle >= MAX_CYCLES) {
