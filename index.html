@@ -135,12 +135,12 @@
             <h2>Aristotle’s Outer Space Polis</h2>
             <div class="modal-subtitle">Political Philosophy Project Track 1</div>
             <div class="tut-text">
-                <p>Welcome to Astraea Station. Watch your floating AI Governor <strong>ARISTOTLE-AI</strong> bubble around the dome and speak directly to you through dynamic canvas speech bubbles!</p>
+                <p>Welcome to Astraea Station. Your AI Governor <strong>ARISTOTLE-AI</strong> floats outside the simulation dome, observing the habitat and narrating political philosophy events!</p>
             </div>
             <div class="tut-grid">
                 <div class="tut-card">
-                    <h4>🤖 Live Floating AI Advisor</h4>
-                    <p>The AI drone floats across the habitat map, broadcasting philosophical updates and decree feedback above its head.</p>
+                    <h4>🤖 Stationary AI Advisor</h4>
+                    <p>The AI drone floats right outside the top-left of the habitat dome, pointing speech bubbles directly inward at the colony.</p>
                 </div>
                 <div class="tut-card">
                     <h4>⚖️ The Golden Mean</h4>
@@ -163,25 +163,25 @@
     <!-- Header -->
     <header>
         <div>
-            <h1>The Aristotelian Polis: Floating AI Narrator</h1>
-            <div class="subtitle">Canvas AI Speech Bubbles & Habitat Engine</div>
+            <h1>The Aristotelian Polis: Outer AI Observer</h1>
+            <div class="subtitle">External AI Narrator & Interactive Space Habitat</div>
         </div>
         <div id="cycle-counter">Cycle: 1 / 20</div>
     </header>
 
     <div class="main-container">
-        <!-- Interactive Station Map Viewport -->
+        <!-- Viewport Canvas -->
         <div class="viewport">
             <canvas id="colonyCanvas" width="560" height="420"></canvas>
             <div class="legend">
                 <div class="legend-item"><span class="dot" style="background:#10b981; box-shadow:0 0 8px #10b981;"></span> Virtuous Citizen</div>
                 <div class="legend-item"><span class="dot" style="background:#f59e0b; box-shadow:0 0 8px #f59e0b;"></span> Soaking in Apricity</div>
                 <div class="legend-item"><span class="dot" style="background:#ef4444; box-shadow:0 0 8px #ef4444;"></span> Beastly Outlaw</div>
-                <div class="legend-item"><span class="dot" style="background:#38bdf8; box-shadow:0 0 8px #38bdf8;"></span> AI Drone Advisor</div>
+                <div class="legend-item"><span class="dot" style="background:#38bdf8; box-shadow:0 0 8px #38bdf8;"></span> AI Observer (Outside Dome)</div>
             </div>
         </div>
 
-        <!-- Control Dashboard Side Panel -->
+        <!-- Dashboard Side Panel -->
         <div class="dashboard">
             <div class="metric-card virtue">
                 <div class="metric-header">
@@ -263,15 +263,14 @@
             airlock: { x: 125, y: 265, w: 85, h: 60, name: "AIRLOCK", color: "#3b0f16", border: "#ef4444" }
         };
 
+        // FLOATING AI DRONE CLASS — STATIONARY OUTSIDE THE DOME LOOKING IN
         class AIDrone {
             constructor() {
-                this.x = 280;
-                this.y = 170;
-                this.targetX = 280;
-                this.targetY = 170;
-                this.speed = 1.2;
+                // Fixed position floating right outside top-left of dome
+                this.x = 65;
+                this.y = 50;
                 this.bobAngle = 0;
-                this.speechText = "Greetings, Commander! I am ARISTOTLE-AI. I will narrate all events right here!";
+                this.speechText = "Greetings, Commander! ARISTOTLE-AI observing from orbit. Lead our Polis to Cycle 20!";
                 this.speechTimer = 350;
             }
 
@@ -281,60 +280,62 @@
             }
 
             update() {
-                this.bobAngle += 0.05;
-                let dx = this.targetX - this.x;
-                let dy = this.targetY - this.y;
-                let dist = Math.hypot(dx, dy);
-
-                if (dist > 5) {
-                    this.x += (dx / dist) * this.speed;
-                    this.y += (dy / dist) * this.speed;
-                } else {
-                    if (Math.random() < 0.02) {
-                        this.targetX = 280 + (Math.random() - 0.5) * 220;
-                        this.targetY = 210 + (Math.random() - 0.5) * 200;
-                    }
-                }
-
+                // Gentle floating bob in place (doesn't wander inside the dome)
+                this.bobAngle += 0.04;
                 if (this.speechTimer > 0) this.speechTimer--;
             }
 
             draw() {
-                let floatY = this.y + Math.sin(this.bobAngle) * 4;
+                let floatY = this.y + Math.sin(this.bobAngle) * 3;
 
+                // Outer Sensor Field Ring
                 ctx.beginPath();
-                ctx.arc(this.x, floatY, 14, 0, Math.PI * 2);
-                ctx.fillStyle = "rgba(56, 189, 248, 0.25)";
+                ctx.arc(this.x, floatY, 15, 0, Math.PI * 2);
+                ctx.fillStyle = "rgba(56, 189, 248, 0.2)";
                 ctx.fill();
 
+                // Metallic Chassis
                 ctx.beginPath();
-                ctx.arc(this.x, floatY, 9, 0, Math.PI * 2);
+                ctx.arc(this.x, floatY, 10, 0, Math.PI * 2);
                 ctx.fillStyle = "#38bdf8";
                 ctx.shadowColor = "#38bdf8";
-                ctx.shadowBlur = 12;
+                ctx.shadowBlur = 14;
                 ctx.fill();
                 ctx.shadowBlur = 0;
                 ctx.strokeStyle = "#ffffff";
                 ctx.lineWidth = 1.5;
                 ctx.stroke();
 
+                // Holographic Glowing Eye Lens (angled down toward dome)
                 ctx.beginPath();
-                ctx.arc(this.x, floatY, 4, 0, Math.PI * 2);
+                ctx.arc(this.x + 2, floatY + 2, 4.5, 0, Math.PI * 2);
                 ctx.fillStyle = "#0f172a";
                 ctx.fill();
 
+                // Camera Sensor Beam aiming into simulation
+                ctx.strokeStyle = "rgba(56, 189, 248, 0.25)";
+                ctx.lineWidth = 1.5;
+                ctx.setLineDash([4, 4]);
                 ctx.beginPath();
-                ctx.moveTo(this.x, floatY - 9);
-                ctx.lineTo(this.x, floatY - 15);
+                ctx.moveTo(this.x + 6, floatY + 6);
+                ctx.lineTo(this.x + 45, floatY + 45);
+                ctx.stroke();
+                ctx.setLineDash([]); // Reset line dash
+
+                // Antenna Tip
+                ctx.beginPath();
+                ctx.moveTo(this.x - 4, floatY - 8);
+                ctx.lineTo(this.x - 8, floatY - 14);
                 ctx.strokeStyle = "#38bdf8";
                 ctx.lineWidth = 2;
                 ctx.stroke();
 
                 ctx.beginPath();
-                ctx.arc(this.x, floatY - 16, 2.5, 0, Math.PI * 2);
+                ctx.arc(this.x - 9, floatY - 15, 2.5, 0, Math.PI * 2);
                 ctx.fillStyle = "#f59e0b";
                 ctx.fill();
 
+                // Render Speech Bubble outside dome
                 if (this.speechTimer > 0 && this.speechText) {
                     this.drawSpeechBubble(floatY);
                 }
@@ -347,7 +348,7 @@
                 let words = this.speechText.split(' ');
                 let lines = [];
                 let currentLine = words[0];
-                let maxWidth = 190;
+                let maxWidth = 200;
 
                 for (let i = 1; i < words.length; i++) {
                     let testLine = currentLine + " " + words[i];
@@ -363,16 +364,14 @@
 
                 let lineHeight = 13;
                 let padding = 10;
-                let boxWidth = Math.min(maxWidth + padding * 2, 210);
+                let boxWidth = Math.min(maxWidth + padding * 2, 220);
                 let boxHeight = lines.length * lineHeight + padding * 2;
 
-                let boxX = this.x - boxWidth / 2;
-                let boxY = floatY - boxHeight - 22;
+                // Position speech box nicely beside/below drone
+                let boxX = this.x + 18;
+                let boxY = floatY + 10;
 
-                boxX = Math.max(15, Math.min(canvas.width - boxWidth - 15, boxX));
-                boxY = Math.max(15, Math.min(canvas.height - boxHeight - 15, boxY));
-
-                ctx.fillStyle = "rgba(15, 23, 42, 0.94)";
+                ctx.fillStyle = "rgba(15, 23, 42, 0.95)";
                 ctx.strokeStyle = "#38bdf8";
                 ctx.lineWidth = 2;
                 ctx.shadowColor = "#38bdf8";
@@ -388,13 +387,15 @@
                 ctx.stroke();
                 ctx.shadowBlur = 0;
 
+                // Pointer tail pointing to AI drone lens
                 ctx.beginPath();
-                ctx.moveTo(this.x - 5, boxY + boxHeight);
-                ctx.lineTo(this.x, boxY + boxHeight + 7);
-                ctx.lineTo(this.x + 5, boxY + boxHeight);
+                ctx.moveTo(boxX, boxY + 10);
+                ctx.lineTo(this.x + 10, floatY + 5);
+                ctx.lineTo(boxX + 8, boxY + 18);
                 ctx.fillStyle = "#38bdf8";
                 ctx.fill();
 
+                // Speech Text Render
                 ctx.fillStyle = "#ffffff";
                 for (let i = 0; i < lines.length; i++) {
                     ctx.fillText(lines[i], boxX + padding, boxY + padding + (i + 1) * lineHeight - 3);
@@ -406,6 +407,7 @@
 
         const aiDrone = new AIDrone();
 
+        // Citizen Class
         class Citizen {
             constructor() {
                 this.x = districts.agora.x + (Math.random() - 0.5) * 60;
@@ -527,6 +529,7 @@
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+            // 1. Starfield Background
             stars.forEach(s => {
                 s.alpha += s.speed;
                 let a = Math.abs(Math.sin(s.alpha));
@@ -536,6 +539,7 @@
                 ctx.fill();
             });
 
+            // 2. Outer Dome Shield Wall Glow
             let domeGlow = Math.sin(Date.now() * 0.003) * 5 + 14;
             ctx.strokeStyle = '#38bdf8';
             ctx.shadowColor = '#38bdf8';
@@ -546,11 +550,15 @@
             ctx.stroke();
             ctx.shadowBlur = 0;
 
+            // =========================================================
+            // DOME CLIPPING MASK (HABITAT INTERIOR CONTENT ONLY)
+            // =========================================================
             ctx.save();
             ctx.beginPath();
             ctx.arc(280, 210, 192, 0, Math.PI * 2);
             ctx.clip();
 
+            // Grid Floor
             ctx.strokeStyle = "rgba(56, 189, 248, 0.04)";
             ctx.lineWidth = 1;
             for (let x = 0; x < canvas.width; x += 25) {
@@ -560,6 +568,7 @@
                 ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
             }
 
+            // Energy Cables
             ctx.strokeStyle = 'rgba(56, 189, 248, 0.2)';
             ctx.lineWidth = 2;
             ctx.beginPath();
@@ -569,6 +578,7 @@
             ctx.moveTo(districts.agora.x, districts.agora.y); ctx.lineTo(districts.airlock.x + 42, districts.airlock.y + 30);
             ctx.stroke();
 
+            // Solarium Apricity Rays
             let time = Date.now() * 0.002;
             ctx.save();
             ctx.translate(districts.solarium.x + 52, districts.solarium.y + 30);
@@ -590,6 +600,7 @@
             ctx.fillStyle = "#f59e0b"; ctx.font = "bold 9.5px sans-serif";
             ctx.fillText("☀️ SOLARIUM (Apricity)", districts.solarium.x + 6, districts.solarium.y + 35);
 
+            // Lyceum
             ctx.fillStyle = districts.lyceum.color;
             ctx.fillRect(districts.lyceum.x, districts.lyceum.y, districts.lyceum.w, districts.lyceum.h);
             ctx.strokeStyle = districts.lyceum.border;
@@ -602,6 +613,7 @@
             ctx.fillText("β", districts.lyceum.x + 45, districts.lyceum.y + 20);
             ctx.fillText("Ω", districts.lyceum.x + 75, districts.lyceum.y + 18);
 
+            // Hydroponics
             ctx.fillStyle = districts.hydroponics.color;
             ctx.fillRect(districts.hydroponics.x, districts.hydroponics.y, districts.hydroponics.w, districts.hydroponics.h);
             ctx.strokeStyle = districts.hydroponics.border;
@@ -617,6 +629,7 @@
                 ctx.fill();
             }
 
+            // Airlock
             ctx.fillStyle = districts.airlock.color;
             ctx.fillRect(districts.airlock.x, districts.airlock.y, districts.airlock.w, districts.airlock.h);
             ctx.strokeStyle = districts.airlock.border;
@@ -624,6 +637,7 @@
             ctx.fillStyle = "#ef4444";
             ctx.fillText("🚀 AIRLOCK", districts.airlock.x + 14, districts.airlock.y + 35);
 
+            // Agora Core
             let agoraAngle1 = Date.now() * 0.0015;
             let agoraAngle2 = -Date.now() * 0.002;
 
@@ -657,14 +671,13 @@
             ctx.fillStyle = "#38bdf8"; ctx.font = "bold 9px sans-serif";
             ctx.fillText("CENTRAL AGORA", districts.agora.x - 36, districts.agora.y + 3);
 
+            // Render Citizens Inside Dome
             citizens.forEach(c => {
                 c.update();
                 c.draw();
             });
 
-            aiDrone.update();
-            aiDrone.draw();
-
+            // Burst Particles inside Dome
             for (let i = particles.length - 1; i >= 0; i--) {
                 let p = particles[i];
                 p.x += p.vx;
@@ -685,6 +698,7 @@
                 }
             }
 
+            // Floating Text
             for (let i = floatingTexts.length - 1; i >= 0; i--) {
                 let ft = floatingTexts[i];
                 ft.y += ft.dy;
@@ -703,8 +717,15 @@
                 }
             }
 
-            ctx.restore();
-            ctx.restore();
+            ctx.restore(); // Restore Clipping Mask
+
+            // =========================================================
+            // RENDER AI DRONE & SPEECH BUBBLES (OUTSIDE DOME CLIPPING)
+            // =========================================================
+            aiDrone.update();
+            aiDrone.draw();
+
+            ctx.restore(); // Restore Screen Shake Transform
 
             requestAnimationFrame(drawMap);
         }
@@ -730,15 +751,14 @@
             document.getElementById('cycle-counter').innerText = `Cycle: ${cycle} / ${MAX_CYCLES}`;
         }
 
+        // Action Decrees with External AI Speeches
         function enactSolarium() {
             if (isGameOver) return;
             virtue = Math.min(100, virtue + 15);
             beast = Math.max(0, beast - 10);
             oxygen = Math.max(0, oxygen - 3);
 
-            aiDrone.targetX = districts.solarium.x + 52;
-            aiDrone.targetY = districts.solarium.y + 30;
-            aiDrone.setSpeech("Citizens are soaking in artificial solar apricity! Aristotle noted communal warmth builds the Polis!");
+            aiDrone.setSpeech("Citizens gather to soak in artificial solar apricity! Aristotle noted communal warmth builds the Polis!");
 
             spawnBurstParticles(districts.solarium.x + 52, districts.solarium.y + 30, '#f59e0b', 25, 1.2);
             spawnFloatingText("Apricity Rays! ☀️ +15 Virtue", districts.solarium.x - 10, districts.solarium.y - 12, '#f59e0b');
@@ -758,9 +778,7 @@
             virtue = Math.min(100, virtue + 10);
             meanBalance = meanBalance > 0 ? Math.max(0, meanBalance - 15) : Math.min(0, meanBalance + 15);
 
-            aiDrone.targetX = districts.lyceum.x + 52;
-            aiDrone.targetY = districts.lyceum.y + 30;
-            aiDrone.setSpeech("Philosophical debate in the Lyceum! Virtue is a habit perfected by the Golden Mean.");
+            aiDrone.setSpeech("Philosophical debate in the Lyceum! Virtue is a habit guided by the Golden Mean.");
 
             spawnBurstParticles(districts.lyceum.x + 52, districts.lyceum.y + 30, '#10b981', 25, 1.2);
             spawnFloatingText("Academy Debate! 🏛️", districts.lyceum.x - 10, districts.lyceum.y - 12, '#10b981');
@@ -780,8 +798,6 @@
             oxygen = Math.min(100, oxygen + 15);
             meanBalance += 10;
 
-            aiDrone.targetX = districts.hydroponics.x + 57;
-            aiDrone.targetY = districts.hydroponics.y + 30;
             aiDrone.setSpeech("Hydroponics harvest complete! +15% Atmospheric Oxygen generated for our citizens.");
 
             spawnBurstParticles(districts.hydroponics.x + 57, districts.hydroponics.y + 30, '#0284c7', 30, 1.4);
@@ -801,8 +817,6 @@
                 beastCitizen.targetX = districts.airlock.x + 42;
                 beastCitizen.targetY = districts.airlock.y + 30;
 
-                aiDrone.targetX = districts.airlock.x + 42;
-                aiDrone.targetY = districts.airlock.y - 10;
                 aiDrone.setSpeech("AIRLOCK DEFENESTRATION! Aristotle: 'He who lives outside society is either a beast or a god!'");
 
                 setTimeout(() => {
@@ -882,7 +896,6 @@
             cycle = 1; virtue = 80; beast = 15; meanBalance = 0; oxygen = 85; isGameOver = false;
             initCitizens();
             document.getElementById('end-overlay').classList.add('hidden');
-            aiDrone.targetX = 280; aiDrone.targetY = 170;
             aiDrone.setSpeech("Astraea Station re-initialized! Lead our Aristotelian Polis to Cycle 20!");
             updateUI();
         }
